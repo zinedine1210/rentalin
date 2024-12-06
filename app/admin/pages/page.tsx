@@ -1,0 +1,33 @@
+import Pages from "@@/lib/pages/view/Pages"
+import type { Metadata, ResolvingMetadata } from 'next'
+import { getPageMetadata } from "../utils";
+import { PagesModel } from "@@/lib/pages/data/PagesModel";
+ 
+type Props = {
+  params: Promise<{}>
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const result = await getPageMetadata('admin,pages') as PagesModel
+  return {
+    title: result.title,
+    description: result.meta_description,
+    alternates: {
+      canonical: result.canonical_url
+    },
+    keywords: result.keywords,
+    openGraph: {
+      images: [result.featured_image]
+    }
+  }
+}
+
+
+const Page = () => {
+    return <Pages />
+}
+
+export default Page
