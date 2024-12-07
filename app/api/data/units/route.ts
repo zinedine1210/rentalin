@@ -47,8 +47,22 @@ export async function GET(request: Request) {
 
   const totalTablePages = Math.ceil(count / limit);
   const stmt = db.prepare(`
-    SELECT *
+    SELECT ${nameTable}.* ,
+      uploads.id AS file_id,
+      uploads.file_name,
+      uploads.file_path,
+      uploads.file_type, 
+      uploads.created_by AS file_created_by,
+      uploads.uploaded_at AS file_uploaded_at,
+      partners.name AS partner_name,
+      partners.phone AS partner_phone,
+      partners.email AS partner_email,
+      partners.address AS partner_address,
+      cat.title AS category_title
     FROM ${nameTable}
+      INNER JOIN partners ON ${nameTable}.partner_id = partners.id
+      INNER JOIN categories AS cat ON ${nameTable}.category_id = cat.id
+      INNER JOIN uploads ON ${nameTable}.file_picture = uploads.id
     ${whereClause}
     LIMIT ? OFFSET ?
   `);

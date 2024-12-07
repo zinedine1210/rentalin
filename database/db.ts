@@ -95,7 +95,7 @@ if(!dbExists){
   seedTable<PartnerPayload>(
     'partners',
     partnersData,
-    `INSERT OR IGNORE INTO partners (name, phone, email, address) 
+    `INSERT OR IGNORE INTO partners (name, address, email, phone) 
      VALUES (?, ?, ?, ?)`
   );
   seedTable<UsagePricePayload>(

@@ -35,4 +35,8 @@ export const IconsCollection: {[key: string]: string} = {
     'edit': 'tabler:edit',
     'eye': 'ep:view',
     'pages': 'material-symbols:contact-page-sharp',
+    'armada': 'mdi:fleet',
+    'partner': 'material-symbols:partner-exchange-rounded',
+    'unit': 'solar:box-bold',
+    'category': 'material-symbols:category-outline'
 }
