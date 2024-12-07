@@ -1,20 +1,11 @@
 // app/api/posts/list/route.ts
 import { NextResponse } from 'next/server';
 import db, { CountResult } from '@@/database/db';
-import { MenusForm } from '@@/lib/menus/data/MenusForm';
-import { createMenu } from '.';
 import { verifyToken } from '@@/middleware';
 import { JwtPayload } from 'jsonwebtoken';
+import { UsagePricePayload } from '@@/database/usage-price-scheme';
 
-export interface MenusPayload {
-  title: string
-  url: string | null
-  parent_id: string | null
-  order_position: number | null
-  pages_id: number | null
-  icon: string | null
-  flag: string | null
-}
+const nameTable: string = 'usage_prices'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -50,24 +41,24 @@ export async function GET(request: Request) {
     );
   }
 
-  const totalTableQuery = `SELECT COUNT(*) as count FROM menus ${whereClause}`;
+  const totalTableQuery = `SELECT COUNT(*) as count FROM ${nameTable} ${whereClause}`;
   const totalTable = db.prepare(totalTableQuery);
   const { count } = totalTable.get(...params) as CountResult;
 
   const totalTablePages = Math.ceil(count / limit);
   const stmt = db.prepare(`
-    SELECT * FROM menus
+    SELECT *
+    FROM ${nameTable}
     ${whereClause}
-    ORDER BY order_position ASC
     LIMIT ? OFFSET ?
   `);
-  const data = stmt.all(...params, limit, offset);
+  const data: any = stmt.all(...params, limit, offset);
 
   return NextResponse.json({
     success: true,
     message: 'Success get data',
     data: {
-      data,
+      data: data,
       pagination: {
         count,
         totalPage: totalTablePages,
@@ -92,28 +83,33 @@ export async function POST(request: Request) {
   }
 
   try {
-    const body: MenusForm = await request.json();
+    const body: UsagePricePayload = await request.json();
 
-    const newMenu = createMenu({
-      title: body.title,
-      url: body.url || null,
-      icon: body.icon || null,
-      flag: body.flag || null,
-      parent_id: body.parent_id || null,
-      pages_id: body.pages_id || null,
-      order_position: body.order_position || null,
-    });
+    const stmt = db.prepare(`
+      INSERT INTO ${nameTable} (name, description, min_order, price_multiplier, operator_type, status)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `);
+    const result = stmt.run(
+      body.name,
+      body.description,
+      body.min_order,
+      body.price_multiplier,
+      body.operator_type,
+      body.status
+    );
+    
+    const datanew = db.prepare(`SELECT * FROM ${nameTable} WHERE id = ?`).get(result.lastInsertRowid);
 
     return NextResponse.json({
       success: true,
-      message: "Menu created successfully",
-      data: newMenu
+      message: "Data created successfully",
+      data: datanew
     }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({
       success: false,
-      message: "Error creating menu",
+      message: "Error creating data",
       data: null
     }, { status: 500 });
   }

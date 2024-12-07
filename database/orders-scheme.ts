@@ -1,4 +1,17 @@
-
+export interface OrderPayload {
+  unit_id: number
+  renter_id: number
+  usage_id: number
+  armada_id: number
+  usage_location: string
+  delivery_method: string
+  delivery_address: string
+  delivery_price: number
+  start_date: string
+  duration: number
+  total_price: number
+  status: 'pending' | 'done'
+}
 export const SQL_orders = `
   CREATE TABLE IF NOT EXISTS orders (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -1,3 +1,13 @@
+export interface UnitPayload {
+  category_id: number
+  file_picture: number
+  partner_id: number
+  name: string
+  description: string
+  price: number
+  condition: string
+  isAvailable: boolean
+}
 
 export const SQL_units = `
   CREATE TABLE IF NOT EXISTS units (
