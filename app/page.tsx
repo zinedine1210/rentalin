@@ -1,7 +1,5 @@
-import LandingPage from "@@/lib/landing-page/LandingPage"
-
 const Page = () => {
-  return <LandingPage />
+  return "Web"
 }
 
 export default Page

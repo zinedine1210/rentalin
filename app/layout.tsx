@@ -7,15 +7,14 @@ import "@@/src/utils/script"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NextThemes } from '@@/src/providers/NextThemes';
-import { WebVitals } from './components/Partials/WebVitals';
 import Head from 'next/head';
 
-const APP_NAME = "Beyond Tech";
-const APP_DEFAULT_TITLE = "Beyond Tech";
-const APP_TITLE_TEMPLATE = "%s - Beyond Tech";
-const APP_DESCRIPTION = "Beyond tech is a payment gateway application";
-const KEYWORDS = ['Beyond Tech']
-const PUBLISHER = 'PT. Adisena Mitra Usaha'
+const APP_NAME = "Rentalin";
+const APP_DEFAULT_TITLE = "Rentalin";
+const APP_TITLE_TEMPLATE = "%s - Rentalin";
+const APP_DESCRIPTION = "Rentalin is a rental website";
+const KEYWORDS = ['Rentalin']
+const PUBLISHER = 'PT. Zinedine Sejahtera'
 const AUTHORS = [{ name: 'Zinedine Ziddan Fahdlevy', url: 'https://www.linkedin.com/in/zinedine-fahdlevy-5137471b4/' }]
 const BASE_DOMAIN = process.env.BASE_DOMAIN
 const IMAGEICON = '/static-LP/iconlogobeyondtech.png'

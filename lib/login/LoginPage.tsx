@@ -3,7 +3,6 @@
 
 import { useState } from 'react';
 import { ApiResponse, tryLogin } from '@@/src/hooks/CollectionAPI';
-import { ResponseData } from '@@/src/types/apitypes';
 import { Notify } from '@@/src/utils/script';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -55,7 +54,7 @@ export default function LoginPage() {
         <div className="">
           <div className="container flex flex-col items-center justify-center min-h-screen px-6 mx-auto">
             <div className="flex justify-center mx-auto">
-              <Image src={"/images/static-LP/logobeyondtech.png"} width={400} height={200} alt='Beyond Tech' />
+              <Image src={"/images/logo.png"} width={400} height={100} alt='Beyond Tech' />
             </div>
             <div className="w-full max-w-md mx-auto mt-6">
               <form onSubmit={(e) => handleSubmit(e)}>

@@ -38,5 +38,6 @@ export const IconsCollection: {[key: string]: string} = {
     'armada': 'mdi:fleet',
     'partner': 'material-symbols:partner-exchange-rounded',
     'unit': 'solar:box-bold',
-    'category': 'material-symbols:category-outline'
+    'category': 'material-symbols:category-outline',
+    'phone': 'ic:twotone-phone'
 }
