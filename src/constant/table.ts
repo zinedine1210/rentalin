@@ -22,6 +22,13 @@ export const tablePartner: TableHeader[] = [
     { label: "Email", property: "email", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
     { label: "Address", property: "address_substring", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" }
 ]
+export const tableUnit: TableHeader[] = [
+    { label: "Name", property: "name", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Description", property: "description", copy: 'phone', cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Price", property: "price", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Condition", property: "condition", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Image", property: "file_path", images: true, cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+]
 export const tableArmada: TableHeader[] = [
     { label: "Name", property: "name", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
     { label: "Location", property: "location", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },

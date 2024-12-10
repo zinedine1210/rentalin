@@ -1,10 +1,10 @@
 'use client'
 
-import { tablePartner } from "@@/src/constant/table";
+import { tablePartner, tableUnit } from "@@/src/constant/table";
 import { ApiResponse, fetchClient, TableResponse } from "@@/src/hooks/CollectionAPI";
 import { useWindowSize } from "@@/src/hooks/usewindowsize";
 import { useGlobalContext } from "@@/src/providers/GlobalContext";
-import { FilterOptions, StateType } from "@@/src/types/types";
+import { FilterOptions, Options, StateType } from "@@/src/types/types";
 import { useCallback, useEffect } from "react";
 import DatatableMobile from "@@/app/components/Datatable/DatatableMobile";
 import Datatable from "@@/app/components/Datatable/Datatable";
@@ -14,18 +14,33 @@ import Link from "next/link";
 import { IconsCollection } from "@@/src/constant/icons";
 import { useRouter } from "next/navigation";
 import { Notify } from "@@/src/utils/script";
-import { PartnerModel, PartnerType } from "../data/PartnerModel";
+import { UnitModel, UnitType } from "../data/UnitModel";
+import { PartnerModel, PartnerType } from "@@/lib/partner/data/PartnerModel";
+import { CategoryModel, CategoryType } from "@@/lib/category/data/CategoryModel";
 
-export default function PartnerPages() {
+export default function UnitPages() {
   const { state, setState } = useGlobalContext();
-  const statename: string = 'partners'
+  const statename: string = 'units'
   const windowWidth = useWindowSize();
   const router = useRouter()
 
   const initialMount = useCallback(async () => {
-    let defaultValue: StateType<PartnerType> = {
+    let optionsPartner: Options[] = []
+    let optionsCategory: Options[] = []
+    const getResultPartner: ApiResponse<TableResponse<PartnerType[]>> = await fetchClient('GET', '/data/units')
+    if(getResultPartner.success){
+      optionsPartner = PartnerModel.toOptions(getResultPartner.data.data) as Options[]
+    }
+
+    const getResultCategory: ApiResponse<TableResponse<CategoryType[]>> = await fetchClient('GET', '/data/categories')
+    if(getResultCategory.success){
+      const responseData = getResultCategory.data
+      optionsCategory = CategoryModel.toOptions(responseData.data) as Options[]
+    }
+
+    let defaultValue: StateType<UnitType> = {
       isLoading: false,
-      headers: tablePartner,
+      headers: tableUnit,
       filter: [],
       filterKey: [
         {
@@ -34,19 +49,26 @@ export default function PartnerPages() {
           type: 'input_text'
         },
         {
-          value: 'phone',
-          label: 'Phone',
+          value: 'price',
+          label: 'Price',
           type: 'input_text'
         },
         {
-          value: 'email',
-          label: 'Email',
+          value: 'description',
+          label: 'Description',
           type: 'input_text'
         },
         {
-          value: 'address',
-          label: 'Address',
-          type: 'input_text'
+          value: 'partner_id',
+          label: 'Partner',
+          type: 'select',
+          options: optionsPartner
+        },
+        {
+          value: 'category_id',
+          label: 'Category',
+          type: 'select',
+          options: optionsCategory
         },
       ],
       page: 1,
@@ -60,14 +82,14 @@ export default function PartnerPages() {
       bulk: [
         {
           action: (id, index) => {
-            router.push(`/admin/partner/view/${id}`)
+            router.push(`/admin/units/view/${id}`)
           },
           name: 'View',
           icon: IconsCollection.eye
         },
         {
           action: async (id, index) => {
-            const result: ApiResponse<{ id: string }> = await fetchClient('DELETE', '/data/partners/' + id)
+            const result: ApiResponse<{ id: string }> = await fetchClient('DELETE', '/data/units/' + id)
             if(result.success){
               Notify('Delete successfully', 'success', 3000)
               setState((prev: any) => {
@@ -82,7 +104,7 @@ export default function PartnerPages() {
         }
       ],
       groupBy: "created_at",
-      onGet: async (newObj: StateType<PartnerType>) => {
+      onGet: async (newObj: StateType<UnitType>) => {
         setState((prev) => {
           return {
             ...prev,
@@ -93,14 +115,14 @@ export default function PartnerPages() {
           }
         })
         const dataState = newObj
-        const route: string = '/data/partners'
+        const route: string = '/data/units'
         let parameter = `?page=${dataState.page}&limit=${dataState.display}`
         dataState.filter.map((fil: FilterOptions) => {
             parameter = parameter + `&${fil.key}=${fil.value}`
         })
-        const result: ApiResponse<TableResponse<PartnerType[]>> = await fetchClient('GET', route + parameter)
-        const responseData: TableResponse<PartnerType[]> = result.data
-        const value: PartnerModel[] = PartnerModel.toDatatableResponse(responseData.data)
+        const result: ApiResponse<TableResponse<UnitType[]>> = await fetchClient('GET', route + parameter)
+        const responseData: TableResponse<UnitType[]> = result.data
+        const value: UnitModel[] = UnitModel.toDatatableResponse(responseData.data)
         setState((prev: any) => {
           return {
             ...prev,
@@ -154,9 +176,7 @@ export default function PartnerPages() {
   return (
     <div className="w-full h-full overflow-hidden flex flex-col">
       <div className="pb-5 px-5">
-        <h1 className="font-bold text-xl border-l-4 border-primary-500 px-2">Partner</h1>
-        <p className="text-sm mt-2">Partner adalah orang pihak ketiga yang bersedia menitipkan barangnya untuk kita sewakan kepada renter</p>
-
+        <h1 className="font-bold text-xl border-l-4 border-primary-500 px-2">Unit</h1>
 
         <div className="flex md:items-center md:justify-between mt-5">
           <div className="w-auto md:w-1/2">
@@ -164,10 +184,10 @@ export default function PartnerPages() {
           </div>
           <div className="w-full md:w-1/2 flex items-center justify-end gap-2">
             <button className="btn-secondary" onClick={() => state[statename].onGet(state[statename])}> <h1 className="hidden md:block">Refresh</h1> <Icon icon={'solar:refresh-bold-duotone'} className="text-xl" /></button>
-            <Link href={`/admin/partner/create`} className="inline-block">
+            <Link href={`/admin/unit/create`} className="inline-block">
               <button className="btn-primary">
                 <Icon icon={IconsCollection.plus} className="text-sm"/>
-                Add Partner
+                Add Unit
               </button>
             </Link>
           </div>

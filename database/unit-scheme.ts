@@ -14,7 +14,7 @@ export const SQL_units = `
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     category_id INTEGER NOT NULL,
     file_picture INTEGER NOT NULL,
-    partner_id INTEGER NOT NULL,
+    partner_id INTEGER NOT NULL DEFAULT 1,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     price REAL NOT NULL CHECK(price >= 0),

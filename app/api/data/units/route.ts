@@ -68,11 +68,37 @@ export async function GET(request: Request) {
   `);
   const data: any = stmt.all(...params, limit, offset);
 
+  const transformData = data.map((item) => ({
+    id: item.id,
+    category_id: item.category_id,
+    file_picture_id: item.file_picture,
+    partner_id: item.partner_id,
+    name: item.name,
+    description: item.description,
+    price: item.price,
+    condition: item.condition,
+    isAvailable: item.isAvailable,
+    created_at: item.created_at,
+    updated_at: item.updated_at,
+    file: {
+      file_name: item.file_name,
+      file_path: item.file_path,
+      file_type: item.file_type
+    },
+    partner: {
+      partner_name: item.partner_name,
+      partner_phone: item.partner_phone,
+      partner_email: item.partner_email,
+      partner_address: item.partner_address
+    },
+    category_title: item.category_title
+  }))
+
   return NextResponse.json({
     success: true,
     message: 'Success get data',
     data: {
-      data: data,
+      data: transformData,
       pagination: {
         count,
         totalPage: totalTablePages,
