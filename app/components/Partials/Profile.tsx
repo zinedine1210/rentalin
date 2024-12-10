@@ -55,7 +55,7 @@ export default function Profile() {
     const ButtonProfile = () => {
         return (
             <div className="flex items-center w-full gap-2 relative">
-                <div className="w-10 h-10 rounded-full">
+                <div className="w-14 h-14 rounded-full">
                     <Image src={'/images/profile.png'} alt="Profile" width={50} height={50} className="object-cover" />
                 </div>
                 <div className="text-start">

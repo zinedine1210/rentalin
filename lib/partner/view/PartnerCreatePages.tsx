@@ -34,7 +34,7 @@ export default function PartnerCreatePages({
     if(result.success){
       Notify(result.message ?? 'Success', 'success', 3000)
       handleReset()
-      router.push('/admin/category')
+      router.push('/admin/partner')
     }
     setLoading(false)
   }
