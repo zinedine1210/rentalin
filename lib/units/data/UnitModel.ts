@@ -16,6 +16,7 @@ export interface UnitType {
         file_name: string
         file_path: string
         file_type: string
+        public_id: string
     }
     partner: {
         partner_name: string

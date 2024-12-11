@@ -1,16 +1,44 @@
 import { Options } from "@@/src/types/types"
 
 export interface UploadType {
-    id: string
+    id?: number
     file_name: string
     file_path: string
     file_type: string
-    created_by: string
-    uploaded_at: Date
+    public_id: string
+    created_by?: string
+    uploaded_at?: Date
+}
+
+export interface CloudinaryType {
+    api_key: string
+    asset_folder: string
+    asset_id: string
+    batchId: string
+    bytes: number
+    created_at: Date
+    display_name: string
+    etag: string
+    format: string
+    height: number
+    id: string
+    path: string
+    placeholder: boolean
+    public_id: string
+    resource_type: string
+    secure_url: string
+    signature: string
+    tags: any[]
+    thumbnail_url: string
+    type: string
+    url: string
+    version: number
+    version_id: string
+    width: number
 }
 
 export class UploadModel {
-    public id: string
+    public id: number
     public file_name: string
     public file_path: string
     public file_type: string

@@ -9,11 +9,12 @@ import { Notify } from "@@/src/utils/script"
 import { useRouter } from "next/navigation"
 import { UnitType } from "../data/UnitModel"
 import { UnitForm } from "../data/UnitForm"
-import FileInput from "@@/app/components/Input/InputFile"
 import Select from "@@/app/components/Input/Select"
 import { Options } from "@@/src/types/types"
 import { CategoryModel, CategoryType } from "@@/lib/category/data/CategoryModel"
 import { PartnerModel, PartnerType } from "@@/lib/partner/data/PartnerModel"
+import UploadCloudinary from "@@/app/components/Input/UploadCloudinary"
+import { CloudinaryType, UploadType } from "@@/lib/uploads/data/UploadModel"
 
 export default function UnitCreatePages({
   action,
@@ -35,11 +36,10 @@ export default function UnitCreatePages({
     e.preventDefault()
     let result: ApiResponse<UnitType>
     if(action == "create"){
-      const form = new FormData()
-      form.set('file', datalist.file_picture[0])
-      const resultUpload = await uploadFile(form)
-      const dataFile: any = resultUpload.data
-      datalist.file_picture = dataFile.id
+      const uploadfile: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', datalist.file_form)
+      console.log(uploadfile)
+      const responseData = uploadfile.data
+      datalist.file_picture = responseData.id
       result = await fetchClient('POST', '/data/units', datalist)
     }
     if(action == "update"){
@@ -83,11 +83,17 @@ export default function UnitCreatePages({
     return data
   }
 
-  const handleFilesChange = (files: File[]) => {
-    console.log(files)
-    handleChange(files, 'file_picture')
+  const handleFilesChange = (value: CloudinaryType) => {
+    const valuestruct: UploadType = {
+      file_name: value.display_name,
+      file_path: value.secure_url,
+      file_type: value.format,
+      public_id: value.public_id
+    }
+    handleChange(valuestruct, 'file_form')
   };
 
+ 
   const formFetch = {
     'input-category_id': async () => {
       const result: ApiResponse<TableResponse<CategoryType[]>> = await fetchClient('GET', '/data/categories')
@@ -117,6 +123,15 @@ export default function UnitCreatePages({
         {
           !loading && (
             <div className="space-y-5 py-5">
+              <div className="relative">
+                <UploadCloudinary
+                  id="file-picture"
+                  label="Picture"
+                  onChange={(value) => handleFilesChange(value)}
+                  publicId={datalist.file_form.public_id}
+                  errorMessage={errorMessage('file_form')}
+                />
+              </div>
               <div className="relative">
                 <InputText 
                   id="input-name"
@@ -151,6 +166,7 @@ export default function UnitCreatePages({
                   errorMessage={errorMessage('condition')}
                 />
               </div>
+              
               <div className="relative">
                 <InputText 
                   id="input-price"
@@ -163,19 +179,7 @@ export default function UnitCreatePages({
                   errorMessage={errorMessage('price')}
                 />
               </div>
-              <div className="relative">
-                <FileInput
-                  id="file-upload"
-                  label="Upload Files"
-                  required={true}
-                  maxSize={5}
-                  defaultImage={data?.file?.file_path ? [data.file.file_path]: null}
-                  files={datalist.file_picture}
-                  accept="image/png, image/jpeg, application/pdf"
-                  onFilesChange={handleFilesChange}
-                  readOnly={disabled}
-                />
-              </div>
+              
               <div className="relative">
                 <Select
                   id="input-category_id"

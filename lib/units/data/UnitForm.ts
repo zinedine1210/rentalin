@@ -1,13 +1,14 @@
+import { CloudinaryType, UploadType } from "@@/lib/uploads/data/UploadModel"
 import { UnitType } from "./UnitModel"
 
 
 export class UnitForm {
     public id: number
     public category_id: number
-    public file_picture: File[] = []
-    public file_picture_updates: string[]
     public partner_id: number
     public name: string
+    public file_picture: number
+    public file_form: UploadType | null
     public description: string
     public price: number
     public condition: string
@@ -18,7 +19,14 @@ export class UnitForm {
             this.name = props.name
             this.id = props.id
             this.category_id = props.category_id
-            this.file_picture_updates = [props.file.file_path]
+            this.file_picture = 0
+            this.file_form = {
+                id: props.file_picture_id,
+                file_name: props.file.file_name,
+                file_path: props.file.file_path,
+                file_type: props.file.file_type,
+                public_id: props.file.public_id
+            }
             this.description = props.description
             this.price = props.price
             this.condition = props.condition
@@ -27,8 +35,15 @@ export class UnitForm {
         }else{
             this.name = ''
             this.category_id = 0
-            this.file_picture = []
             this.partner_id = 0
+            this.file_picture = 0
+            this.file_form = {
+                id: 0,
+                file_name: '',
+                file_path: '',
+                file_type: '',
+                public_id: ''
+            }
             this.description = ''
             this.price = 0
             this.condition = ''
@@ -54,8 +69,8 @@ export class UnitForm {
             case 'partner_id':
                 if(value == 0) return "Field partner is required"
                 break;
-            case 'file_picture':
-                if(value == 0) return "Field file is required"
+            case 'file_form':
+                if(value == null) return "Field file is required"
                 break;
             case 'price':
                 if(value == 0) return "Field price is required"

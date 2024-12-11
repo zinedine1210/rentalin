@@ -5,7 +5,10 @@ const nextConfig = {
     env: {
         BASE_DOMAIN: process.env.NEXT_PRIVATE_URL,
         SERVER: process.env.NEXT_PRIVATE_SERVER,
-        SECRET_KEY: process.env.NEXT_PRIVATE_SECRET_KEY
+        SECRET_KEY: process.env.NEXT_PRIVATE_SECRET_KEY,
+        CD_NAME: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+        CD_API_SECRET: process.env.NEXT_PRIVATE_CLOUDINARY_API_SECRET,
+        CD_API_KEY: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY
     },
     reactStrictMode: false,
     compress: true,
@@ -27,6 +30,11 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'merakiui.com',
+                port: ''
+            },
+            {
+                protocol: 'https',
+                hostname: 'res.cloudinary.com',
                 port: ''
             }
         ]

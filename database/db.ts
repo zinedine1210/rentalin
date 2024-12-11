@@ -58,8 +58,8 @@ if(!dbExists){
     'uploads',
     uploadsData,
     `INSERT OR IGNORE INTO uploads 
-     (file_name, file_path, file_type) 
-     VALUES (?, ?, ?)`
+     (file_name, file_path, file_type, public_id) 
+     VALUES (?, ?, ?, ?)`
   );
   seedTable<any>(
     'pages',

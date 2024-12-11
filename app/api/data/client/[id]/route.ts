@@ -59,6 +59,7 @@ export async function GET(
             file_name: data.file_name,
             file_path: data.file_path,
             file_type: data.file_type,
+            public_id: data.public_id,
             created_by: data.created_by,
             uploaded_at: data.uploaded_at,
           }
