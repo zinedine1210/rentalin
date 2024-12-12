@@ -23,7 +23,7 @@ export const tablePartner: TableHeader[] = [
     { label: "Address", property: "address_substring", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" }
 ]
 export const tableUnit: TableHeader[] = [
-    { label: "Name", property: "name", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Name", property: "name_unit", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
     { label: "Description", property: "description", copy: 'phone', cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
     { label: "Price", property: "price", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
     { label: "Condition", property: "condition", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
