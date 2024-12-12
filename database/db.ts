@@ -17,6 +17,7 @@ import { SQL_usage_prices, usage_pricesData, UsagePricePayload } from "./usage-p
 export interface CountResult {
   count: number;
 }
+// const dbFilePath = path.join(process.cwd(), 'data.db');
 const dbFilePath = path.join("/tmp", 'data.db');
 // Check if the database file already exists
 const dbExists = fs.existsSync(dbFilePath);

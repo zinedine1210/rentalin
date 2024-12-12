@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import db, { CountResult } from '@@/database/db';
 import { verifyToken } from '@@/middleware';
 import { JwtPayload } from 'jsonwebtoken';
-import { UnitPayload } from '@@/database/unit-scheme';
 import { OrderPayload } from '@@/database/orders-scheme';
 
 const nameTable: string = 'orders'

@@ -10,7 +10,7 @@ export interface OrderPayload {
   start_date: string
   duration: number
   total_price: number
-  status: 'pending' | 'done'
+  status: 'active' | 'completed' | 'cancelled'
 }
 export const SQL_orders = `
   CREATE TABLE IF NOT EXISTS orders (
@@ -26,7 +26,7 @@ export const SQL_orders = `
     start_date DATETIME NOT NULL,
     duration INTEGER NOT NULL,
     total_price REAL NOT NULL CHECK(total_price >= 0),
-    status TEXT CHECK(status IN ('pending', 'done')) DEFAULT 'pending',
+    status TEXT CHECK(status IN ('active', 'completed', 'cancelled')) DEFAULT 'active',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (unit_id) REFERENCES units(id),
     FOREIGN KEY (usage_id) REFERENCES usage_prices(id),

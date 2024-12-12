@@ -2,7 +2,8 @@ export interface UnitPayload {
   category_id: number
   file_picture: number
   partner_id: number
-  name: string
+  armada_id: number
+  name_unit: string
   description: string
   price: number
   condition: string
@@ -14,8 +15,9 @@ export const SQL_units = `
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     category_id INTEGER NOT NULL,
     file_picture INTEGER NOT NULL,
+    armada_id INTEGER NOT NULL,
     partner_id INTEGER NOT NULL DEFAULT 1,
-    name TEXT NOT NULL,
+    name_unit TEXT NOT NULL,
     description TEXT NOT NULL,
     price REAL NOT NULL CHECK(price >= 0),
     condition TEXT,
@@ -23,6 +25,7 @@ export const SQL_units = `
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (partner_id) REFERENCES partners(id) ON DELETE CASCADE,
+    FOREIGN KEY (armada_id) REFERENCES armadas(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE,
     FOREIGN KEY (file_picture) REFERENCES uploads(id) ON DELETE SET NULL
   );

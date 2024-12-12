@@ -150,7 +150,7 @@ export default function Select({
                 <div className="relative w-full">
                     {prefixIcon && <Icon icon={prefixIcon} className="text-2xl -translate-y-1/2 top-1/2 left-3 dark:text-white/80 text-black/50 absolute"/>}
                     <button type="button" disabled={disabled} onClick={() => handleOpen()} className={`${customCss} ${prefixIcon && 'pl-12'} ${errorMessage && 'border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500'} bg-zinc-50 transition-colors duration-300 disabled:bg-zinc-300 disabled:placeholder:text-black disabled:text-black dark:disabled:bg-black dark:disabled:placeholder:text-zinc-400 dark:disabled:text-zinc-400 outline-none border hover:bg-zinc-100 focus:bg-white focus:border-primary-500 dark:bg-dark dark:border-white/50 dark:focus:border-primary-500 rounded-md w-full flex items-center justify-between text-start whitespace-nowrap overflow-hidden`}>
-                        <span className={`${justIconOnMobile && 'hidden md:block'}`}>{valueNow()}</span>
+                        <span className={`${justIconOnMobile && 'hidden md:block'} pr-5`}>{valueNow()}</span>
                         <Icon icon={'tabler:chevron-down'} className={`${isOpen && 'rotate-180'} duration-300 text-xl text-primary`}/>
                     </button>
                 </div>

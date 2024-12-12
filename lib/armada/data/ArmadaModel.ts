@@ -37,7 +37,7 @@ export class ArmadaModel {
     static toOptions = (array: ArmadaType[]): Options[] => {
         return array.map((item: ArmadaType) => {
             return {
-                label: `${item.name}`, // You can customize the label as needed
+                label: `${item.location_summary}`, // You can customize the label as needed
                 value: item.id
             }
         })

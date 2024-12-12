@@ -39,5 +39,7 @@ export const IconsCollection: {[key: string]: string} = {
     'partner': 'material-symbols:partner-exchange-rounded',
     'unit': 'solar:box-bold',
     'category': 'material-symbols:category-outline',
-    'phone': 'ic:twotone-phone'
+    'phone': 'ic:twotone-phone',
+    'search': 'lets-icons:search-duotone',
+    'condition': 'mdi:shape'
 }

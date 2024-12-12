@@ -1,4 +1,4 @@
-import { CloudinaryType, UploadType } from "@@/lib/uploads/data/UploadModel"
+import { UploadType } from "@@/lib/uploads/data/UploadModel"
 import { UnitType } from "./UnitModel"
 
 
@@ -6,7 +6,8 @@ export class UnitForm {
     public id: number
     public category_id: number
     public partner_id: number
-    public name: string
+    public armada_id: number
+    public name_unit: string
     public file_picture: number
     public file_form: UploadType | null
     public description: string
@@ -16,8 +17,9 @@ export class UnitForm {
 
     constructor(props?: UnitType) {
         if(props){
-            this.name = props.name
+            this.name_unit = props.name_unit
             this.id = props.id
+            this.armada_id = props.armada_id
             this.category_id = props.category_id
             this.file_picture = 0
             this.file_form = {
@@ -33,9 +35,10 @@ export class UnitForm {
             this.isAvailable = props.isAvailable == 0 ? false: true
             this.partner_id = props.partner_id
         }else{
-            this.name = ''
+            this.name_unit = ''
             this.category_id = 0
             this.partner_id = 0
+            this.armada_id = 0
             this.file_picture = 0
             this.file_form = {
                 id: 0,
@@ -54,7 +57,7 @@ export class UnitForm {
 
     requiredInput = (target: keyof UnitForm, value: any) => {
         switch (target) {
-            case 'name':
+            case 'name_unit':
                 if(value == '') return "Field name is required"
                 break;
             case 'description':
@@ -67,6 +70,9 @@ export class UnitForm {
                 if(value == 0) return "Field category is required"
                 break;
             case 'partner_id':
+                if(value == 0) return "Field partner is required"
+                break;
+            case 'armada_id':
                 if(value == 0) return "Field partner is required"
                 break;
             case 'file_form':

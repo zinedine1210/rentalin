@@ -15,6 +15,7 @@ import { CategoryModel, CategoryType } from "@@/lib/category/data/CategoryModel"
 import { PartnerModel, PartnerType } from "@@/lib/partner/data/PartnerModel"
 import UploadCloudinary from "@@/app/components/Input/UploadCloudinary"
 import { CloudinaryType, UploadType } from "@@/lib/uploads/data/UploadModel"
+import { ArmadaModel, ArmadaType } from "@@/lib/armada/data/ArmadaModel"
 
 export default function UnitCreatePages({
   action,
@@ -28,6 +29,7 @@ export default function UnitCreatePages({
   const [datalist, setDataList] = useState<UnitForm>(data ? new UnitForm(data): new UnitForm())
   const [options, setOptions] = useState<{[key: string]: Options[]}>({
     optionsCategory: [],
+    optionsArmadas: [],
     optionsPartners: []
   })
   const [loading, setLoading] = useState<boolean>(false)
@@ -111,6 +113,14 @@ export default function UnitCreatePages({
         setOptions({ ...options, optionsPartners: optionPages })
       }
     },
+    'input-armada_id': async () => {
+      const result: ApiResponse<TableResponse<ArmadaType[]>> = await fetchClient('GET', '/data/armadas')
+      const responseData = result.data
+      if(result.success){
+        const optionPages: Options[] = ArmadaModel.toOptions(responseData.data)
+        setOptions({ ...options, optionsArmadas: optionPages })
+      }
+    }
   }
 
   return (
@@ -134,13 +144,13 @@ export default function UnitCreatePages({
               </div>
               <div className="relative">
                 <InputText 
-                  id="input-name"
-                  name="input-name"
-                  label="name"
-                  onChange={(value) => handleChange(value, 'name')}
+                  id="input-name_unit"
+                  name="input-name_unit"
+                  label="name_unit"
+                  onChange={(value) => handleChange(value, 'name_unit')}
                   readOnly={disabled}
-                  value={datalist.name}
-                  errorMessage={errorMessage('name')}
+                  value={datalist.name_unit}
+                  errorMessage={errorMessage('name_unit')}
                 />
               </div>
               <div className="relative">
@@ -202,6 +212,18 @@ export default function UnitCreatePages({
                   value={datalist.partner_id}
                   label="Partner"
                   errorMessage={errorMessage('partner_id')}
+                />
+              </div>
+              <div className="relative">
+                <Select
+                  id="input-armada_id"
+                  name="input-armada_id"
+                  onChange={(value) => handleChange(value, 'armada_id')}
+                  onTrigger={() => formFetch['input-armada_id']()}
+                  options={options.optionsArmadas}
+                  value={datalist.armada_id}
+                  label="Partner"
+                  errorMessage={errorMessage('armada_id')}
                 />
               </div>
               <div className="relative">

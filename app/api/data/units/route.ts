@@ -58,11 +58,15 @@ export async function GET(request: Request) {
       partners.phone AS partner_phone,
       partners.email AS partner_email,
       partners.address AS partner_address,
+      armadas.name AS armada_name,
+      armadas.location AS armada_location,
+      armadas.location_summary AS armada_location_summary,
       cat.title AS category_title
     FROM ${nameTable}
       INNER JOIN partners ON ${nameTable}.partner_id = partners.id
       INNER JOIN categories AS cat ON ${nameTable}.category_id = cat.id
       INNER JOIN uploads ON ${nameTable}.file_picture = uploads.id
+      INNER JOIN armadas ON ${nameTable}.armada_id = armadas.id
     ${whereClause}
     LIMIT ? OFFSET ?
   `);
@@ -73,7 +77,7 @@ export async function GET(request: Request) {
     category_id: item.category_id,
     file_picture_id: item.file_picture,
     partner_id: item.partner_id,
-    name: item.name,
+    name_unit: item.name_unit,
     description: item.description,
     price: item.price,
     condition: item.condition,
@@ -90,6 +94,11 @@ export async function GET(request: Request) {
       partner_phone: item.partner_phone,
       partner_email: item.partner_email,
       partner_address: item.partner_address
+    },
+    armada: {
+      armada_name: item.armada_name,
+      armada_location: item.armada_location,
+      armada_location_summary: item.armada_location_summary
     },
     category_title: item.category_title
   }))
@@ -126,14 +135,15 @@ export async function POST(request: Request) {
     const body: UnitPayload = await request.json();
 
     const stmt = db.prepare(`
-      INSERT INTO ${nameTable} (category_id, file_picture, partner_id, name, description, price, condition, isAvailable)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO ${nameTable} (category_id, file_picture, armada_id, partner_id, name_unit, description, price, condition, isAvailable)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     const result = stmt.run(
       body.category_id,
       body.file_picture,
+      body.armada_id,
       body.partner_id,
-      body.name,
+      body.name_unit,
       body.description,
       body.price,
       body.condition,

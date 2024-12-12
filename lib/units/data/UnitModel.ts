@@ -4,8 +4,9 @@ export interface UnitType {
     id: number
     category_id: number
     file_picture_id: number
+    armada_id: number
     partner_id: number
-    name: string
+    name_unit: string
     description: string
     price: number
     condition: string
@@ -32,7 +33,8 @@ export class UnitModel {
     public category_id: number
     public file_picture_id: number
     public partner_id: number
-    public name: string
+    public armada_id: number
+    public name_unit: string
     public description: string
     public price: number
     public condition: string
@@ -53,7 +55,8 @@ export class UnitModel {
         this.category_id = props.category_id
         this.file_picture_id = props.file_picture_id
         this.partner_id = props.partner_id
-        this.name = props.name
+        this.armada_id = props.armada_id
+        this.name_unit = props.name_unit
         this.description = props.description
         this.price = props.price
         this.condition = props.condition
@@ -81,7 +84,7 @@ export class UnitModel {
     static toOptions = (array: UnitType[]): Options[] => {
         return array.map((item: UnitType) => {
             return {
-                label: `${item.name}`, // You can customize the label as needed
+                label: `${item.name_unit}`, // You can customize the label as needed
                 value: item.id
             }
         })
@@ -90,7 +93,7 @@ export class UnitModel {
     static toOptionsFromModel = (array: UnitModel[]): Options[] => {
         return array.map((item: UnitModel) => {
             return {
-                label: item.name,
+                label: item.name_unit,
                 value: item.id
             }
         })
