@@ -120,4 +120,18 @@ export const pagesData: any[] = [
     page_order: 7,
     created_by: 1,
   },
+  {
+    title: "Usage Price",
+    slug: "usage-price",
+    content: "<h1>Manage categories</h1>",
+    featured_image: "https://example.com/category-image.jpg",
+    meta_title: "Usage Price",
+    meta_description: "Organize and manage categories.",
+    meta_keywords: "usage, price",
+    seo_heading: "Usage Price",
+    canonical_url: "https://mycompany.com/admin/category",
+    is_published: 1,
+    page_order: 8,
+    created_by: 1,
+  },
 ];

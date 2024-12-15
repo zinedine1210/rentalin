@@ -9,7 +9,7 @@ import { sqlUsers, usersData, UsersPayload } from "./user-scheme";
 import { SQLuploads, uploadsData } from "./uploads-scheme";
 import { ArmadaPayload, armadasData, SQL_armadas } from "./armadas-scheme";
 import { categoriesData, CategoryPayload, SQL_categories } from "./categories-scheme";
-import { OrderPayload, ordersData, SQL_orders } from "./orders-scheme";
+import { SQL_orders } from "./orders-scheme";
 import { PartnerPayload, partnersData, SQL_partners } from "./partners-scheme";
 import { SQL_units } from "./unit-scheme";
 import { SQL_usage_prices, usage_pricesData, UsagePricePayload } from "./usage-price-scheme";

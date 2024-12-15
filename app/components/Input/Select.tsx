@@ -161,56 +161,54 @@ export default function Select({
                 </div>
                 {errorMessage && <p className="text-red-500 text-xs mt-1">{errorMessage}</p>}
             </div>
-            {isOpen && (
-                <div className={`${position} absolute w-full top-full bg-white dark:bg-dark dark:border-white/30 border shadow-lg rounded z-50 min-w-44 flex flex-col`}>
-                    {
-                        isSearch && (
-                            <div className="p-2">
-                                <InputText 
-                                    placeholder="Search by label"
-                                    value={keyword}
-                                    required={false}
-                                    onChange={value => handleKeyword(value)}
-                                    name={name}
-                                    id={id}
-                                />
-                            </div>
-                        )
-                    }
-                    {
-                        loading ?
-                        <div className="h-20 flex items-center justify-center mx-auto text-center">
-                            <h1 className="text-xs text-primary-500">Fetching Data..</h1>
+            <div className={`${isOpen ? 'max-h-screen pointer-events-auto': 'max-h-0 pointer-events-none'} overflow-y-auto transition-all duration-500 transform origin-top ${position} absolute w-full top-full bg-white dark:bg-dark dark:border-white/30 border shadow-lg rounded z-50 min-w-44 right-1/2 translate-x-1/2 flex flex-col`}>
+                {
+                    isSearch && (
+                        <div className="p-2">
+                            <InputText 
+                                placeholder="Search by label"
+                                value={keyword}
+                                required={false}
+                                onChange={value => handleKeyword(value)}
+                                name={name}
+                                id={id}
+                            />
                         </div>
-                        :
-                        <div className="max-h-80 h-full overflow-y-auto">
-                            {
-                                defaultAll && (
-                                    <button type="button" onClick={() => handleChange('')} className={`${value == '' ?"bg-primary-500 text-white font-bold":"dark:text-zinc-500 hover:bg-primary-300"} duration-300 p-2 cursor-pointer flex items-center gap-2 w-full text-start`}>
-                                        All
+                    )
+                }
+                {
+                    loading ?
+                    <div className="h-20 flex items-center justify-center mx-auto text-center">
+                        <h1 className="text-xs text-primary-500">Fetching Data..</h1>
+                    </div>
+                    :
+                    <div className="max-h-80 h-full overflow-y-auto">
+                        {
+                            defaultAll && (
+                                <button type="button" onClick={() => handleChange('')} className={`${value == '' ?"bg-primary-500 text-white font-bold":"dark:text-zinc-500 hover:bg-primary-300"} duration-300 p-2 cursor-pointer flex items-center gap-2 w-full text-start`}>
+                                    All
+                                </button>
+                            )
+                        }
+                        {
+                            createOpt && (
+                                <button type="button" onClick={() => handleChange(keyword)} className="w-full hover:bg-primary-200 duration-300 ease-in-out p-2 text-sm text-center justify-center flex items-center">
+                                    <Icon icon={IconsCollection.plus} className="mr-1"/> Create <span className="font-bold ml-1"> {keyword}</span>
+                                </button>
+                            )
+                        }
+                        {
+                            optionsMapping.map((opt, index) => {
+                                return (
+                                    <button type="button" disabled={opt.disabled ?? false} key={index} onClick={() => handleChange(opt.value)} className={`${opt.value == value ?"bg-primary-500 text-white font-bold disabled:text-black":"dark:text-zinc-400 hover:bg-primary-300"} duration-300 p-2 cursor-pointer flex items-center gap-2 w-full text-start disabled:bg-zinc-300 disabled:cursor-not-allowed text-sm`}>
+                                        {opt.label}
                                     </button>
                                 )
-                            }
-                            {
-                                createOpt && (
-                                    <button type="button" onClick={() => handleChange(keyword)} className="w-full hover:bg-primary-200 duration-300 ease-in-out p-2 text-sm text-center justify-center flex items-center">
-                                        <Icon icon={IconsCollection.plus} className="mr-1"/> Create <span className="font-bold ml-1"> {keyword}</span>
-                                    </button>
-                                )
-                            }
-                            {
-                                optionsMapping.map((opt, index) => {
-                                    return (
-                                        <button type="button" disabled={opt.disabled ?? false} key={index} onClick={() => handleChange(opt.value)} className={`${opt.value == value ?"bg-primary-500 text-white font-bold disabled:text-black":"dark:text-zinc-400 hover:bg-primary-300"} duration-300 p-2 cursor-pointer flex items-center gap-2 w-full text-start disabled:bg-zinc-300 disabled:cursor-not-allowed text-sm`}>
-                                            {opt.label}
-                                        </button>
-                                    )
-                                })
-                            }
-                        </div>
-                    }
-                </div>
-            )}
+                            })
+                        }
+                    </div>
+                }
+            </div>
         </div>
     );
 }

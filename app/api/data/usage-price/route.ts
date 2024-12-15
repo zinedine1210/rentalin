@@ -50,6 +50,7 @@ export async function GET(request: Request) {
     SELECT *
     FROM ${nameTable}
     ${whereClause}
+    ORDER BY created_at DESC
     LIMIT ? OFFSET ?
   `);
   const data: any = stmt.all(...params, limit, offset);
@@ -84,6 +85,11 @@ export async function POST(request: Request) {
 
   try {
     const body: UsagePricePayload = await request.json();
+    console.log(body)
+    if(body.status == 'active'){
+      console.log("asjaksjaksjka")
+      db.prepare(`UPDATE ${nameTable} SET status = 'inactive' WHERE status = 'active'`).run()
+    }
 
     const stmt = db.prepare(`
       INSERT INTO ${nameTable} (name, description, min_order, price_multiplier, operator_type, status)

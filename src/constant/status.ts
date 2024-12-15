@@ -34,6 +34,13 @@ export const serviceTemplateType = {
     'QNA': '#ff00bf',
     'EVENT': '#fcba03',
 }
+
+export const usagePriceStatus = {
+    'active': '#32a852',
+    'inactive': '#ff1900'
+}
+
+
 export const getFromOptions = (type: {[key: string]: string}): Options[]  => {
     let arrayOptions: Options[] = []
     Object.entries(type).map((item, index) => {

@@ -11,7 +11,7 @@ export const SQL_usage_prices = `
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
-    min_order REAL DEFAULT 0,
+    min_order REAL DEFAULT 1,
     price_multiplier REAL NOT NULL CHECK(price_multiplier >= 1),
     operator_type TEXT NOT NULL CHECK(operator_type IN ('-', '*', '+', '/', '%')),
     status TEXT NOT NULL CHECK(status IN ('active', 'inactive')),
@@ -26,33 +26,33 @@ export const usage_pricesData: any[] = [
     name: 'Standard Rental Rate',
     description: 'Base rate for standard rentals.',
     min_order: 100,
-    price_multiplier: 1.2,
+    price_multiplier: 20,
     operator_type: '*',
-    status: 'active'
+    status: 'inactive'
   },
   {
     name: 'Weekend Surcharge',
     description: 'Additional fee for weekend rentals.',
     min_order: 50,
-    price_multiplier: 1.5,
+    price_multiplier: 30,
     operator_type: '*',
-    status: 'active'
+    status: 'inactive'
   },
   {
     name: 'Holiday Premium',
     description: 'Holiday premium rate.',
     min_order: 200,
-    price_multiplier: 2.0,
+    price_multiplier: 50,
     operator_type: '*',
-    status: 'inactive'
+    status: 'active'
   },
   {
     name: 'Late Fee',
     description: 'Charge for late returns.',
     min_order: 20,
-    price_multiplier: 1.1,
+    price_multiplier: 20,
     operator_type: '*',
-    status: 'active'
+    status: 'inactive'
   },
   {
     name: 'Damage Fee',
@@ -60,7 +60,7 @@ export const usage_pricesData: any[] = [
     min_order: 100,
     price_multiplier: 1.3,
     operator_type: '*',
-    status: 'active'
+    status: 'inactive'
   },
   {
     name: 'Discount for Members',
@@ -68,7 +68,7 @@ export const usage_pricesData: any[] = [
     min_order: 50,
     price_multiplier: 0.9,
     operator_type: '*',
-    status: 'active'
+    status: 'inactive'
   },
   {
     name: 'Pickup Fee',
@@ -84,7 +84,7 @@ export const usage_pricesData: any[] = [
     min_order: 15,
     price_multiplier: 1.1,
     operator_type: '*',
-    status: 'active'
+    status: 'inactive'
   },
   {
     name: 'Late Pickup Fee',
@@ -92,7 +92,7 @@ export const usage_pricesData: any[] = [
     min_order: 30,
     price_multiplier: 1.2,
     operator_type: '*',
-    status: 'active'
+    status: 'inactive'
   },
   {
     name: 'Insurance Fee',
@@ -100,6 +100,6 @@ export const usage_pricesData: any[] = [
     min_order: 50,
     price_multiplier: 1.0,
     operator_type: '*',
-    status: 'active'
+    status: 'inactive'
   },
 ];

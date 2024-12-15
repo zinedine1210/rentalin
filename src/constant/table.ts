@@ -1,4 +1,5 @@
 import { TableHeader } from "@@/src/types/types"
+import { usagePriceStatus } from "./status"
 
 export const tableDial: TableHeader[] = [
     { label: "CODE", property: "code", sort: "code", copy:"code", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
@@ -15,7 +16,13 @@ export const tableClient: TableHeader[] = [
 export const tableCategories: TableHeader[] = [
     { label: "Title", property: "title", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" }
 ]
-
+export const tableUsagePrice: TableHeader[] = [
+    { label: "Name", property: "name", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Description", property: "description", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Price Multiplier", property: "price_multiplier", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Operator", property: "operator_type", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Status", property: "status", status: usagePriceStatus, cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+]
 export const tablePartner: TableHeader[] = [
     { label: "Name", property: "name", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
     { label: "Phone", property: "phone", copy: 'phone', cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },

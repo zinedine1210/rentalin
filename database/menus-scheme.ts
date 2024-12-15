@@ -86,4 +86,13 @@ export const menuItemsData: MenusPayload[] = [
     icon: IconsCollection.category,
     flag: "Menus"
   },
+  {
+    title: "Usage Price",
+    url: "/admin/usage-price",
+    parent_id: null,
+    order_position: 8,
+    pages_id: 8,
+    icon: IconsCollection.promo,
+    flag: "Menus"
+  },
 ];

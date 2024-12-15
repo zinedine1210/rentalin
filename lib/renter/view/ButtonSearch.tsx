@@ -14,7 +14,7 @@ export default function ButtonSearch({
     icon?: string
 }) {
   return (
-    <button type={type} onClick={() => onClick()} className="buttonSearch w-full">
+    <button type={type} onClick={() => onClick()} className="buttonSearch w-full min-w-32">
         <Icon icon={icon}/>
         {title}
     </button>
