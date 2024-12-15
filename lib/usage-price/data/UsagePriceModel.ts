@@ -7,7 +7,7 @@ export interface UsagePriceType {
     min_order: number
     price_multiplier: number
     operator_type:  '-' | '*' | '+' | '/' | '%'
-    status: 'active' | 'inactive'
+    status: 'active' | 'stop'
     created_at: string
     updated_at: string
 }
@@ -19,7 +19,7 @@ export class UsagePriceModel {
     public min_order: number
     public price_multiplier: number
     public operator_type:  '-' | '*' | '+' | '/' | '%'
-    public status: 'active' | 'inactive'
+    public status: 'active' | 'stop'
     public created_at: string
     public updated_at: string
 

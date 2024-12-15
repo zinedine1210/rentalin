@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     console.log(body)
     if(body.status == 'active'){
       console.log("asjaksjaksjka")
-      db.prepare(`UPDATE ${nameTable} SET status = 'inactive' WHERE status = 'active'`).run()
+      db.prepare(`UPDATE ${nameTable} SET status = 'stop' WHERE status = 'active'`).run()
     }
 
     const stmt = db.prepare(`

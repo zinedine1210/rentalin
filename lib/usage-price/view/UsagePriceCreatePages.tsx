@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react"
 import { IconsCollection } from "@@/src/constant/icons"
 import Link from "next/link"
 import { ApiResponse, fetchClient } from "@@/src/hooks/CollectionAPI"
-import { formatCurrency, Notify } from "@@/src/utils/script"
+import { accumulationPrice, formatCurrency, Notify } from "@@/src/utils/script"
 import { useRouter } from "next/navigation"
 import { UsagePriceType } from "../data/UsagePriceModel"
 import { UsagePriceForm } from "../data/UsagePriceForm"
@@ -78,40 +78,7 @@ export default function UsagePriceCreatePages({
     { label: 'Kurang (-)', value: '-' },
     { label: 'Persen (%)', value: '%' }
   ]
-
-  const simulation = () => {
-    const priceMulti = Number(datalist.price_multiplier)
-    if(datalist.operator_type && priceMulti){
-      let harga = 0
-      const contohHarga = 500000
-      switch (datalist.operator_type) {
-        case "%":
-          harga = contohHarga - (Math.ceil((priceMulti * contohHarga) / 100))
-          break;
-        case "+":
-          harga = priceMulti + contohHarga;
-          break;
-        case "-":
-          harga = contohHarga - priceMulti;
-          break;
-        case "*":
-          harga = priceMulti * contohHarga;
-          break;
-        case "/":
-          if (priceMulti === 0) {
-            harga = 0;
-          } else {
-            harga =  contohHarga / priceMulti
-          }
-          break;
-        default:
-          break;
-      }
-
-      return formatCurrency(harga)
-    }
-    return ''
-  }
+  
   return (
     <section className="p-5">
       <Link href={'/admin/usage-price'}>
@@ -174,7 +141,7 @@ export default function UsagePriceCreatePages({
                 </div>
 
                 <div className="col-span-12 w-full">
-                  <h1 className="flex items-center justify-between">Harga yang diberikan ke renter: <span className="font-bold">{simulation()}</span></h1>
+                  <h1 className="flex items-center justify-between">Harga yang diberikan ke renter: <span className="font-bold">{formatCurrency(accumulationPrice(500000, datalist.price_multiplier, datalist.operator_type), true)}</span></h1>
                 </div>
               </div>
               <div className="relative">
@@ -192,7 +159,7 @@ export default function UsagePriceCreatePages({
 
               <div className="relative">
                 <label className="inline-flex items-center cursor-pointer">
-                  <input type="checkbox" onChange={(e) => handleChange(e.target.checked ? 'active':'inactive', 'status')} checked={datalist.status == 'active' ? true: false} value="" className="sr-only peer" />
+                  <input type="checkbox" onChange={(e) => handleChange(e.target.checked ? 'active':'stop', 'status')} checked={datalist.status == 'active' ? true: false} value="" className="sr-only peer" />
                   <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                   <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Status</span>
                 </label>

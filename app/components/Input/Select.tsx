@@ -161,7 +161,7 @@ export default function Select({
                 </div>
                 {errorMessage && <p className="text-red-500 text-xs mt-1">{errorMessage}</p>}
             </div>
-            <div className={`${isOpen ? 'max-h-screen pointer-events-auto': 'max-h-0 pointer-events-none'} overflow-y-auto transition-all duration-500 transform origin-top ${position} absolute w-full top-full bg-white dark:bg-dark dark:border-white/30 border shadow-lg rounded z-50 min-w-44 right-1/2 translate-x-1/2 flex flex-col`}>
+            <div className={`${isOpen ? 'max-h-screen pointer-events-auto': 'max-h-0 pointer-events-none'} overflow-y-auto transition-all duration-500 transform origin-top ${position} absolute w-full top-full bg-white dark:bg-dark dark:border-white/30 shadow-lg rounded z-50 min-w-44 right-1/2 translate-x-1/2 flex flex-col`}>
                 {
                     isSearch && (
                         <div className="p-2">

@@ -37,7 +37,7 @@ export const serviceTemplateType = {
 
 export const usagePriceStatus = {
     'active': '#32a852',
-    'inactive': '#ff1900'
+    'stop': '#ff1900'
 }
 
 

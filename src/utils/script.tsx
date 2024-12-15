@@ -8,6 +8,41 @@ export const checkRedirected = (searchParams: ReadonlyURLSearchParams) => {
     }
     return false
 }
+
+export const accumulationPrice = (price: number, priceMultiplier: number, operatorType:  '-' | '*' | '+' | '/' | '%' | '') => {
+    const priceMulti = Number(priceMultiplier)
+    if(operatorType && priceMulti){
+      let harga = 0
+      const contohHarga = price
+      switch (operatorType) {
+        case "%":
+          harga = contohHarga - (Math.ceil((priceMulti * contohHarga) / 100))
+          break;
+        case "+":
+          harga = priceMulti + contohHarga;
+          break;
+        case "-":
+          harga = contohHarga - priceMulti;
+          break;
+        case "*":
+          harga = priceMulti * contohHarga;
+          break;
+        case "/":
+          if (priceMulti === 0) {
+            harga = 0;
+          } else {
+            harga =  contohHarga / priceMulti
+          }
+          break;
+        default:
+          break;
+      }
+  
+      return harga
+    }
+    return 0
+  }
+
 export interface FileData {
     url: string; // URL gambar atau file
     type: string; // Tipe MIME file (contoh: 'image/jpeg')

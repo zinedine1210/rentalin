@@ -4,7 +4,7 @@ export interface UsagePricePayload {
   min_order: number
   price_multiplier: number
   operator_type: '-' | '*' | '+' | '/' | '%'
-  status: 'active' | 'inactive'
+  status: 'active' | 'stop'
 }
 export const SQL_usage_prices = `
   CREATE TABLE IF NOT EXISTS usage_prices (
@@ -14,7 +14,7 @@ export const SQL_usage_prices = `
     min_order REAL DEFAULT 1,
     price_multiplier REAL NOT NULL CHECK(price_multiplier >= 1),
     operator_type TEXT NOT NULL CHECK(operator_type IN ('-', '*', '+', '/', '%')),
-    status TEXT NOT NULL CHECK(status IN ('active', 'inactive')),
+    status TEXT NOT NULL CHECK(status IN ('active', 'stop')),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
@@ -28,7 +28,7 @@ export const usage_pricesData: any[] = [
     min_order: 100,
     price_multiplier: 20,
     operator_type: '*',
-    status: 'inactive'
+    status: 'stop'
   },
   {
     name: 'Weekend Surcharge',
@@ -36,7 +36,7 @@ export const usage_pricesData: any[] = [
     min_order: 50,
     price_multiplier: 30,
     operator_type: '*',
-    status: 'inactive'
+    status: 'stop'
   },
   {
     name: 'Holiday Premium',
@@ -52,7 +52,7 @@ export const usage_pricesData: any[] = [
     min_order: 20,
     price_multiplier: 20,
     operator_type: '*',
-    status: 'inactive'
+    status: 'stop'
   },
   {
     name: 'Damage Fee',
@@ -60,7 +60,7 @@ export const usage_pricesData: any[] = [
     min_order: 100,
     price_multiplier: 1.3,
     operator_type: '*',
-    status: 'inactive'
+    status: 'stop'
   },
   {
     name: 'Discount for Members',
@@ -68,7 +68,7 @@ export const usage_pricesData: any[] = [
     min_order: 50,
     price_multiplier: 0.9,
     operator_type: '*',
-    status: 'inactive'
+    status: 'stop'
   },
   {
     name: 'Pickup Fee',
@@ -76,7 +76,7 @@ export const usage_pricesData: any[] = [
     min_order: 10,
     price_multiplier: 1.0,
     operator_type: '*',
-    status: 'inactive'
+    status: 'stop'
   },
   {
     name: 'Delivery Fee',
@@ -84,7 +84,7 @@ export const usage_pricesData: any[] = [
     min_order: 15,
     price_multiplier: 1.1,
     operator_type: '*',
-    status: 'inactive'
+    status: 'stop'
   },
   {
     name: 'Late Pickup Fee',
@@ -92,7 +92,7 @@ export const usage_pricesData: any[] = [
     min_order: 30,
     price_multiplier: 1.2,
     operator_type: '*',
-    status: 'inactive'
+    status: 'stop'
   },
   {
     name: 'Insurance Fee',
@@ -100,6 +100,6 @@ export const usage_pricesData: any[] = [
     min_order: 50,
     price_multiplier: 1.0,
     operator_type: '*',
-    status: 'inactive'
+    status: 'stop'
   },
 ];

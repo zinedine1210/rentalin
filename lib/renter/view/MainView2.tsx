@@ -4,17 +4,16 @@ import Select from "@@/app/components/Input/Select";
 import { DataOptions } from "@@/app/page";
 import { UnitModel, UnitType } from "@@/lib/units/data/UnitModel";
 import { ApiResponse, fetchClient, TableResponse } from "@@/src/hooks/CollectionAPI";
-import { useGlobalContext } from "@@/src/providers/GlobalContext";
 import Image from "next/image";
 import { useState } from "react";
-import CardUnit from "./CardUnit";
 import ButtonSearch from "./ButtonSearch";
 import InputSearch from "./InputSearch";
+import CardUnit from "./CardUnit";
 
 export default function MainView2({
     data
 }: {data:DataOptions}) {
-    const { state, setState } = useGlobalContext()
+    console.log(data.usagePrice)
     const [list, setList] = useState<UnitModel[]>([])
     const [filter, setFilter] = useState({
         category_id: '',
@@ -152,8 +151,8 @@ export default function MainView2({
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-5 md:gap-8">
                     {
-                        list.length > 0 ? list.map((item, index) => {
-                            return <CardUnit key={index} data={item}/>
+                        list.length > 0  ? list.map((item, index) => {
+                            return <CardUnit usagePrice={data.usagePrice[0]} key={index} data={item}/>
                         })
                         :
                         <div className="text-center py-5 col-span-12">

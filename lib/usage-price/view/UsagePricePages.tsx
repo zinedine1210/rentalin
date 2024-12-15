@@ -41,7 +41,7 @@ export default function UsagePricePages() {
         {
           value: 'status',
           label: 'Status',
-          options: [{ label: 'Active', value: 'active' }, { label: 'Inactive', value: 'inactive' }],
+          options: [{ label: 'Active', value: 'active' }, { label: 'Stop', value: 'stop' }],
           type: 'select'
         }
       ],

@@ -1,4 +1,3 @@
-import { REPL_MODE_SLOPPY } from "repl"
 import { UsagePriceType } from "./UsagePriceModel"
 
 export class UsagePriceForm {
@@ -6,7 +5,7 @@ export class UsagePriceForm {
     public description: string
     public min_order: number
     public operator_type: '-' | '*' | '+' | '/' | '%' | ''
-    public status: 'active' | 'inactive'
+    public status: 'active' | 'stop'
     public price_multiplier: number
 
 
