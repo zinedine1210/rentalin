@@ -8,7 +8,6 @@ export interface UsersPayload {
   file_driver_license: number
   full_name: string
   danger_phone: string
-  birth_date: string
   gender: 'male' | 'female'
   address: string
   role: 'admin' | 'customer'
@@ -27,7 +26,6 @@ export const sqlUsers = `
     file_driver_license INTEGER NOT NULL,
     full_name TEXT NOT NULL,
     danger_phone TEXT NOT NULL,
-    birth_date DATETIME NOT NULL,
     gender TEXT CHECK(gender IN ('male', 'female')),
     address TEXT NULL,
     role TEXT CHECK(role IN ('admin', 'customer')) DEFAULT 'admin',
@@ -54,7 +52,6 @@ export const usersData: UsersPayload[] = [
       role: "admin",
       status: "active",
       address: 'Kp Gempol Cakung timur',
-      birth_date: '2024-12-06 12:30:00',
       danger_phone: '0818291829128',
       file_driver_license: 1,
       file_identity: 1,

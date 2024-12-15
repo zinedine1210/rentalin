@@ -9,6 +9,7 @@ import { useState } from "react";
 import ButtonSearch from "./ButtonSearch";
 import InputSearch from "./InputSearch";
 import CardUnit from "./CardUnit";
+import KtpDetector from "@@/app/components/Input/KtpDetector";
 
 export default function MainView2({
     data
@@ -105,6 +106,10 @@ export default function MainView2({
                             placeholder=""
                         />
                     </div>
+                    <KtpDetector 
+                        onChange={(value) => console.log("KTP DETCTOR", value)}
+                        placeholder="ashajshaj"
+                    />
                     <div className="relative col-span-2">
                         <Select 
                             id="duration"
