@@ -90,6 +90,17 @@ export default function CategoryCreatePages({
                   errorMessage={errorMessage('title')}
                 />
               </div>
+              <div className="relative">
+                <InputText 
+                  id="input-icon"
+                  name="input-icon"
+                  label="icon"
+                  onChange={(value) => handleChange(value, 'icon')}
+                  readOnly={disabled}
+                  value={datalist.icon}
+                  errorMessage={errorMessage('icon')}
+                />
+              </div>
             </div>
           )
         }

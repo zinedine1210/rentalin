@@ -3,6 +3,7 @@ import { Options } from "@@/src/types/types"
 export interface CategoryType {
     id: string
     title: string
+    icon: string
     created_at: string
     updated_at: string
 }
@@ -10,12 +11,14 @@ export interface CategoryType {
 export class CategoryModel {
     public id: string
     public title: string
+    public icon: string
     public created_at: string
     public updated_at: string
 
     constructor(props: CategoryType) {
         this.id = props.id
         this.title = props.title
+        this.icon = props.icon
         this.created_at = props.created_at
         this.updated_at = props.updated_at
     }

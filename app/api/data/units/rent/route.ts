@@ -9,16 +9,36 @@ export async function GET(request: Request) {
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '10', 10);
     const startDate = searchParams.get("start_date");
-    const duration = parseInt(searchParams.get("duration") || "0");
+    const duration = parseInt(searchParams.get("duration") || "0", 10);
 
-    const requestedStartDate = new Date(startDate);
-    const requestedEndDate = new Date(requestedStartDate);
-    requestedEndDate.setDate(requestedStartDate.getDate() + duration);
+    if (!startDate || duration <= 0) {
+        return NextResponse.json({
+            success: false,
+            message: "Pilih dulu durasi dan tanggal sewa Anda",
+            data: null
+        }, { status: 400 });
+    }
+
+    // start date tidak boleh kurang dari tanggal sekarang bosss
+    const now = new Date();
+    const startDateObj = new Date(startDate);
+
+    if (startDateObj <= now) {
+        return NextResponse.json({
+            success: false,
+            message: "Tanggal sewa gaboleh kemarin brooo",
+            data: null
+        }, { status: 400 });
+    }
+
+    // Hitung end_date berdasarkan duration
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + duration);
     
     const filters: Record<string, string | string[]> = {};
   
     searchParams.forEach((value, key) => {
-      if (key !== 'page' && key !== 'limit') {
+      if (key !== 'page' && key !== 'limit' && key !== 'start_date' && key !== 'duration') {
         filters[key] = value;
       }
     });
@@ -31,9 +51,9 @@ export async function GET(request: Request) {
     if (Object.keys(filters).length > 0) {
       const filterConditions = Object.entries(filters).map(([key, value]) => {
         if (Array.isArray(value)) {
-          return `${key} IN (${value.map(() => '?').join(', ')})`;
+          return `u.${key} IN (${value.map(() => '?').join(', ')})`;
         } else {
-          return `${key} LIKE ?`;
+          return `u.${key} LIKE ?`;
         }
       });
   
@@ -43,13 +63,16 @@ export async function GET(request: Request) {
       );
     }
   
-    const totalTableQuery = `SELECT COUNT(*) as count FROM ${nameTable} ${whereClause}`;
+    const totalTableQuery = `SELECT COUNT(*) as count FROM ${nameTable} AS u ${whereClause}`;
     const totalTable = db.prepare(totalTableQuery);
     const { count } = totalTable.get(...params) as CountResult;
+
+    console.log([startDate, endDate.toISOString(), ...params, limit, offset, whereClause]);
   
     const totalTablePages = Math.ceil(count / limit);
     const stmt = db.prepare(`
-      SELECT ${nameTable}.* ,
+      SELECT 
+        u.*,
         uploads.id AS file_id,
         uploads.file_name,
         uploads.file_path,
@@ -64,28 +87,33 @@ export async function GET(request: Request) {
         armadas.location AS armada_location,
         armadas.location_summary AS armada_location_summary,
         cat.title AS category_title
-      FROM ${nameTable}
-        INNER JOIN partners ON ${nameTable}.partner_id = partners.id
-        INNER JOIN categories AS cat ON ${nameTable}.category_id = cat.id
-        INNER JOIN uploads ON ${nameTable}.file_picture = uploads.id
-        INNER JOIN armadas ON ${nameTable}.armada_id = armadas.id
-      ${whereClause}
-      AND NOT EXISTS (
-        SELECT 1 
-        FROM orders AS o
-        WHERE o.unit_id = ${nameTable}.id
-          AND (
-            ? < DATE(o.start_date, '+' || o.duration || ' days')
-            AND
-            ? > o.start_date
-          )
-      )
-      LIMIT ? OFFSET ?
+      FROM units u
+        INNER JOIN partners ON u.partner_id = partners.id
+        INNER JOIN categories AS cat ON u.category_id = cat.id
+        INNER JOIN uploads ON u.file_picture = uploads.id
+        INNER JOIN armadas ON u.armada_id = armadas.id
+        LEFT JOIN orders o
+        ON u.id = o.unit_id
+        AND (
+            o.status = 'active' AND
+            (
+                (datetime(:start_date) < datetime(o.start_date, '+' || o.duration || ' days')) AND 
+                (datetime(:end_date) > datetime(o.start_date))
+            )
+        )
+      ${whereClause} AND o.id IS NULL
+          AND u.isAvailable = 1
+      LIMIT :limit OFFSET :offset
     `);
-    const data: any = stmt.all(...params, 
-        requestedStartDate.toISOString(),
-        requestedEndDate.toISOString(),
-        limit, offset);
+    
+    const data: any = stmt.all({
+      start_date: startDate,
+      end_date: endDate.toISOString(),
+      limit: limit,
+      offset: offset
+    }, 
+    ...params);
+    
   
     const transformData = data.map((item) => ({
       id: item.id,

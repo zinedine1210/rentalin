@@ -1,6 +1,7 @@
 import { ArmadaModel, ArmadaType } from "@@/lib/armada/data/ArmadaModel"
 import { CategoryModel, CategoryType } from "@@/lib/category/data/CategoryModel"
 import MainView from "@@/lib/renter/view/MainView"
+import MainView2 from "@@/lib/renter/view/MainView2"
 import { ApiResponse, fetchClient, TableResponse } from "@@/src/hooks/CollectionAPI"
 import { Options } from "@@/src/types/types"
 
@@ -45,7 +46,7 @@ const Page = async ({
     categories: optionsCategories,
     armadas: optionsArmadas
   }
-  return <MainView data={data}/>
+  return <MainView2 data={data}/>
 }
 
 export default Page

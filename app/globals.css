@@ -32,6 +32,10 @@ a {
 	font-family: "Inter", sans-serif;
 }
 
+.overflow-important {
+	overflow: visible !important;
+}
+
 .font-monospace {
 	font-family: 'Space Mono', sans-serif;
 }
@@ -52,7 +56,7 @@ a {
 	}
 
 	.input-style {
-		@apply bg-zinc-50xs py-3 px-5 transition-colors duration-300 disabled:bg-zinc-300 disabled:placeholder:text-black disabled:text-black outline-none border-2 hover:bg-zinc-100 focus:bg-white focus:border-primary-500 dark:bg-darkSecondary dark:border-none rounded-md;
+		@apply bg-zinc-50 py-3 px-5 transition-colors duration-300 disabled:bg-zinc-300 disabled:placeholder:text-black disabled:text-black outline-none border-2 hover:bg-zinc-100 focus:bg-white focus:border-primary-500 dark:bg-darkSecondary dark:border-none rounded-md;
 	}
 
 	.user-avatar {
@@ -85,6 +89,9 @@ a {
 	.badge-zinc {
 		@apply bg-zinc-100 rounded-md text-xs font-bold py-1.5 px-4 text-zinc-500 hover:bg-zinc-200 transition-colors duration-300 flex items-center gap-1;
 	}
+}
+.banner {
+	background-image: url('/images/banner.jpeg');
 }
 
 .nav-shadow {
@@ -128,212 +135,6 @@ a {
 ::-webkit-scrollbar-thumb:hover {
 	background: rgba(3, 179, 255, 0.8);
 }
-
-/* From Uiverse.io by Nawsome */ 
-.pl {
-	width: 6em;
-	height: 6em;
-  }
-  
-  .pl__ring {
-	animation: ringA 2s linear infinite;
-  }
-  
-  .pl__ring--a {
-	stroke: #f42f25;
-  }
-  
-  .pl__ring--b {
-	animation-name: ringB;
-	stroke: #f49725;
-  }
-  
-  .pl__ring--c {
-	animation-name: ringC;
-	stroke: #255ff4;
-  }
-  
-  .pl__ring--d {
-	animation-name: ringD;
-	stroke: #f42582;
-  }
-  
-  /* Animations */
-  @keyframes ringA {
-	from, 4% {
-	  stroke-dasharray: 0 660;
-	  stroke-width: 20;
-	  stroke-dashoffset: -330;
-	}
-  
-	12% {
-	  stroke-dasharray: 60 600;
-	  stroke-width: 30;
-	  stroke-dashoffset: -335;
-	}
-  
-	32% {
-	  stroke-dasharray: 60 600;
-	  stroke-width: 30;
-	  stroke-dashoffset: -595;
-	}
-  
-	40%, 54% {
-	  stroke-dasharray: 0 660;
-	  stroke-width: 20;
-	  stroke-dashoffset: -660;
-	}
-  
-	62% {
-	  stroke-dasharray: 60 600;
-	  stroke-width: 30;
-	  stroke-dashoffset: -665;
-	}
-  
-	82% {
-	  stroke-dasharray: 60 600;
-	  stroke-width: 30;
-	  stroke-dashoffset: -925;
-	}
-  
-	90%, to {
-	  stroke-dasharray: 0 660;
-	  stroke-width: 20;
-	  stroke-dashoffset: -990;
-	}
-  }
-  
-  @keyframes ringB {
-	from, 12% {
-	  stroke-dasharray: 0 220;
-	  stroke-width: 20;
-	  stroke-dashoffset: -110;
-	}
-  
-	20% {
-	  stroke-dasharray: 20 200;
-	  stroke-width: 30;
-	  stroke-dashoffset: -115;
-	}
-  
-	40% {
-	  stroke-dasharray: 20 200;
-	  stroke-width: 30;
-	  stroke-dashoffset: -195;
-	}
-  
-	48%, 62% {
-	  stroke-dasharray: 0 220;
-	  stroke-width: 20;
-	  stroke-dashoffset: -220;
-	}
-  
-	70% {
-	  stroke-dasharray: 20 200;
-	  stroke-width: 30;
-	  stroke-dashoffset: -225;
-	}
-  
-	90% {
-	  stroke-dasharray: 20 200;
-	  stroke-width: 30;
-	  stroke-dashoffset: -305;
-	}
-  
-	98%, to {
-	  stroke-dasharray: 0 220;
-	  stroke-width: 20;
-	  stroke-dashoffset: -330;
-	}
-  }
-  
-  @keyframes ringC {
-	from {
-	  stroke-dasharray: 0 440;
-	  stroke-width: 20;
-	  stroke-dashoffset: 0;
-	}
-  
-	8% {
-	  stroke-dasharray: 40 400;
-	  stroke-width: 30;
-	  stroke-dashoffset: -5;
-	}
-  
-	28% {
-	  stroke-dasharray: 40 400;
-	  stroke-width: 30;
-	  stroke-dashoffset: -175;
-	}
-  
-	36%, 58% {
-	  stroke-dasharray: 0 440;
-	  stroke-width: 20;
-	  stroke-dashoffset: -220;
-	}
-  
-	66% {
-	  stroke-dasharray: 40 400;
-	  stroke-width: 30;
-	  stroke-dashoffset: -225;
-	}
-  
-	86% {
-	  stroke-dasharray: 40 400;
-	  stroke-width: 30;
-	  stroke-dashoffset: -395;
-	}
-  
-	94%, to {
-	  stroke-dasharray: 0 440;
-	  stroke-width: 20;
-	  stroke-dashoffset: -440;
-	}
-  }
-  
-  @keyframes ringD {
-	from, 8% {
-	  stroke-dasharray: 0 440;
-	  stroke-width: 20;
-	  stroke-dashoffset: 0;
-	}
-  
-	16% {
-	  stroke-dasharray: 40 400;
-	  stroke-width: 30;
-	  stroke-dashoffset: -5;
-	}
-  
-	36% {
-	  stroke-dasharray: 40 400;
-	  stroke-width: 30;
-	  stroke-dashoffset: -175;
-	}
-  
-	44%, 50% {
-	  stroke-dasharray: 0 440;
-	  stroke-width: 20;
-	  stroke-dashoffset: -220;
-	}
-  
-	58% {
-	  stroke-dasharray: 40 400;
-	  stroke-width: 30;
-	  stroke-dashoffset: -225;
-	}
-  
-	78% {
-	  stroke-dasharray: 40 400;
-	  stroke-width: 30;
-	  stroke-dashoffset: -395;
-	}
-  
-	86%, to {
-	  stroke-dasharray: 0 440;
-	  stroke-width: 20;
-	  stroke-dashoffset: -440;
-	}
-  }
   
 
 .modal-backdrop {
@@ -397,3 +198,165 @@ a {
 	animation: slide 15s linear infinite;
   }
   
+
+  /* From Uiverse.io by Yaya12085 */ 
+.buttonSearch {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: space-between;
+	background-color: #000;
+	color: #fff;
+	font-size: 13px;
+	border: 0.5px solid rgba(0, 0, 0, 0.1);
+	padding-bottom: 8px;
+	height: 65px;
+	padding: 12px;
+	border-radius: 15px 15px 12px 12px;
+	cursor: pointer;
+	position: relative;
+	will-change: transform;
+	transition: all .1s ease-in-out 0s;
+	user-select: none;
+	/* Add gradient shading to each side */
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
+	  linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+	background-position: bottom right, bottom right;
+	background-size: 100% 100%, 100% 100%;
+	background-repeat: no-repeat;
+	box-shadow: inset -4px -10px 0px rgba(255, 255, 255, 0.4),
+	  inset -4px -8px 0px rgba(0, 0, 0, 0.3),
+	  0px 2px 1px rgba(0, 0, 0, 0.3),
+	  0px 2px 1px rgba(255, 255, 255, 0.1);
+	transform: perspective(70px) rotateX(5deg) rotateY(0deg);
+  }
+  
+  .buttonSearch::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.5));
+	z-index: -1;
+	border-radius: 15px;
+	box-shadow: inset 4px 0px 0px rgba(255, 255, 255, 0.1),
+	  inset 4px -8px 0px rgba(0, 0, 0, 0.3);
+	transition: all .1s ease-in-out 0s;
+  }
+  
+  .buttonSearch::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-image: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
+	  linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+	background-position: bottom right, bottom right;
+	background-size: 100% 100%, 100% 100%;
+	background-repeat: no-repeat;
+	z-index: -1;
+	border-radius: 15px;
+	transition: all .1s ease-in-out 0s;
+  }
+  
+  .buttonSearch:active {
+	will-change: transform;
+	transform: perspective(80px) rotateX(5deg) rotateY(1deg) translateY(3px) scale(0.96);
+	height: 64px;
+	border: 0.25px solid rgba(0, 0, 0, 0.2);
+	box-shadow: inset -4px -8px 0px rgba(255, 255, 255, 0.2),
+	  inset -4px -6px 0px rgba(0, 0, 0, 0.8),
+	  0px 1px 0px rgba(0, 0, 0, 0.9),
+	  0px 1px 0px rgba(255, 255, 255, 0.2);
+	transition: all .1s ease-in-out 0s;
+  }
+  
+  .buttonSearch::after:active {
+	background-image: linear-gradient(to bottom,rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.2));
+  }
+  
+  .buttonSearch:active::before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 5%;
+	left: 20%;
+	width: 50%;
+	height: 80%;
+	background-color: rgba(255, 255, 255, 0.1);
+	animation: overlay 0.1s ease-in-out 0s;
+	pointer-events: none;
+  }
+  
+  .buttonSearch svg {
+	width: 15px;
+	height: 15px;
+  }
+  
+  @keyframes overlay {
+	from {
+	  opacity: 0;
+	}
+  
+	to {
+	  opacity: 1;
+	}
+  }
+  
+  .buttonSearch:focus {
+	outline: none;
+  }
+
+
+.container-input-search {
+	position: relative;
+	--size-button: 50px;
+	color: white;
+  }
+  
+  .input-search {
+	padding-left: var(--size-button);
+	height: var(--size-button);
+	font-size: 17px;
+	border: none;
+	color: #fff;
+	outline: none;
+	width: var(--size-button);
+	transition: all ease 0.3s;
+	background-color: #1B75BB;
+	box-shadow: 1.5px 1.5px 3px #134a80, -1.5px -1.5px 3px rgb(95 94 94 / 25%), inset 0px 0px 0px #134a80, inset 0px -0px 0px #5f5e5e;
+	border-radius: 50px;
+	cursor: pointer;
+  }
+  
+  .input-search:focus,
+  .input-search:not(:invalid) {
+	width: 100%;
+	cursor: text;
+	box-shadow: 0px 0px 0px #134a80, 0px 0px 0px rgb(95 94 94 / 25%), inset 1.5px 1.5px 3px #134a80, inset -1.5px -1.5px 3px #5f5e5e;
+  }
+  
+  .input-search:focus + .icon,
+  .input-search:not(:invalid) + .icon {
+	pointer-events: all;
+	cursor: pointer;
+  }
+  
+  .container-input-search .icon {
+	position: absolute;
+	width: var(--size-button);
+	height: var(--size-button);
+	top: 0;
+	left: 0;
+	padding: 8px;
+	pointer-events: none;
+  }
+  
+  .container-input-search .icon svg {
+	width: 100%;
+	height: 100%;
+  }

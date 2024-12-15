@@ -12,6 +12,7 @@ export interface OrderPayload {
   total_price: number
   status: 'active' | 'completed' | 'cancelled'
 }
+
 export const SQL_orders = `
   CREATE TABLE IF NOT EXISTS orders (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,5 +37,19 @@ export const SQL_orders = `
   
 `;
 
-export const ordersData: any[] = [
+export const ordersData: OrderPayload[] = [
+  {
+    unit_id: 1,
+    renter_id: 1,
+    usage_id: 1,
+    armada_id: 1,
+    usage_location: 'dalam kota',
+    delivery_address: 'ajkjaksa',
+    delivery_method: 'ambil sendiri',
+    delivery_price: 20000,
+    start_date: '12-10-2020',
+    duration: 1,
+    total_price: 20000000,
+    status: 'active'
+  }
 ];

@@ -53,7 +53,7 @@ export default function MainView({
         }
     }
   return (
-    <section className="w-screen h-screen bg-basic overflow-hidden">
+    <section className="w-screen h-screen bg-white overflow-hidden">
         <div className="container mx-auto px-24">
             <div className="flex flex-col w-full h-screen">
                 <header className="bg-white rounded-md p-5 space-y-2 shadow-md">

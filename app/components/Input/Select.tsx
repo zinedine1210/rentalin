@@ -4,7 +4,6 @@ import { Options } from "@@/src/types/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useEffect, useRef, useState } from  "react";
 import InputText from "./InputText";
-import Loading from "@@/app/loading";
 import { IconsCollection } from "@@/src/constant/icons";
 
 export default function Select({ 
@@ -142,6 +141,12 @@ export default function Select({
         setKeyword(value)
     }
 
+    const handleChange = (value: any) => {
+        onChange(value)
+
+        setIsOpen(false)
+    }
+
 
     return (
         <div ref={dropdownRef} className="relative w-full">
@@ -181,14 +186,14 @@ export default function Select({
                         <div className="max-h-80 h-full overflow-y-auto">
                             {
                                 defaultAll && (
-                                    <button type="button" onClick={() => onChange('')} className={`${value == '' ?"bg-primary-500 text-white font-bold":"dark:text-zinc-500 hover:bg-primary-300"} duration-300 p-2 cursor-pointer flex items-center gap-2 w-full text-start`}>
+                                    <button type="button" onClick={() => handleChange('')} className={`${value == '' ?"bg-primary-500 text-white font-bold":"dark:text-zinc-500 hover:bg-primary-300"} duration-300 p-2 cursor-pointer flex items-center gap-2 w-full text-start`}>
                                         All
                                     </button>
                                 )
                             }
                             {
                                 createOpt && (
-                                    <button type="button" onClick={() => onChange(keyword)} className="w-full hover:bg-primary-200 duration-300 ease-in-out p-2 text-sm text-center justify-center flex items-center">
+                                    <button type="button" onClick={() => handleChange(keyword)} className="w-full hover:bg-primary-200 duration-300 ease-in-out p-2 text-sm text-center justify-center flex items-center">
                                         <Icon icon={IconsCollection.plus} className="mr-1"/> Create <span className="font-bold ml-1"> {keyword}</span>
                                     </button>
                                 )
@@ -196,7 +201,7 @@ export default function Select({
                             {
                                 optionsMapping.map((opt, index) => {
                                     return (
-                                        <button type="button" disabled={opt.disabled ?? false} key={index} onClick={() => onChange(opt.value)} className={`${opt.value == value ?"bg-primary-500 text-white font-bold disabled:text-black":"dark:text-zinc-400 hover:bg-primary-300"} duration-300 p-2 cursor-pointer flex items-center gap-2 w-full text-start disabled:bg-zinc-300 disabled:cursor-not-allowed text-sm`}>
+                                        <button type="button" disabled={opt.disabled ?? false} key={index} onClick={() => handleChange(opt.value)} className={`${opt.value == value ?"bg-primary-500 text-white font-bold disabled:text-black":"dark:text-zinc-400 hover:bg-primary-300"} duration-300 p-2 cursor-pointer flex items-center gap-2 w-full text-start disabled:bg-zinc-300 disabled:cursor-not-allowed text-sm`}>
                                             {opt.label}
                                         </button>
                                     )

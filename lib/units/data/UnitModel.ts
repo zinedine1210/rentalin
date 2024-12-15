@@ -49,6 +49,7 @@ export class UnitModel {
     public partner_email: string
     public partner_address: string
     public category_title: string
+    public descriptionSubstring: string
 
     constructor(props: UnitType) {
         this.id = props.id
@@ -71,6 +72,7 @@ export class UnitModel {
         this.partner_email = props.partner.partner_email
         this.partner_address = props.partner.partner_address
         this.category_title = props.category_title
+        this.descriptionSubstring = props.description.length > 100 ? props.description.substring(0, 100) + "..." : props.description
     }
 
     // Convert array of UnitType to array of UnitModel

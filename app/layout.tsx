@@ -7,6 +7,7 @@ import "@@/src/utils/script"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NextThemes } from '@@/src/providers/NextThemes';
+import "react-datetime/css/react-datetime.css";
 import Head from 'next/head';
 
 const APP_NAME = "Rentalin";
@@ -104,6 +105,7 @@ export default async function RootLayout({
         <Head>
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
+          
         </Head>
         <body>
           {/* <WebVitals /> */}

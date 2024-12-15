@@ -86,8 +86,8 @@ export async function POST(request: Request) {
     const body: CategoryPayload = await request.json();
 
     const stmt = db.prepare(`
-      INSERT INTO ${nameTable} (title)
-      VALUES (?)
+      INSERT INTO ${nameTable} (title, icon)
+      VALUES (?, ?)
     `);
     const result = stmt.run(
       body.title

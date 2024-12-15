@@ -222,7 +222,7 @@ export default function UnitCreatePages({
                   onTrigger={() => formFetch['input-armada_id']()}
                   options={options.optionsArmadas}
                   value={datalist.armada_id}
-                  label="Partner"
+                  label="Armada"
                   errorMessage={errorMessage('armada_id')}
                 />
               </div>

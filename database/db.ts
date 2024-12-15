@@ -9,7 +9,7 @@ import { sqlUsers, usersData, UsersPayload } from "./user-scheme";
 import { SQLuploads, uploadsData } from "./uploads-scheme";
 import { ArmadaPayload, armadasData, SQL_armadas } from "./armadas-scheme";
 import { categoriesData, CategoryPayload, SQL_categories } from "./categories-scheme";
-import { SQL_orders } from "./orders-scheme";
+import { OrderPayload, ordersData, SQL_orders } from "./orders-scheme";
 import { PartnerPayload, partnersData, SQL_partners } from "./partners-scheme";
 import { SQL_units } from "./unit-scheme";
 import { SQL_usage_prices, usage_pricesData, UsagePricePayload } from "./usage-price-scheme";
@@ -69,6 +69,13 @@ if(!dbExists){
      (title, slug, content, featured_image, meta_title, meta_description, meta_keywords, seo_heading, canonical_url, is_published, page_order, created_by) 
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   );
+  // seedTable<OrderPayload>(
+  //   'orders',
+  //   ordersData,
+  //   `INSERT OR IGNORE INTO orders 
+  //    (unit_id, renter_id, usage_id, armada_id, usage_location, delivery_address, delivery_method, delivery_price, start_date, duration, total_price, status) 
+  //    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  // );
   seedTable<UsersPayload>(
     'users',
     usersData,
@@ -84,8 +91,8 @@ if(!dbExists){
   seedTable<CategoryPayload>(
     'categories',
     categoriesData,
-    `INSERT OR IGNORE INTO categories (title) 
-     VALUES (?)`
+    `INSERT OR IGNORE INTO categories (title, icon) 
+     VALUES (?, ?)`
   );
   seedTable<ArmadaPayload>(
     'armadas',
