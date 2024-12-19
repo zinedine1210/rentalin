@@ -12,7 +12,7 @@ export default function AdminLayout({
     <>
     <div className='w-full h-screen relative bg-zinc-100 dark:bg-dark/60'>
       <main className='flex h-full overflow-hidden'>
-        <Sidebar routeFlag='/admin' />
+        <Sidebar routeFlag="/renter" />
         <div className='w-full h-full relative flex flex-col'>
           {/* <div id="modal-usr"></div> */}
           <AppBar />

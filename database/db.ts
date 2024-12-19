@@ -17,8 +17,8 @@ import { SQL_usage_prices, usage_pricesData, UsagePricePayload } from "./usage-p
 export interface CountResult {
   count: number;
 }
-// const dbFilePath = path.join(process.cwd(), 'data.db');
-const dbFilePath = path.join("/tmp", 'data.db');
+const dbFilePath = path.join(process.cwd(), 'data.db');
+// const dbFilePath = path.join("/tmp", 'data.db');
 // Check if the database file already exists
 const dbExists = fs.existsSync(dbFilePath);
 const db = new Database(dbFilePath, { verbose: console.log });
@@ -79,8 +79,8 @@ if(!dbExists){
   seedTable<UsersPayload>(
     'users',
     usersData,
-    `INSERT OR IGNORE INTO users (username, email, phone, password, full_name, role, status, address, birth_date, danger_phone, file_driver_license, file_identity, file_profile_ig, gender) 
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    `INSERT OR IGNORE INTO users (username, email, phone, password, full_name, role, status, address, danger_phone, file_driver_license, file_identity, file_profile_ig) 
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   );
   seedTable<MenusPayload>(
     'menus',

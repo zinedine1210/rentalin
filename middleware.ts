@@ -20,19 +20,40 @@ async function handlePageMiddleware(request: NextRequest) {
   const token = cookies().get('auth_token');
   const isAuthPath = pathname.startsWith('/auth');
   const isAdminPath = pathname.startsWith('/admin');
+  const isRenterPath = pathname.startsWith('/renter')
   const decodedUserVerify = token ? await verifyToken(token.value) : null;
 
-  
-  if (isAdminPath && !decodedUserVerify) {
+  if ((isRenterPath || isAdminPath) && !decodedUserVerify) {
     const url = request.nextUrl.clone();
     url.pathname = '/auth';
     url.searchParams.set('redirected', 'true');
     return NextResponse.redirect(url);
   }
 
-  if (isAuthPath && decodedUserVerify) {
+  if(isRenterPath && decodedUserVerify && decodedUserVerify.role != 'renter'){ // kalau ada yang route ke /renter tidak authorize dan rolenya bukan renter
+    const url = request.nextUrl.clone();
+    url.pathname = '/auth';
+    url.searchParams.set('redirected', 'true');
+    return NextResponse.redirect(url);
+  }
+
+  if(isAdminPath && decodedUserVerify && decodedUserVerify.role != 'admin'){ // kalau ada yang route ke /admin tidak authorize dan rolenya bukan admin
+    const url = request.nextUrl.clone();
+    url.pathname = '/auth';
+    url.searchParams.set('redirected', 'true');
+    return NextResponse.redirect(url);
+  }
+
+  if (isAuthPath && decodedUserVerify && decodedUserVerify.role == 'admin') {
     const url = request.nextUrl.clone();
     url.pathname = '/admin';
+    url.searchParams.set('redirected', 'true');
+    return NextResponse.redirect(url);
+  }
+
+  if (isAuthPath && decodedUserVerify && decodedUserVerify.role == 'renter') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/renter';
     url.searchParams.set('redirected', 'true');
     return NextResponse.redirect(url);
   }
@@ -65,7 +86,7 @@ export async function middleware(request: NextRequest) {
     return handleApiMiddleware(request);
   }
 
-  if (pathname.startsWith('/admin') || pathname.startsWith('/auth')) {
+  if (pathname.startsWith('/admin') || pathname.startsWith('/auth') || pathname.startsWith('/renter')) {
     return handlePageMiddleware(request);
   }
 
@@ -73,5 +94,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/auth/:path*', '/api/data/:path*'],
+  matcher: ['/admin/:path*', '/auth/:path*', '/api/data/:path*', '/renter/:path*'],
 };

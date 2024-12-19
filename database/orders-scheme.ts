@@ -10,7 +10,7 @@ export interface OrderPayload {
   start_date: string
   duration: number
   total_price: number
-  status: 'active' | 'completed' | 'cancelled'
+  status: 'pending' | 'accepted' | 'completed' | 'rejected' | 'onrent'
 }
 
 export const SQL_orders = `
@@ -27,7 +27,7 @@ export const SQL_orders = `
     start_date DATETIME NOT NULL,
     duration INTEGER NOT NULL,
     total_price REAL NOT NULL CHECK(total_price >= 0),
-    status TEXT CHECK(status IN ('active', 'completed', 'cancelled')) DEFAULT 'active',
+    status TEXT CHECK(status IN ('pending', 'accepted', 'completed', 'rejected' | 'onrent')) DEFAULT 'pending',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (unit_id) REFERENCES units(id),
     FOREIGN KEY (usage_id) REFERENCES usage_prices(id),
@@ -50,6 +50,6 @@ export const ordersData: OrderPayload[] = [
     start_date: '12-10-2020',
     duration: 1,
     total_price: 20000000,
-    status: 'active'
+    status: 'pending'
   }
 ];

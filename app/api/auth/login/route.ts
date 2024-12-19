@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     }, { status: 401 })
   }
   // Buat token JWT
-  const token = jwt.sign({ userId: id, username }, SECRET_KEY, { expiresIn: '5h' });
+  const token = jwt.sign({ userId: id, username, role: user.role }, SECRET_KEY, { expiresIn: '5h' });
 
   return NextResponse.json({
     success: true,

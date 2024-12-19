@@ -9,26 +9,26 @@ import { MenusList } from "@@/lib/menus/data/MenusModel";
 import { ApiResponse, fetchClient, TableResponse } from "@@/src/hooks/CollectionAPI";
 
 
-export default function Sidebar() {
+export default function Sidebar({ routeFlag }: { routeFlag: string }) {
   const { state, setState } = useGlobalContext()
   const [menus, setMenus] = useState<MenusList[]>([]);
   const pathname = usePathname()
 
   const getMenus = useCallback(async () => {
-    const clientMenus: ApiResponse<TableResponse<MenusList[]>> = await fetchClient('GET', '/data/menus');
+    const clientMenus: ApiResponse<TableResponse<MenusList[]>> = await fetchClient('GET', `/data/menus?url=${routeFlag}`);
     const responseClientData = clientMenus.data as TableResponse<MenusList[]>
     localStorage.setItem('client_menus', JSON.stringify(responseClientData.data));
     setMenus(responseClientData.data)
-  }, [])
+  }, [routeFlag])
 
   useEffect(() => {
     const storedMenus = localStorage.getItem('client_menus');
     if (storedMenus) {
-      setMenus(JSON.parse(storedMenus));
+      setMenus(JSON.parse(storedMenus).filter(res => res.url.includes(routeFlag)));
     } else{
       getMenus()
     }
-  }, [getMenus]);
+  }, [getMenus, routeFlag]);
 
   const LoopingMenus = (): ReactNode => {
     let dataFinal: any = {}

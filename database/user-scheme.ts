@@ -8,10 +8,8 @@ export interface UsersPayload {
   file_driver_license: number
   full_name: string
   danger_phone: string
-  birth_date: string
-  gender: 'male' | 'female'
   address: string
-  role: 'admin' | 'customer'
+  role: 'admin' | 'renter'
   status: 'active' | 'inactive'
 }
 
@@ -27,10 +25,8 @@ export const sqlUsers = `
     file_driver_license INTEGER NOT NULL,
     full_name TEXT NOT NULL,
     danger_phone TEXT NOT NULL,
-    birth_date DATETIME NOT NULL,
-    gender TEXT CHECK(gender IN ('male', 'female')),
     address TEXT NULL,
-    role TEXT CHECK(role IN ('admin', 'customer')) DEFAULT 'admin',
+    role TEXT CHECK(role IN ('admin', 'renter')) DEFAULT 'admin',
     status TEXT CHECK(status IN ('active', 'inactive')) DEFAULT 'active',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -46,19 +42,31 @@ export const sqlUsers = `
 
 export const usersData: UsersPayload[] = [
   {
-      username: "admin",
-      email: "admin@mycompany.com",
-      phone: '089508781380',
-      password: "$2b$10$AqWluutcAOhyDuADHoMkhuRTVLPAN8LgLJFJ332jbNwC4V9v1b1LC",
-      full_name: "Admin User",
-      role: "admin",
-      status: "active",
-      address: 'Kp Gempol Cakung timur',
-      birth_date: '2024-12-06 12:30:00',
-      danger_phone: '0818291829128',
-      file_driver_license: 1,
-      file_identity: 1,
-      file_profile_ig: 1,
-      gender: 'female'
+    username: "admin",
+    email: "admin@mycompany.com",
+    phone: '089508781380',
+    password: "$2b$10$AqWluutcAOhyDuADHoMkhuRTVLPAN8LgLJFJ332jbNwC4V9v1b1LC",
+    full_name: "Admin User",
+    role: "admin",
+    status: "active",
+    address: 'Kp Gempol Cakung timur',
+    danger_phone: '0818291829128',
+    file_driver_license: 1,
+    file_identity: 1,
+    file_profile_ig: 1
+  },
+  {
+    username: 'renter',
+    email: 'renter@gmail.com',
+    phone: '089508781380',
+    password: '$2b$10$AqWluutcAOhyDuADHoMkhuRTVLPAN8LgLJFJ332jbNwC4V9v1b1LC',
+    full_name: 'Renter Bosss',
+    role: 'renter',
+    status: 'active',
+    address: 'Gatau',
+    danger_phone: '0829178291728',
+    file_driver_license: 1,
+    file_identity: 1,
+    file_profile_ig: 1
   }
 ];

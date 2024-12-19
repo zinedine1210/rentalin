@@ -58,7 +58,7 @@ export const tryLogin = async (payload: any): Promise<ApiResponse<any>> => {
     try {
         const result = await axios.post(`${baseURL}/auth/login`, payload);
         const responseData = result.data;
-
+        
         if (responseData.success) {
             if (responseData.data.auth_token) { // jika ada tokennya
                 const currentDate = new Date();
@@ -69,7 +69,7 @@ export const tryLogin = async (payload: any): Promise<ApiResponse<any>> => {
                 localStorage.setItem('auth_info', payload.username)
             }
 
-            const clientMenus: ApiResponse<TableResponse<MenusList[]>> = await fetchClient('GET', '/data/menus');
+            const clientMenus: ApiResponse<TableResponse<MenusList[]>> = await fetchClient('GET', `/data/menus`);
             const responseClientData = clientMenus.data as TableResponse<MenusList[]>
             localStorage.setItem('client_menus', JSON.stringify(responseClientData.data));
         } else {
