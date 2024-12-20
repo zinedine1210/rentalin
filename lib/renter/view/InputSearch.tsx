@@ -17,7 +17,7 @@ export default function InputSearch({
         onSubmit()
     }
   return (
-    <form onSubmit={e => handleSubmit(e)} className="container-input-search">
+    <form onSubmit={e => handleSubmit(e)} className="z-0 container-input-search">
         <input onChange={e => onChange(e.target.value)} value={value} type="text" name="text" className="input-search" required placeholder="Cari Unit" />
         <div className="icon">
             <Icon icon={IconsCollection.search} className="text-sm"/>

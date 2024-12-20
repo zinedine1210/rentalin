@@ -2,7 +2,7 @@ import { ArmadaModel, ArmadaType } from "@@/lib/armada/data/ArmadaModel"
 import { CategoryModel, CategoryType } from "@@/lib/category/data/CategoryModel"
 import MainView from "@@/lib/renter/view/MainView"
 import MainView2 from "@@/lib/renter/view/MainView2"
-import { UsagePriceModel, UsagePriceType } from "@@/lib/usage-price/data/UsagePriceModel"
+import { UsagePriceType } from "@@/lib/usage-price/data/UsagePriceModel"
 import { ApiResponse, fetchClient, TableResponse } from "@@/src/hooks/CollectionAPI"
 import { Options } from "@@/src/types/types"
 

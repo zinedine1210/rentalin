@@ -4,9 +4,11 @@ import { accumulationPrice, formatCurrency } from "@@/src/utils/script"
 
 export default function CardUnit({
     data,
+    onToggle,
     usagePrice
 }: {
     data: UnitModel,
+    onToggle: (data: UnitModel) => void,
     usagePrice: null | UsagePriceModel
 }) {
 
@@ -41,7 +43,7 @@ export default function CardUnit({
             <p className="text-sm">{data.descriptionSubstring}</p>
         </div>
         <div className="pt-3 pb-5 text-center mx-auto border-t">
-            <button className="btn-primary mx-auto" type="button">Book Now</button>
+            <button className="btn-primary mx-auto" type="button" onClick={() => onToggle(data)}>Book Now</button>
         </div>
     </div>
   )

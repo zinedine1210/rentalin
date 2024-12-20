@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     const startDate = searchParams.get("start_date");
     const duration = parseInt(searchParams.get("duration") || "0", 10);
 
-    if (!startDate || duration <= 0) {
+    if (!startDate || duration <= 0 || !searchParams.get('armada_id')) {
         return NextResponse.json({
             success: false,
             message: "Pilih dulu durasi dan tanggal sewa Anda",

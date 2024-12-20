@@ -9,13 +9,23 @@ import { useState } from "react";
 import ButtonSearch from "./ButtonSearch";
 import InputSearch from "./InputSearch";
 import CardUnit from "./CardUnit";
+import ModalForm from "./ModalForm";
+import { useGlobalContext } from "@@/src/providers/GlobalContext";
+
+export interface Filter {
+    category_id: string
+    armada_id: string
+    name_unit: string
+    start_date: string
+    duration: string
+}
 
 export default function MainView2({
     data
 }: {data:DataOptions}) {
-    console.log(data.usagePrice)
+    const { state, setState } = useGlobalContext()
     const [list, setList] = useState<UnitModel[]>([])
-    const [filter, setFilter] = useState({
+    const [filter, setFilter] = useState<Filter>({
         category_id: '',
         armada_id: '',
         name_unit: '',
@@ -50,6 +60,18 @@ export default function MainView2({
             const toModel = UnitModel.toDatatableResponse(responseData.data)
             setList(toModel)
         }
+    }
+
+    
+    const handleToggle = (data: UnitModel) => {
+        setState(prev => ({
+            ...prev,
+            modal: {
+                name: 'formunit',
+                data, 
+                id: 'formunit'
+            }
+        }))   
     }
   return (
     <section className="bg-white relative min-h-screen overflow-auto h-screen">
@@ -152,7 +174,7 @@ export default function MainView2({
                     <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-5 md:gap-8">
                     {
                         list.length > 0  ? list.map((item, index) => {
-                            return <CardUnit usagePrice={data.usagePrice[0]} key={index} data={item}/>
+                            return <CardUnit onToggle={handleToggle} usagePrice={data.usagePrice[0]} key={index} data={item}/>
                         })
                         :
                         <div className="text-center py-5 col-span-12">
@@ -164,6 +186,8 @@ export default function MainView2({
                 </div>
             </div>
         </div>
+
+        <ModalForm filter={filter} />
     </section>
   )
 }
