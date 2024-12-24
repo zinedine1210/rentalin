@@ -39,7 +39,6 @@ export default function UnitCreatePages({
     let result: ApiResponse<UnitType>
     if(action == "create"){
       const uploadfile: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', datalist.file_form)
-      console.log(uploadfile)
       const responseData = uploadfile.data
       datalist.file_picture = responseData.id
       result = await fetchClient('POST', '/data/units', datalist)

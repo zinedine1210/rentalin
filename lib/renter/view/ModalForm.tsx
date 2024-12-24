@@ -1,7 +1,7 @@
 import Modal from '@@/app/components/Partials/Modal';
 import { UnitModel } from '@@/lib/units/data/UnitModel';
 import { useGlobalContext } from '@@/src/providers/GlobalContext';
-import { accumulationPrice, formatCurrency, formatDateData } from '@@/src/utils/script';
+import { accumulationPrice, formatCurrency, formatDateData, Notify } from '@@/src/utils/script';
 import { Filter } from './MainView2';
 import { Icon } from '@iconify/react';
 import { OrderPayload } from '@@/database/orders-scheme';
@@ -14,6 +14,9 @@ import Link from 'next/link';
 import InputText from '@@/app/components/Input/InputText';
 import UploadCloudinary from '@@/app/components/Input/UploadCloudinary';
 import { CloudinaryType, UploadType } from '@@/lib/uploads/data/UploadModel';
+import { ApiResponse, fetchClient, tryLogin } from '@@/src/hooks/CollectionAPI';
+import { UserType } from '../data/UserModel';
+import { useRouter } from 'next/navigation';
 
 export default function ModalForm({
   filter,
@@ -22,6 +25,7 @@ export default function ModalForm({
   filter: Filter,
   usagePrice: null | UsagePriceModel
 }){
+  const router = useRouter()
   const [loading, setLoading] = useState<boolean>(true)
   const { state, setState } = useGlobalContext()
   const [data, setData] = useState<UnitModel | null>(null)
@@ -110,6 +114,7 @@ export default function ModalForm({
     if(!data){
       const getDataFromModal: UnitModel = state?.modal?.data
       console.log(getDataFromModal)
+      const priceFinal = getDataFromModal?.price ? accumulationPrice(getDataFromModal.price, usagePrice.price_multiplier, usagePrice.operator_type) : null
       if(getDataFromModal){
         setData(getDataFromModal)
         setFormData({
@@ -120,13 +125,13 @@ export default function ModalForm({
           armada_id: getDataFromModal.armada_id,
           start_date: filter.start_date,
           duration: Number(filter.duration),
-          total_price: totalAccumulation()
+          total_price: priceFinal
         })
-        setPrice(getDataFromModal.price ? accumulationPrice(getDataFromModal.price, usagePrice.price_multiplier, usagePrice.operator_type) : null)
+        setPrice(priceFinal)
         setLoading(false)
       }
     }
-  }, [filter, usagePrice, setLoading, data, state, formData, setFormData, totalAccumulation])
+  }, [filter, usagePrice, setLoading, data, state, formData, setFormData])
 
   const hargaAccumulation = () => {
     const promoUse: UsagePriceModel = usagePrice
@@ -233,6 +238,63 @@ export default function ModalForm({
 
   const handleSubmit = async () => {
     console.log(userData, formData)
+    // Upload dulu foto2 usernya
+    setLoading(true)
+    const payloadUser = JSON.parse(JSON.stringify(userData))
+
+    Object.keys(fileList).map(async (key: string) => {
+      const uploadfile: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList[key])
+      const responseData = uploadfile.data
+      if(responseData){
+        payloadUser[key] = responseData.id
+      }
+    })
+    // setting value yang dibutuhkan
+    payloadUser.username = userData.email
+    payloadUser.password = '$2b$10$AqWluutcAOhyDuADHoMkhuRTVLPAN8LgLJFJ332jbNwC4V9v1b1LC'
+    // setUserData(({ ...userData, username: userData.email, password: '$2b$10$AqWluutcAOhyDuADHoMkhuRTVLPAN8LgLJFJ332jbNwC4V9v1b1LC' }))
+
+    const createUser: ApiResponse<UserType> = await fetchClient('POST', `/auth/users`, payloadUser)
+    const responseCreateUser: UserType = createUser.data
+    if(!createUser.success || !responseCreateUser){
+      setLoading(false)
+      return Notify('error', 'Gagal membuat user baru')
+    }
+
+    const payloadOrder = JSON.parse(JSON.stringify(formData))
+    // setting value yang dibutuhkan
+    payloadOrder.renter_id = responseCreateUser.id
+    // setFormData({
+    //   ...formData,
+    //   renter_id: responseCreateUser.id
+    // })
+    const createOrder: ApiResponse<OrderPayload> = await fetchClient('POST', '/data/orders', payloadOrder)
+    const responseCreateOrder = createOrder.data
+    if(!createOrder.success || !responseCreateOrder){
+      setLoading(false)
+      return Notify('error', 'Gagal membuat order baru')
+    }
+
+    Notify('Berhasil membuat orderan', 'success', 5000)
+    Notify('Kamu akan diarahkan ke halaman pesanan', 'info', 8000)
+    setState({ ...state, modal: null })
+
+    // auto login
+    const payload = {
+      username: responseCreateUser.username,
+      password: '12345'
+    }
+    const result: ApiResponse<any> = await tryLogin(payload)
+    if(result.success){
+      Notify(result.message, 'info', 5000)
+      setLoading(false)
+      setTimeout(() => {
+        router.push('/renter')
+      }, 2000);
+    }else{
+      setLoading(false)
+      Notify(result.message, 'error')
+    }
   }
   
   return (
@@ -429,7 +491,7 @@ export default function ModalForm({
                       <h1 className='font-semibold text-sm mb-2'>Upload file</h1>
                       <UploadCloudinary
                         id="file-ss-ig"
-                        label="Screenshot Profile Instagram"
+                        label="Foto Anda sendiri"
                         onChange={(value) => handleFilesChange(value, 'file_profile_ig')}
                         publicId={fileList.file_profile_ig.public_id}
                       />
@@ -503,13 +565,16 @@ export default function ModalForm({
                         Saya setuju dengan <a href="/terms" target="_blank" className='text-primary-500 underline'>syarat dan ketentuan</a> yang berlaku dari rentalin
                       </label>
                     </div>
-                    <button type='button' onClick={() => handleSubmit()} className='btn-primary w-full' disabled={checkDisabled()}>CHECKOUT</button>
+                    <button type='button' onClick={() => handleSubmit()} className='btn-primary w-full' disabled={checkDisabled()}>
+                      <Icon icon={IconsCollection.rent} className='text-2xl'/>
+                      CHECKOUT
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
             :
-            <div className='py-10 flex items-center justify-center'>
+            <div className='fixed top-0 left-0 w-screen h-screen bg-black/20 cursor-progress pointer-events-none flex items-center justify-center'>
               <Loading />
             </div>
           }

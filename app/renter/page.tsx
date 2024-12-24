@@ -1,7 +1,8 @@
-import DashboardPage from "@@/lib/dashboard/DashboardPage"
+
 import { headers } from "next/headers";
 
 import type { Metadata } from 'next'
+import DashboardPage from "@@/lib/renter-dashboard/view/DashboardPage";
  
 export const metadata: Metadata = {
   title: 'Dashboard',

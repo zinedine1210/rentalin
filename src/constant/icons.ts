@@ -43,5 +43,6 @@ export const IconsCollection: {[key: string]: string} = {
     'search': 'lets-icons:search-duotone',
     'condition': 'mdi:shape',
     'promo': 'lsicon:badge-promotion-outline',
-    'info': 'typcn:info-outline'
+    'info': 'typcn:info-outline',
+    'rent': 'map:car-rental'
 }
