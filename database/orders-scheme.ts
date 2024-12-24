@@ -3,11 +3,13 @@ export interface OrderPayload {
   renter_id: number
   usage_id: number
   armada_id: number
-  usage_location: string
-  delivery_method: string
+  usage_location: 'dalam kota' | 'luar kota'
+  usage_price: number
+  delivery_method: 'ambil sendiri' | 'diantar'
   delivery_address: string
   delivery_price: number
   start_date: string
+  request: string
   duration: number
   total_price: number
   status: 'pending' | 'accepted' | 'completed' | 'rejected' | 'onrent'
@@ -21,12 +23,14 @@ export const SQL_orders = `
     usage_id INTEGER,
     armada_id INTEGER NOT NULL,
     usage_location TEXT CHECK(usage_location IN ('dalam kota', 'luar kota')),
+    usage_price REAL NOT NULL CHECK(usage_price >= 0) DEFAULT 0,
     delivery_method TEXT CHECK(delivery_method IN ('ambil sendiri', 'diantar')),
     delivery_address TEXT NOT NULL,
-    delivery_price REAL NOT NULL CHECK(delivery_price >= 0),
+    delivery_price REAL NOT NULL CHECK(delivery_price >= 0) DEFAULT 0,
     start_date DATETIME NOT NULL,
     duration INTEGER NOT NULL,
     total_price REAL NOT NULL CHECK(total_price >= 0),
+    request TEXT,
     status TEXT CHECK(status IN ('pending', 'accepted', 'completed', 'rejected' | 'onrent')) DEFAULT 'pending',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (unit_id) REFERENCES units(id),
@@ -44,12 +48,14 @@ export const ordersData: OrderPayload[] = [
     usage_id: 1,
     armada_id: 1,
     usage_location: 'dalam kota',
+    usage_price: 0,
     delivery_address: 'ajkjaksa',
     delivery_method: 'ambil sendiri',
     delivery_price: 20000,
     start_date: '12-10-2020',
     duration: 1,
     total_price: 20000000,
-    status: 'pending'
+    status: 'pending',
+    request: 'mohon diantar'
   }
 ];

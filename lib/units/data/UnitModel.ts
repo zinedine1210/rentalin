@@ -25,7 +25,14 @@ export interface UnitType {
         partner_email: string
         partner_address: string
     }
+    armada: {
+        armada_name: string,
+        armada_location: string,
+        armada_embed_link: string,
+        armada_location_summary: string
+    }
     category_title: string
+    category_icon: string
 }
 
 export class UnitModel {
@@ -48,7 +55,12 @@ export class UnitModel {
     public partner_phone: string
     public partner_email: string
     public partner_address: string
+    public armada_name: string
+    public armada_location: string
+    public armada_embed_link: string
+    public armada_location_summary: string
     public category_title: string
+    public category_icon: string
     public descriptionSubstring: string
 
     constructor(props: UnitType) {
@@ -71,7 +83,12 @@ export class UnitModel {
         this.partner_phone = props.partner.partner_phone
         this.partner_email = props.partner.partner_email
         this.partner_address = props.partner.partner_address
+        this.armada_name = props.armada.armada_name
+        this.armada_location = props.armada.armada_location
+        this.armada_embed_link = props.armada.armada_embed_link
+        this.armada_location_summary = props.armada.armada_location_summary
         this.category_title = props.category_title
+        this.category_icon = props.category_icon
         this.descriptionSubstring = props.description.length > 100 ? props.description.substring(0, 100) + "..." : props.description
     }
 

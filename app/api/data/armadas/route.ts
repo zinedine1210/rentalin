@@ -84,8 +84,8 @@ export async function POST(request: Request) {
     const body: ArmadaPayload = await request.json();
 
     const stmt = db.prepare(`
-      INSERT INTO armadas (name, location, location_summary)
-      VALUES (?, ?, ?)
+      INSERT INTO armadas (name, location, location_summary, embed_link)
+      VALUES (?, ?, ?, ?)
     `);
     const result = stmt.run(
       body.name,

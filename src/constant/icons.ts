@@ -42,5 +42,6 @@ export const IconsCollection: {[key: string]: string} = {
     'phone': 'ic:twotone-phone',
     'search': 'lets-icons:search-duotone',
     'condition': 'mdi:shape',
-    'promo': 'lsicon:badge-promotion-outline'
+    'promo': 'lsicon:badge-promotion-outline',
+    'info': 'typcn:info-outline'
 }

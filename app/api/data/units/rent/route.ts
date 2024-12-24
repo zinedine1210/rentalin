@@ -86,7 +86,9 @@ export async function GET(request: Request) {
         armadas.name AS armada_name,
         armadas.location AS armada_location,
         armadas.location_summary AS armada_location_summary,
-        cat.title AS category_title
+        armadas.embed_link AS armada_embed_link,
+        cat.title AS category_title,
+        cat.icon AS category_icon
       FROM units u
         INNER JOIN partners ON u.partner_id = partners.id
         INNER JOIN categories AS cat ON u.category_id = cat.id
@@ -120,6 +122,7 @@ export async function GET(request: Request) {
       category_id: item.category_id,
       file_picture_id: item.file_picture,
       partner_id: item.partner_id,
+      armada_id: item.armada_id,
       name_unit: item.name_unit,
       description: item.description,
       price: item.price,
@@ -141,9 +144,11 @@ export async function GET(request: Request) {
       armada: {
         armada_name: item.armada_name,
         armada_location: item.armada_location,
+        armada_embed_link: item.armada_embed_link,
         armada_location_summary: item.armada_location_summary
       },
-      category_title: item.category_title
+      category_title: item.category_title,
+      category_icon: item.category_icon
     }))
   
     return NextResponse.json({

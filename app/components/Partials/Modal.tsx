@@ -41,7 +41,7 @@ export default function Modal({
     <div ref={dropdownRef} className="bg-black/50 dark:bg-black/60 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%)] max-h-full">
       <div className="relative pt-5 w-full max-h-full">
         <div className="w-full flex items-center justify-center overflow-y-auto h-full">
-          <div className={`${mount ? 'visible opacity-100': 'invisible opacity-0'} transition-all duration-500 ease-in-out block w-full md:w-fit min-w-56 max-w-6xl`}>
+          <div className={`${mount ? 'visible opacity-100': 'invisible opacity-0'} transition-all duration-500 ease-in-out block w-full md:w-full min-w-56 max-w-7xl`}>
             <div className="p-8 rounded-md shadow-md bg-white dark:bg-dark relative">
               {
                 children

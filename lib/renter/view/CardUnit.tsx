@@ -14,7 +14,6 @@ export default function CardUnit({
 
     const hargaAccumulation = () => {
         const promoUse: UsagePriceModel = usagePrice
-        console.log(promoUse)
         if(promoUse){
             return (
                 <div>

@@ -187,7 +187,7 @@ export default function MainView2({
             </div>
         </div>
 
-        <ModalForm filter={filter} />
+        <ModalForm filter={filter} usagePrice={data.usagePrice[0]}/>
     </section>
   )
 }

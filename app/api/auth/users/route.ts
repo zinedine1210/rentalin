@@ -99,10 +99,8 @@ export async function POST(request: Request) {
       file_driver_license: body.file_driver_license,
       file_profile_ig: body.file_profile_ig,
       address: body.address,
-      birth_date: body.birth_date,
       danger_phone: body.danger_phone,
       full_name: body.full_name,
-      gender: body.gender,
       role: body.role,
       status: body.status,
     });

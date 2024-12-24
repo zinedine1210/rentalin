@@ -5,6 +5,7 @@ export interface ArmadaType {
     name: string
     location: string
     location_summary: string
+    embed_link: string
     created_at: string
     updated_at: string
 }
@@ -14,6 +15,7 @@ export class ArmadaModel {
     public name: string
     public location: string
     public location_summary: string
+    public embed_link: string
     public created_at: string
     public updated_at: string
 
@@ -22,6 +24,7 @@ export class ArmadaModel {
         this.name = props.name
         this.location = props.location
         this.location_summary = props.location_summary
+        this.embed_link = props.embed_link
         this.created_at = props.created_at
         this.updated_at = props.updated_at
     }

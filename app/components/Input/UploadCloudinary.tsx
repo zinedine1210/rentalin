@@ -29,13 +29,15 @@ export default function UploadCloudinary({
     <div className="w-full">
         {
             publicId ? 
-                <CldImage
-                    width="960"
-                    height="600"
-                    src={publicId}
-                    sizes="100vw"
-                    alt="Description of my image"
-                />
+                <div className="w-full h-56 bg-center overflow-hidden">
+                    <CldImage
+                        width="960"
+                        height="600"
+                        src={publicId}
+                        sizes="100vw"
+                        alt="Description of my image"
+                    />
+                </div>
             :
                 <CldUploadButton
                     className={"border border-primary-200 duration-300 ease-in-out hover:border-primary-500 w-full p-5 rounded-md border-dashed flex items-center justify-center"}

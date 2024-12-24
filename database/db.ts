@@ -97,8 +97,8 @@ if(!dbExists){
   seedTable<ArmadaPayload>(
     'armadas',
     armadasData,
-    `INSERT OR IGNORE INTO armadas (name, location, location_summary) 
-     VALUES (?, ?, ?)`
+    `INSERT OR IGNORE INTO armadas (name, location, location_summary, embed_link) 
+     VALUES (?, ?, ?, ?)`
   );
   seedTable<PartnerPayload>(
     'partners',
