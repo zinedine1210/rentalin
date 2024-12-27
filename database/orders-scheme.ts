@@ -31,7 +31,7 @@ export const SQL_orders = `
     duration INTEGER NOT NULL,
     total_price REAL NOT NULL CHECK(total_price >= 0),
     request TEXT,
-    status TEXT CHECK(status IN ('pending', 'accepted', 'completed', 'rejected' | 'onrent')) DEFAULT 'pending',
+    status TEXT CHECK(status IN ('pending', 'accepted', 'completed', 'rejected' , 'onrent')) DEFAULT 'pending',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (unit_id) REFERENCES units(id),
     FOREIGN KEY (usage_id) REFERENCES usage_prices(id),

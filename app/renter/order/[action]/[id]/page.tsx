@@ -4,8 +4,8 @@ import type { Metadata, ResolvingMetadata } from 'next'
 import NotFound from "@@/app/not-found";
 import { capitalizeFirstLetter } from "@@/src/utils/script";
 import { PagesType } from "@@/lib/pages/data/PagesModel";
-import { PartnerType } from "@@/lib/partner/data/PartnerModel";
-import PartnerCreatePages from "@@/lib/partner/view/PartnerCreatePages";
+import OrderCreatePages from "@@/lib/renter-orders/view/OrderCreatePages";
+import { OrderType } from "@@/lib/renter-orders/data/OrderModel";
  
 type Props = {
   params: Promise<{ id: string; action: "create" | "update" | "view" }>
@@ -27,19 +27,19 @@ export async function generateMetadata(
     if(!response.success){
       return {
         title: 'Not Found',
-        description: 'client not found'
+        description: 'order not found'
       }
     }
   
     const responseData = response.data
     return {
       title: capitalizeFirstLetter(action) + " " +responseData.title,
-      description: `Page to ${capitalizeFirstLetter(action)} ${responseData.title} partner`
+      description: `Page to ${capitalizeFirstLetter(action)} ${responseData.title} order`
     }
   }
   return {
-    title: 'Create partner',
-    description: 'Create a new partner'
+    title: 'Create order',
+    description: 'Create a new order'
   }
 }
 
@@ -50,13 +50,13 @@ const Page = async ({
   const { id, action } = await params;
 
   // Fetch data only for "update" or "view"
-  let getData: PartnerType | null = null;
+  let getData: OrderType | null = null;
 
   if (action == 'view') {
     if (!id) return <NotFound /> // ID required for "update" or "view"
-    const response: ApiResponse<PartnerType> = await fetchClient(
+    const response: ApiResponse<OrderType> = await fetchClient(
       "GET",
-      `/data/partners/${id}`
+      `/data/order/${id}`
     );
 
     if (!response.success || !response.data) {
@@ -68,10 +68,8 @@ const Page = async ({
 
   // Render based on action
   switch (action) {
-    case "create":
-      return <PartnerCreatePages action="create" />;
-    case "view":
-      return <PartnerCreatePages action="view" data={getData} />;
+    case "update":
+      return <OrderCreatePages action="update" data={getData} />;
     default:
       return <NotFound />
   }

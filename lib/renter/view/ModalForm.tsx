@@ -180,13 +180,15 @@ export default function ModalForm({
       setFormData({
         ...formData,
         delivery_price: 0,
-        delivery_method: 'ambil sendiri'
+        delivery_method: 'ambil sendiri',
+        delivery_address: ''
       })
     }else{
       setFormData({
         ...formData,
         delivery_price: 0,
-        delivery_method: 'diantar'
+        delivery_method: 'diantar',
+        delivery_address: ''
       })
     }
   }
@@ -383,7 +385,7 @@ export default function ModalForm({
                       </div>
                       <p className='text-red-500 text-sm font-light'>*Biaya antar akan dihitung oleh admin setelah checkout</p>
                       <div className='w-full mt-2'>
-                        <textarea name="delivery_address" id="delivery_address" className='input-style w-full' onChange={handleInput}></textarea>
+                        <textarea disabled={formData.delivery_method !== 'diantar'} value={formData.delivery_address} name="delivery_address" id="delivery_address" className='input-style w-full' onChange={handleInput}></textarea>
                       </div>
                     </div>
                   </div>

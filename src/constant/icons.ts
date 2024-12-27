@@ -44,5 +44,8 @@ export const IconsCollection: {[key: string]: string} = {
     'condition': 'mdi:shape',
     'promo': 'lsicon:badge-promotion-outline',
     'info': 'typcn:info-outline',
-    'rent': 'map:car-rental'
+    'rent': 'map:car-rental',
+    'admincheck': 'ix:star-list',
+    'payment': 'streamline:payment-10',
+    'blank': 'fluent:box-search-16-filled'
 }

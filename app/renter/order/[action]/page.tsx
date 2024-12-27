@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation"
 
 const Page = () => {
-    redirect('/admin/partner/create/any')
+    redirect('/renter/order/create/any')
     return ""
 }
 

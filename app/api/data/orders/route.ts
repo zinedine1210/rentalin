@@ -1,8 +1,6 @@
 // app/api/posts/list/route.ts
 import { NextResponse } from 'next/server';
 import db, { CountResult } from '@@/database/db';
-import { verifyToken } from '@@/middleware';
-import { JwtPayload } from 'jsonwebtoken';
 import { OrderPayload } from '@@/database/orders-scheme';
 
 const nameTable: string = 'orders'
@@ -12,6 +10,7 @@ export async function GET(request: Request) {
   
   const page = parseInt(searchParams.get('page') || '1', 10);
   const limit = parseInt(searchParams.get('limit') || '10', 10);
+  const statusOrder = searchParams.get('status')
   
   const filters: Record<string, string | string[]> = {};
 
@@ -29,9 +28,9 @@ export async function GET(request: Request) {
   if (Object.keys(filters).length > 0) {
     const filterConditions = Object.entries(filters).map(([key, value]) => {
       if (Array.isArray(value)) {
-        return `${key} IN (${value.map(() => '?').join(', ')})`;
+        return `o.${key} IN (${value.map(() => '?').join(', ')})`;
       } else {
-        return `${key} LIKE ?`;
+        return `o.${key} LIKE ?`;
       }
     });
 
@@ -41,7 +40,7 @@ export async function GET(request: Request) {
     );
   }
 
-  const totalTableQuery = `SELECT COUNT(*) as count FROM ${nameTable} ${whereClause}`;
+  const totalTableQuery = `SELECT COUNT(*) as count FROM ${nameTable} AS o ${whereClause}`;
   const totalTable = db.prepare(totalTableQuery);
   const { count } = totalTable.get(...params) as CountResult;
 
@@ -57,12 +56,16 @@ export async function GET(request: Request) {
       file.uploaded_at AS file_uploaded_at,
       u.name_unit AS unit_name,
       ar.location AS armada_location,
-      ar.embed_link AS armada_embed_link
+      ar.embed_link AS armada_embed_link,
+      usage.name AS usage_name,
+      usage.price_multiplier AS usage_price_multiplier,
+      usage.operator_type AS usage_operator_type
     FROM ${nameTable} o
       INNER JOIN units AS u ON o.unit_id = u.id
       INNER JOIN users AS renter ON o.renter_id = renter.id
       INNER JOIN armadas AS ar ON o.armada_id = ar.id
       INNER JOIN uploads AS file ON u.file_picture = file.id
+      INNER JOIN usage_prices AS usage ON o.usage_id = usage.id
     ${whereClause}
     LIMIT ? OFFSET ?
   `);
