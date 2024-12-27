@@ -237,23 +237,29 @@ export default function ModalForm({
     };
 
   const handleSubmit = async () => {
-    console.log(userData, formData)
     // Upload dulu foto2 usernya
     setLoading(true)
-    const payloadUser = JSON.parse(JSON.stringify(userData))
+    let payloadUser = JSON.parse(JSON.stringify(userData))
 
-    Object.keys(fileList).map(async (key: string) => {
-      const uploadfile: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList[key])
-      const responseData = uploadfile.data
-      if(responseData){
-        payloadUser[key] = responseData.id
-      }
-    })
+    // upload identity
+    const uploadfileidentity: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList.file_identity)
+    const resUploadfileidentity = uploadfileidentity.data
+    payloadUser.file_identity = resUploadfileidentity.id
+
+    // upload profile ig
+    const uploadProfileIG: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList.file_profile_ig)
+    const resUploadFileProfileIG = uploadProfileIG.data
+    payloadUser.file_profile_ig = resUploadFileProfileIG.id
+
+    // upload driver license
+    const uploadDriverLicense: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList.file_driver_license)
+    const resUploadDriverLicense = uploadDriverLicense.data
+    payloadUser.file_driver_license = resUploadDriverLicense.id
+
     // setting value yang dibutuhkan
     payloadUser.username = userData.email
     payloadUser.password = '$2b$10$AqWluutcAOhyDuADHoMkhuRTVLPAN8LgLJFJ332jbNwC4V9v1b1LC'
-    // setUserData(({ ...userData, username: userData.email, password: '$2b$10$AqWluutcAOhyDuADHoMkhuRTVLPAN8LgLJFJ332jbNwC4V9v1b1LC' }))
-
+    
     const createUser: ApiResponse<UserType> = await fetchClient('POST', `/auth/users`, payloadUser)
     const responseCreateUser: UserType = createUser.data
     if(!createUser.success || !responseCreateUser){

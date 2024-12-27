@@ -70,18 +70,6 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const tokenHeaders = request.headers.get('Authorization')
-  const token = tokenHeaders ? tokenHeaders?.split(" ")[1] : null
-  const decodedUserVerify: JwtPayload | null = token ? await verifyToken(token) : null;
-
-  if(!token || !decodedUserVerify){
-    return NextResponse.json({
-      success: false,
-      message: "Unauthorize Access",
-      data: null
-    }, { status: 401 })
-  }
-
   try {
     const body: UploadPayload = await request.json();
     const { file_name, file_path, file_type, public_id } = body

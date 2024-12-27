@@ -47,8 +47,22 @@ export async function GET(request: Request) {
 
   const totalTablePages = Math.ceil(count / limit);
   const stmt = db.prepare(`
-    SELECT *
-    FROM ${nameTable}
+    SELECT 
+      o.*,
+      file.id AS file_id,
+      file.file_name,
+      file.file_path,
+      file.file_type, 
+      file.created_by AS file_created_by,
+      file.uploaded_at AS file_uploaded_at,
+      u.name_unit AS unit_name,
+      ar.location AS armada_location,
+      ar.embed_link AS armada_embed_link
+    FROM ${nameTable} o
+      INNER JOIN units AS u ON o.unit_id = u.id
+      INNER JOIN users AS renter ON o.renter_id = renter.id
+      INNER JOIN armadas AS ar ON o.armada_id = ar.id
+      INNER JOIN uploads AS file ON u.file_picture = file.id
     ${whereClause}
     LIMIT ? OFFSET ?
   `);
@@ -70,20 +84,10 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const tokenHeaders = request.headers.get('Authorization')
-  const token = tokenHeaders ? tokenHeaders?.split(" ")[1] : null
-  const decodedUserVerify: JwtPayload | null = token ? await verifyToken(token) : null;
-
-  if(!token || !decodedUserVerify){
-    return NextResponse.json({
-      success: false,
-      message: "Unauthorize Access",
-      data: null
-    }, { status: 401 })
-  }
 
   try {
     const body: OrderPayload = await request.json();
+
 
     const stmt = db.prepare(`
       INSERT INTO ${nameTable} (unit_id, renter_id, usage_id, armada_id, usage_location, delivery_method, delivery_address, delivery_price, start_date, duration, total_price, status)
