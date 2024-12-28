@@ -17,7 +17,7 @@ export interface OrderType {
     duration: number;
     total_price: number;
     request: string;
-    status: "pending" | "accepted" | "completed" | "rejected" | "onrent";
+    status: "pending" | "accepted" | "completed" | "rejected" | "onrent" | "payment"
     created_at: Date;
     file_id: number;
     file_name: string;

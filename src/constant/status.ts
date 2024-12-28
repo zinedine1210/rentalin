@@ -45,7 +45,8 @@ export const statusOrders = {
     'accepted': '#32a852',
     'completed': '#10b981',
     'rejected': '#ef4444',
-    'onrent': '#3b82f6'
+    'onrent': '#3b82f6',
+    'payment': '#ff00bf'
 }
 
 

@@ -1,5 +1,6 @@
 import { formatCurrency } from "@@/src/utils/script"
-import { OrderModel } from "../data/OrderModel"
+import { OrderModel, OrderType } from "../data/OrderModel"
+import { ApiResponse, fetchClient } from "@@/src/hooks/CollectionAPI"
 
 export default function CardOrder({
     item
@@ -22,6 +23,18 @@ export default function CardOrder({
         const totalAcc = item.delivery_price + item.usage_price + hargaHarian
 
         return <h1 className="font-bold text-xl">{formatCurrency(totalAcc + tax, true)}</h1>
+    }
+
+    const handlePayment = async () => {
+        const payload = {
+            status: 'payment'
+        }
+        const result: ApiResponse<OrderType> = await fetchClient('PUT', '/data/orders/'+item.id, payload)
+        const responseData = result.data
+        if(result.success){
+            console.log(responseData)
+            
+        }
     }
   return (
     <div className='bg-white rounded-md shadow-md'>
@@ -168,6 +181,15 @@ export default function CardOrder({
                 </div>
             </div>
         </div>
+        {
+            item.status == 'accepted' && (
+                <footer className="border-t py-3 px-5 flex items-center justify-end">
+                    <div className="flex items-center gap-5">
+                        <button type="button" className="btn-primary" onClick={() => handlePayment()}>Selesaikan Pembayaran</button>
+                    </div>
+                </footer>
+            )
+        }
     </div>
   )
 }

@@ -62,7 +62,6 @@ const Page = async ({
     if (!response.success || !response.data) {
       return <NotFound />
     }
-    console.log(response.data)
     getData = response.data;
   }
 

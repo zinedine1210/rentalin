@@ -12,7 +12,7 @@ export interface OrderPayload {
   request: string
   duration: number
   total_price: number
-  status: 'pending' | 'accepted' | 'completed' | 'rejected' | 'onrent'
+  status: 'pending' | 'accepted' | 'completed' | 'rejected' | 'onrent' | 'payment'
 }
 
 export const SQL_orders = `
@@ -31,7 +31,7 @@ export const SQL_orders = `
     duration INTEGER NOT NULL,
     total_price REAL NOT NULL CHECK(total_price >= 0),
     request TEXT,
-    status TEXT CHECK(status IN ('pending', 'accepted', 'completed', 'rejected' , 'onrent')) DEFAULT 'pending',
+    status TEXT CHECK(status IN ('pending', 'accepted', 'completed', 'rejected' , 'onrent', 'payment')) DEFAULT 'pending',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (unit_id) REFERENCES units(id),
     FOREIGN KEY (usage_id) REFERENCES usage_prices(id),

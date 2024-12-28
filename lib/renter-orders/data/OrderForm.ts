@@ -12,7 +12,7 @@ export class OrderForm {
     public duration: number
     public total_price: number
     public request: string
-    public status:'' | 'pending' | 'accepted' | 'completed' | 'rejected' | 'onrent'
+    public status:'' | 'pending' | 'accepted' | 'completed' | 'rejected' | 'onrent' | 'payment'
     public usage_price: number
     public delivery_price: number
 

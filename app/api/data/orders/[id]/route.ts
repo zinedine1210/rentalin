@@ -80,6 +80,69 @@ export async function GET(
   }
 }
 
+export async function PUT(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const tokenHeaders = request.headers.get('Authorization')
+  const token = tokenHeaders ? tokenHeaders?.split(" ")[1] : null
+  const decodedUserVerify: JwtPayload | null = token ? await verifyToken(token) : null;
+
+  if(!token || !decodedUserVerify){
+    return NextResponse.json({
+      success: false,
+      message: "Unauthorize Access",
+      data: null
+    }, { status: 401 })
+  }
+
+  const id = parseInt(params.id, 10);
+  
+  if (isNaN(id)) {
+    return NextResponse.json({ success: false, message: "Invalid ID", data: null }, { status: 400 });
+  }
+
+  const body = await request.json();
+
+  try {
+    // Cek apakah data ada
+    const data: any = db.prepare(`SELECT * FROM ${nameTable} WHERE id = ?`).get(id);
+    if (!data) {
+      return NextResponse.json(
+        { success: false, message: "Data not found", data: null },
+        { status: 404 }
+      );
+    }
+
+    const stmt = db.prepare(`
+      UPDATE ${nameTable}
+      SET 
+        delivery_price = @delivery_price,
+        usage_price = @usage_price,
+        status = @status
+      WHERE id = @id
+    `);
+
+    const result = stmt.run({ ...body, id });
+
+    if (result.changes > 0) {
+      return NextResponse.json({
+        success: true,
+        message: "Data updated successfully",
+        data: { id },
+      }, { status: 200 });
+    }
+
+    return NextResponse.json(
+      { success: false, message: "Failed to update data", data: null },
+      { status: 500 }
+    );
+  } catch (error: any) {
+    console.error("Error updating data:", error.message);
+    return NextResponse.json({ success: false, message: error.message, data: null }, { status: 500 });
+  }
+}
+
 
 export async function DELETE(
   request: Request,

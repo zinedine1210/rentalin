@@ -8,6 +8,7 @@ import { OrderForm } from "../data/OrderForm"
 import UserVerifikasi from "./UserVerifikasi"
 import { Icon } from "@iconify/react"
 import { IconsCollection } from "@@/src/constant/icons"
+import OrderDetail from "./OrderDetail"
 
 export default function OrderCreatePages({
   action,
@@ -21,10 +22,14 @@ export default function OrderCreatePages({
   const [datalist, setDataList] = useState<OrderForm>(data ? new OrderForm(data): new OrderForm())
   const [loading, setLoading] = useState<boolean>(false)
   const [tab, setTab] = useState<number>(1)
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (type: boolean) => {
     setLoading(true)
-    e.preventDefault()
     let result: ApiResponse<OrderType>
+    if(datalist.delivery_method == 'diantar' && datalist.delivery_price == 0) return Notify('Please input delivery price', 'info', 3000)
+    if(datalist.usage_location == 'luar kota' && datalist.usage_price == 0) return Notify('Please input usage price', 'info', 3000)
+    if(type){
+      setDataList({ ...datalist, status: 'accepted'})
+    }
     if(action == "update"){
       result = await fetchClient('PUT', '/data/orders/'+data.id, datalist)
     }
@@ -66,17 +71,17 @@ export default function OrderCreatePages({
     return data
   }
 
-  console.log(data)
 
   return (
     <section className="p-5 shadow-md rounded-md bg-white">
       <header className="flex items-center justify-between py-2">
         <div className="flex items-center gap-2">
           <h1 className="text-xl">Order ID: <span className="font-semibold">{data.id}</span></h1>
+          <div className="badge-zinc uppercase">{data.status}</div>
         </div>
         <div className="flex items-center gap-5">
-          <button className="btn-primary" type="button"><Icon icon={IconsCollection.check}/>Accept</button>
-          <button className="btn-secondary" type="button"><Icon icon={IconsCollection.close}/>Reject</button>
+          <button className="btn-primary" type="button" onClick={() => handleSubmit(true)}><Icon icon={IconsCollection.check}/>Accept</button>
+          <button className="btn-secondary" type="button" onClick={() => handleSubmit(false)}><Icon icon={IconsCollection.close}/>Reject</button>
         </div>
       </header>
       <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
@@ -94,6 +99,11 @@ export default function OrderCreatePages({
         {
           tab == 1 && (
             <UserVerifikasi renter_id={data.renter_id}/>
+          )
+        }
+        {
+          tab == 2 && (
+            <OrderDetail item={data} dataList={datalist} handleChange={(value, target) => handleChange(value, target)}/>
           )
         }
       </div>

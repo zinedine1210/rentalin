@@ -15,10 +15,10 @@ export default function OrderPages() {
   const [data, setData] = useState<OrderModel[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
-  const [tab, setTab] = useState<"pending" | "accepted" | "completed" | "rejected" | "onrent">('pending')
+  const [tab, setTab] = useState<"pending" | "accepted" | "completed" | "rejected" | "onrent" | 'payment'>('pending')
 
 
-  const handleSubmit = async (tabOrder: "pending" | "accepted" | "completed" | "rejected" | "onrent") => {
+  const handleSubmit = async (tabOrder: "pending" | "accepted" | "completed" | "rejected" | "onrent" | 'payment') => {
     setLoading(true)
     const route: string = '/data/orders'
     let parameter = `?page=${page}&limit=${display}&status=${tabOrder}`
@@ -42,14 +42,18 @@ export default function OrderPages() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleTab = (value: "pending" | "accepted" | "completed" | "rejected" | "onrent") => {
+  const handleTab = (value: "pending" | "accepted" | "completed" | "rejected" | "onrent" | 'payment') => {
     setTab(value)
     handleSubmit(value)
   }
 
   const subtitle = {
     'pending': 'Sebentar ya admin lagi cek dokumen yang anda kirim nih',
-    'accepted': 'Lakukan pembayaran duls ges'
+    'accepted': 'Lakukan pembayaran duls ges',
+    'payment': 'Pembayaranmu akan dicek dulu ya ama Admin',
+    'onrent': 'Selamat menikmati enjoy our unitt',
+    'rejected': 'Periksa kembali dokumen dan data yang kamu kirim ya, kami belum bisa menerima request kamu',
+    'completed': 'Terima kasih sudah mempercayai rentalin sebagai jasa kamu'
   }
 
   const nothingSubtitle = {
@@ -60,6 +64,22 @@ export default function OrderPages() {
     'accepted': {
       title: 'Belum ada orderanmu yang diterima',
       subtitle: 'Periksa kembali data dokumenmu yaa untuk lolos verifikasi oleh admin'
+    },
+    'payment': {
+      title: 'Belum ada pembayaran yang masuk',
+      subtitle: 'Coba dicek lagi atau hubungi CS kita yaa'
+    },
+    'onrent': {
+      title: 'Belum ada yang kamu rental',
+      subtitle: 'Ayo gaskeun langsung checkout'
+    },
+    'rejected': {
+      title: '',
+      subtitle: ''
+    },
+    'completed': {
+      title: '',
+      subtitle: ''
     }
   }
 
@@ -82,6 +102,30 @@ export default function OrderPages() {
                 <button type="button" onClick={() => handleTab('accepted')} className={`${tab == 'accepted' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
                     <Icon className="text-2xl" icon={IconsCollection.payment}/>
                     Menunggu Pembayaran
+                </button>
+            </li>
+            <li>
+                <button type="button" onClick={() => handleTab('payment')} className={`${tab == 'payment' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
+                    <Icon className="text-2xl" icon={IconsCollection.verifikasi}/>
+                    Verifikasi Pembayaran
+                </button>
+            </li>
+            <li>
+                <button type="button" onClick={() => handleTab('onrent')} className={`${tab == 'onrent' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
+                    <Icon className="text-2xl" icon={IconsCollection.onrent}/>
+                    Lagi dirental
+                </button>
+            </li>
+            <li>
+                <button type="button" onClick={() => handleTab('rejected')} className={`${tab == 'rejected' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
+                    <Icon className="text-2xl" icon={IconsCollection.reject}/>
+                    Ditolak
+                </button>
+            </li>
+            <li>
+                <button type="button" onClick={() => handleTab('completed')} className={`${tab == 'completed' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
+                    <Icon className="text-2xl" icon={IconsCollection.completed}/>
+                    Selesai
                 </button>
             </li>
         </ul>
