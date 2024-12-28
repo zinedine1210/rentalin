@@ -33,7 +33,7 @@ const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
         priority
         width={maxWidth} // Atur lebar maksimum
         height={maxHeight} // Atur tinggi maksimum
-        className="object-contain w-full h-full" // Gambar akan menyesuaikan ukuran dengan proporsi
+        className="object-contain w-full h-full mx-auto text-center" // Gambar akan menyesuaikan ukuran dengan proporsi
       />
     </div>
   );

@@ -1,7 +1,8 @@
 import type { Metadata, ResolvingMetadata } from 'next'
 import { getPageMetadata } from "../utils";
 import { PagesModel } from "@@/lib/pages/data/PagesModel";
-import OrderPages from '@@/lib/renter-orders/view/OrderPages';
+import PartnerPages from '@@/lib/partner/view/PartnerPages';
+import AdminOrderPages from '@@/lib/renter-orders/view/AdminOrderPages';
  
 type Props = {
   params: Promise<{}>
@@ -11,7 +12,7 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const result = await getPageMetadata('renter,order') as PagesModel
+  const result = await getPageMetadata('admin,order') as PagesModel
   return {
     title: result.title,
     description: result.meta_description,
@@ -27,7 +28,7 @@ export async function generateMetadata(
 
 
 const Page = () => {
-    return <OrderPages />
+    return <AdminOrderPages />
 }
 
 export default Page

@@ -134,4 +134,32 @@ export const pagesData: any[] = [
     page_order: 8,
     created_by: 1,
   },
+  {
+    title: 'Renter OnBoarding',
+    slug: 'renter-onboarding',
+    content: '<h1>Renter OnBoarding</h1>',
+    featured_image: 'https://example.com/renter-onboarding-image.jpg',
+    meta_title: 'Renter OnBoarding',
+    meta_description: 'Onboarding for renters.',
+    meta_keywords: 'renter, onboarding',
+    seo_heading: 'Renter OnBoarding',
+    canonical_url: 'https://mycompany.com/renter',
+    is_published: 1,
+    page_order: 9,
+    created_by: 1
+  },
+  {
+    title: 'Order History',
+    slug: 'order-history',
+    content: '<h1>Order History</h1>',
+    featured_image: 'https://example.com/order-history-image.jpg',
+    meta_title: 'Order History',
+    meta_description: 'View order history.',
+    meta_keywords: 'order, history',
+    seo_heading: 'Order History',
+    canonical_url: 'https://mycompany.com/renter/order',
+    is_published: 1,
+    page_order: 10,
+    created_by: 1
+  }
 ];

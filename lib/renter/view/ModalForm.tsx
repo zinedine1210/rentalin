@@ -420,7 +420,7 @@ export default function ModalForm({
                   <p className='font-light text-sm mb-2'>Informasikan “Penggunaan Luar Kota: Bodetabek/Yogyakarta/Kota-kota Lainnya“</p>
 
                   <div className='w-full mt-2'>
-                    <textarea name="request" id="request" placeholder='Ketikan permintaan khususmu...' className='input-style w-full' onChange={handleInput}></textarea>
+                    <textarea value={formData.request} name="request" id="request" placeholder='Ketikan permintaan khususmu...' className='input-style w-full' onChange={handleInput}></textarea>
                   </div>
                 </div>
                 <div className='border p-5 rounded-md'>

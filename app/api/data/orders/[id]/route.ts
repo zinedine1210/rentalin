@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { JwtPayload } from 'jsonwebtoken';
 import { verifyToken } from '@@/middleware';
 
-const nameTable: string = 'units'
+const nameTable: string = 'orders'
 
 export async function GET(
   req: Request,
@@ -25,14 +25,30 @@ export async function GET(
     }
 
     // Query database
-    const data: any = db
-      .prepare(`
-        SELECT *
-        FROM ${nameTable}
-        WHERE
-          id = ?
-      `)
-    .get(Number(id));
+    const stmt = db.prepare(`
+      SELECT 
+        o.*,
+        file.id AS file_id,
+        file.file_name,
+        file.file_path,
+        file.file_type, 
+        file.created_by AS file_created_by,
+        file.uploaded_at AS file_uploaded_at,
+        u.name_unit AS unit_name,
+        ar.location AS armada_location,
+        ar.embed_link AS armada_embed_link,
+        usage.name AS usage_name,
+        usage.price_multiplier AS usage_price_multiplier,
+        usage.operator_type AS usage_operator_type
+      FROM ${nameTable} o
+        INNER JOIN units AS u ON o.unit_id = u.id
+        INNER JOIN users AS renter ON o.renter_id = renter.id
+        INNER JOIN armadas AS ar ON o.armada_id = ar.id
+        INNER JOIN uploads AS file ON u.file_picture = file.id
+        INNER JOIN usage_prices AS usage ON o.usage_id = usage.id
+      WHERE o.id = ?
+    `);
+    const data: any = stmt.get(Number(id));
 
     if (!data) {
       return NextResponse.json(

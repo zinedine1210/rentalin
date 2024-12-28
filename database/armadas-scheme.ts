@@ -19,8 +19,8 @@ export const SQL_armadas = `
 
 export const armadasData: ArmadaPayload[] = [
   {
-    name: 'PT Anjas',
-    location: 'KP Gempol Cakung Timur',
+    name: 'PT Kelompok 5 Jaya',
+    location: 'Jl. Nangka Raya No.58 C, RT.7/RW.5, Tj. Bar., Kec. Jagakarsa, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12530',
     location_summary: 'Jakarta Timur',
     embed_link: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.612379940436!2d106.95018648062475!3d-6.18260327783122!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698b2a1452e219%3A0xc99bfba518d141ab!2sFathir%20Cell!5e0!3m2!1sid!2sid!4v1735022289315!5m2!1sid!2sid'
   },

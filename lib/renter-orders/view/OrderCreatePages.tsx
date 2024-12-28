@@ -5,6 +5,9 @@ import { Notify } from "@@/src/utils/script"
 import { useRouter } from "next/navigation"
 import { OrderType } from "../data/OrderModel"
 import { OrderForm } from "../data/OrderForm"
+import UserVerifikasi from "./UserVerifikasi"
+import { Icon } from "@iconify/react"
+import { IconsCollection } from "@@/src/constant/icons"
 
 export default function OrderCreatePages({
   action,
@@ -17,13 +20,11 @@ export default function OrderCreatePages({
   const disabled: boolean = action === 'view' ? true: false
   const [datalist, setDataList] = useState<OrderForm>(data ? new OrderForm(data): new OrderForm())
   const [loading, setLoading] = useState<boolean>(false)
+  const [tab, setTab] = useState<number>(1)
   const handleSubmit = async (e: FormEvent) => {
     setLoading(true)
     e.preventDefault()
     let result: ApiResponse<OrderType>
-    if(action == "create"){
-      result = await fetchClient('POST', '/data/orders', datalist)
-    }
     if(action == "update"){
       result = await fetchClient('PUT', '/data/orders/'+data.id, datalist)
     }
@@ -65,9 +66,38 @@ export default function OrderCreatePages({
     return data
   }
 
+  console.log(data)
+
   return (
-    <section className="p-5">
-      asjaisjaksj k
+    <section className="p-5 shadow-md rounded-md bg-white">
+      <header className="flex items-center justify-between py-2">
+        <div className="flex items-center gap-2">
+          <h1 className="text-xl">Order ID: <span className="font-semibold">{data.id}</span></h1>
+        </div>
+        <div className="flex items-center gap-5">
+          <button className="btn-primary" type="button"><Icon icon={IconsCollection.check}/>Accept</button>
+          <button className="btn-secondary" type="button"><Icon icon={IconsCollection.close}/>Reject</button>
+        </div>
+      </header>
+      <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <ul className="flex flex-wrap -mb-px">
+          <li className="me-2">
+              <button type="button" onClick={() => setTab(1)} className={`inline-block p-4 border-b-2 ${tab == 1 ? 'text-blue-600 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500': 'border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}>User Verifikasi</button>
+          </li>
+          <li className="me-2">
+              <button type="button" onClick={() => setTab(2)} className={`inline-block p-4 border-b-2 ${tab == 2 ? 'text-blue-600 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500': 'border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'}`}>Order Detail</button>
+          </li>
+        </ul>
+      </div>
+
+      <div className="mt-5">
+        {
+          tab == 1 && (
+            <UserVerifikasi renter_id={data.renter_id}/>
+          )
+        }
+      </div>
+
     </section>
   )
 }

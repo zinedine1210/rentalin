@@ -2,15 +2,28 @@
 import { NextResponse } from 'next/server';
 import db, { CountResult } from '@@/database/db';
 import { OrderPayload } from '@@/database/orders-scheme';
+import { JwtPayload } from 'jsonwebtoken';
+import { verifyToken } from '@@/middleware';
 
 const nameTable: string = 'orders'
 
 export async function GET(request: Request) {
+  const tokenHeaders = request.headers.get('Authorization')
+  const token = tokenHeaders ? tokenHeaders?.split(" ")[1] : null
+  const decodedUserVerify: JwtPayload | null = token ? await verifyToken(token) : null;
+
+  if(!token || !decodedUserVerify){
+    return NextResponse.json({
+      success: false,
+      message: "Unauthorize Access",
+      data: null
+    }, { status: 401 })
+  }
+
   const { searchParams } = new URL(request.url);
   
   const page = parseInt(searchParams.get('page') || '1', 10);
   const limit = parseInt(searchParams.get('limit') || '10', 10);
-  const statusOrder = searchParams.get('status')
   
   const filters: Record<string, string | string[]> = {};
 
@@ -23,7 +36,12 @@ export async function GET(request: Request) {
   const offset = (page - 1) * limit;
 
   let whereClause = '';
-  let params: string[] = [];
+  let params: (string | number)[] = [];
+
+  if (decodedUserVerify.role !== 'admin') {
+    whereClause = 'WHERE o.renter_id = ?';
+    params.push(decodedUserVerify.userId);
+  }
 
   if (Object.keys(filters).length > 0) {
     const filterConditions = Object.entries(filters).map(([key, value]) => {
@@ -34,10 +52,10 @@ export async function GET(request: Request) {
       }
     });
 
-    whereClause = 'WHERE ' + filterConditions.join(' AND ');
-    params = Object.values(filters).flatMap(value => 
+    whereClause += (whereClause ? ' AND ' : 'WHERE ') + filterConditions.join(' AND ');
+    params = params.concat(Object.values(filters).flatMap(value => 
       Array.isArray(value) ? value : [`%${value}%`]
-    );
+    ));
   }
 
   const totalTableQuery = `SELECT COUNT(*) as count FROM ${nameTable} AS o ${whereClause}`;
@@ -90,7 +108,6 @@ export async function POST(request: Request) {
 
   try {
     const body: OrderPayload = await request.json();
-
 
     const stmt = db.prepare(`
       INSERT INTO ${nameTable} (unit_id, renter_id, usage_id, armada_id, usage_location, delivery_method, delivery_address, delivery_price, start_date, duration, total_price, status)

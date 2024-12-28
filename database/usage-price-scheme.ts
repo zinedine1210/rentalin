@@ -41,9 +41,9 @@ export const usage_pricesData: any[] = [
   {
     name: 'Holiday Premium',
     description: 'Holiday premium rate.',
-    min_order: 200,
-    price_multiplier: 50,
-    operator_type: '*',
+    min_order: 1,
+    price_multiplier: 20,
+    operator_type: '%',
     status: 'active'
   },
   {

@@ -65,8 +65,11 @@ export class OrderModel {
     public usage_price_multiplier: string
     public usage_operator_type: string
 
+    public armada_location_substring: string
+
     public startDateFormat: string
     public endDateFormat: string
+    public createdAtFormat: string
 
     constructor(props: OrderType) {
         this.id = props.id;
@@ -93,10 +96,12 @@ export class OrderModel {
         this.file_uploaded_at = props.file_uploaded_at;
         this.unit_name = props.unit_name;
         this.armada_location = props.armada_location;
+        this.armada_location_substring = props.armada_location.length > 80 ? props.armada_location.substring(0, 80) + "..." : props.armada_location;
         this.armada_embed_link = props.armada_embed_link;
         this.startDateFormat = formatDateData(props.start_date.toString())
         const endDate = new Date(new Date(props.start_date).setDate(new Date(props.start_date).getDate() + Number(props.duration))) 
         this.endDateFormat = formatDateData(endDate.toString())
+        this.createdAtFormat = formatDateData(props.created_at.toString())
         this.usage_name = props.usage_name
         this.usage_location = props.usage_location
         this.usage_operator_type = props.usage_operator_type

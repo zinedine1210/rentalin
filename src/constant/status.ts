@@ -40,6 +40,14 @@ export const usagePriceStatus = {
     'stop': '#ff1900'
 }
 
+export const statusOrders = {
+    'pending': '#f97316',
+    'accepted': '#32a852',
+    'completed': '#10b981',
+    'rejected': '#ef4444',
+    'onrent': '#3b82f6'
+}
+
 
 export const getFromOptions = (type: {[key: string]: string}): Options[]  => {
     let arrayOptions: Options[] = []
