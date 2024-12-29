@@ -49,6 +49,15 @@ export const statusOrders = {
     'payment': '#ff00bf'
 }
 
+export const statusDeliveryMethod = {
+    'diantar': '#f97316',
+    'ambil sendiri': '#32a852'
+}
+export const statusUsageLocation = {
+    'dalam kota': '#f97316',
+    'luar kota': '#32a852'
+}
+
 
 export const getFromOptions = (type: {[key: string]: string}): Options[]  => {
     let arrayOptions: Options[] = []

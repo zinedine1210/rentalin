@@ -49,7 +49,7 @@ export const IconsCollection: {[key: string]: string} = {
     'payment': 'streamline:payment-10',
     'blank': 'fluent:box-search-16-filled',
     'onrent': 'mdi:truck-fast-outline',
-    'verifikasi': 'streamline:payment-10',
+    'verifikasi': 'bitcoin-icons:verify-outline',
     'reject': 'fluent:text-change-reject-24-filled',
     'completed': 'octicon:tracked-by-closed-completed-24'
 }

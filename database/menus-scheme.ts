@@ -99,7 +99,7 @@ export const menuItemsData: MenusPayload[] = [
     title: 'Renter OnBoarding',
     url: '/renter',
     parent_id: null,
-    order_position: 9,
+    order_position: 1,
     pages_id: 9,
     icon: IconsCollection.rent,
     flag: 'Menus'
@@ -108,9 +108,18 @@ export const menuItemsData: MenusPayload[] = [
     title: 'Order History',
     url: '/renter/order',
     parent_id: null,
-    order_position: 10,
+    order_position: 2,
     pages_id: 10,
     icon: IconsCollection.payment,
     flag: 'Menus'
+  },
+  {
+    title: 'Order Customer',
+    url: '/admin/order',
+    parent_id: null,
+    order_position: 9,
+    pages_id: 11,
+    icon: IconsCollection.order,
+    flag: 'Order'
   }
 ];

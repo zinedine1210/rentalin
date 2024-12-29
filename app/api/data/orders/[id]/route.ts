@@ -84,22 +84,25 @@ export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const tokenHeaders = request.headers.get('Authorization')
-  const token = tokenHeaders ? tokenHeaders?.split(" ")[1] : null
+  const tokenHeaders = request.headers.get('Authorization');
+  const token = tokenHeaders ? tokenHeaders?.split(" ")[1] : null;
   const decodedUserVerify: JwtPayload | null = token ? await verifyToken(token) : null;
 
-  if(!token || !decodedUserVerify){
+  if (!token || !decodedUserVerify) {
     return NextResponse.json({
       success: false,
-      message: "Unauthorize Access",
-      data: null
-    }, { status: 401 })
+      message: "Unauthorized Access",
+      data: null,
+    }, { status: 401 });
   }
 
   const id = parseInt(params.id, 10);
-  
+
   if (isNaN(id)) {
-    return NextResponse.json({ success: false, message: "Invalid ID", data: null }, { status: 400 });
+    return NextResponse.json(
+      { success: false, message: "Invalid ID", data: null },
+      { status: 400 }
+    );
   }
 
   const body = await request.json();
@@ -114,16 +117,28 @@ export async function PUT(
       );
     }
 
-    const stmt = db.prepare(`
-      UPDATE ${nameTable}
-      SET 
-        delivery_price = @delivery_price,
-        usage_price = @usage_price,
-        status = @status
-      WHERE id = @id
-    `);
+    // Filter hanya properti yang akan di-update
+    const updates: { [key: string]: any } = {};
+    for (const key in body) {
+      if (body[key] !== undefined && body[key] !== null) {
+        updates[key] = body[key];
+      }
+    }
 
-    const result = stmt.run({ ...body, id });
+    if (Object.keys(updates).length === 0) {
+      return NextResponse.json(
+        { success: false, message: "No valid fields to update", data: null },
+        { status: 400 }
+      );
+    }
+
+    // Buat query update secara dinamis
+    const updateFields = Object.keys(updates)
+      .map((key) => `${key} = @${key}`)
+      .join(", ");
+    const stmt = db.prepare(`UPDATE ${nameTable} SET ${updateFields} WHERE id = @id`);
+
+    const result = stmt.run({ ...updates, id });
 
     if (result.changes > 0) {
       return NextResponse.json({
@@ -139,9 +154,13 @@ export async function PUT(
     );
   } catch (error: any) {
     console.error("Error updating data:", error.message);
-    return NextResponse.json({ success: false, message: error.message, data: null }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: error.message, data: null },
+      { status: 500 }
+    );
   }
 }
+
 
 
 export async function DELETE(

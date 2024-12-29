@@ -1,5 +1,5 @@
 import { TableHeader } from "@@/src/types/types"
-import { statusOrders, usagePriceStatus } from "./status"
+import { statusDeliveryMethod, statusOrders, statusUsageLocation, usagePriceStatus } from "./status"
 
 export const tableDial: TableHeader[] = [
     { label: "CODE", property: "code", sort: "code", copy:"code", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
@@ -31,9 +31,10 @@ export const tablePartner: TableHeader[] = [
 ]
 export const tableOrder: TableHeader[] = [
     { label: "Unit Name", property: "unit_name", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
-    { label: "Delivery Method", property: "phone", copy: 'phone', cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Delivery Method", property: "delivery_method", status: statusDeliveryMethod, copy: 'phone', cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
     { label: "Status", property: "status", status: statusOrders, cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
-    { label: "Usage Location", property: "usage_location", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Usage Location", property: "usage_location", status: statusUsageLocation, cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
+    { label: "Total Price", property: "totalPriceFormat", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
     { label: "Created At", property: "createdAtFormat", cssRow: "font-medium text-gray-900 whitespace-nowrap dark:text-white" },
 
 ]

@@ -11,6 +11,7 @@ import InputSearch from "./InputSearch";
 import CardUnit from "./CardUnit";
 import ModalForm from "./ModalForm";
 import { useGlobalContext } from "@@/src/providers/GlobalContext";
+import Link from "next/link";
 
 export interface Filter {
     category_id: string
@@ -75,7 +76,7 @@ export default function MainView2({
     }
   return (
     <section className="bg-white relative min-h-screen overflow-auto h-screen">
-        <div className="py-3 container w-3/4 mx-auto">
+        <div className="py-3 container w-3/4 mx-auto flex items-center justify-between">
             <div>
                 <Image  
                     width={150}
@@ -85,6 +86,11 @@ export default function MainView2({
                     objectFit="contain"
 
                 />
+            </div>
+            <div className="flex items-center gap-5">
+                <Link href="/auth">
+                <button className="btn-primary" type="button">Masuk</button>
+                </Link>
             </div>
         </div>
         <div>

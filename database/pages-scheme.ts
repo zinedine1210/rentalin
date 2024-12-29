@@ -161,5 +161,19 @@ export const pagesData: any[] = [
     is_published: 1,
     page_order: 10,
     created_by: 1
+  },
+  {
+    title: 'Order Customer',
+    slug: 'order-customer',
+    content: 'Orderan customer',
+    featured_image: 'https://localhost:3000/apatuh.com',
+    meta_title: 'Customer rentalin',
+    meta_description: 'Customer rentalin',
+    meta_keywords: 'order, customer, rentalin, renter',
+    seo_heading: 'Customer',
+    canonical_url: 'http://rentalin-rho.vercel.app/admin/order',
+    is_published: 1,
+    page_order: 11,
+    created_by: 1
   }
 ];

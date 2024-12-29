@@ -74,8 +74,8 @@ export default function OrderPages() {
       subtitle: 'Ayo gaskeun langsung checkout'
     },
     'rejected': {
-      title: '',
-      subtitle: ''
+      title: 'Request mu tidak diterima oleh Admin',
+      subtitle: 'Mohon periksa kembali data lengkap kamu yang valid yaa'
     },
     'completed': {
       title: '',

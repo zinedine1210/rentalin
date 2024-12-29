@@ -110,8 +110,8 @@ export async function POST(request: Request) {
     const body: OrderPayload = await request.json();
 
     const stmt = db.prepare(`
-      INSERT INTO ${nameTable} (unit_id, renter_id, usage_id, armada_id, usage_location, delivery_method, delivery_address, delivery_price, start_date, duration, total_price, status)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO ${nameTable} (unit_id, renter_id, usage_id, armada_id, usage_location, delivery_method, delivery_address, delivery_price, start_date, duration, total_price, status, request)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     const result = stmt.run(
       body.unit_id,
@@ -125,7 +125,8 @@ export async function POST(request: Request) {
       body.start_date,
       body.duration,
       body.total_price,
-      body.status
+      body.status,
+      body.request
     );
     
     const datanew = db.prepare(`SELECT * FROM ${nameTable} WHERE id = ?`).get(result.lastInsertRowid);

@@ -10,11 +10,11 @@ import DatatableMobile from "@@/app/components/Datatable/DatatableMobile";
 import Datatable from "@@/app/components/Datatable/Datatable";
 import FilterDatatable from "@@/app/components/Datatable/FilterDatatable";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { IconsCollection } from "@@/src/constant/icons";
 import { useRouter } from "next/navigation";
 import { Notify } from "@@/src/utils/script";
 import { OrderModel, OrderType } from "../data/OrderModel";
+import { getFromOptions, statusDeliveryMethod, statusOrders, statusUsageLocation } from "@@/src/constant/status";
 
 export default function AdminOrderPages() {
   const { state, setState } = useGlobalContext();
@@ -37,10 +37,28 @@ export default function AdminOrderPages() {
           value: 'renter_id',
           label: 'Renter ID',
           type: 'input_text'
+        },
+        {
+          value: 'status',
+          label: 'Status',
+          type: 'select',
+          options: getFromOptions(statusOrders)
+        },
+        {
+          value: 'delivery_method',
+          label: 'Delivery Method',
+          type: 'select',
+          options: getFromOptions(statusDeliveryMethod)
+        },
+        {
+          value: 'usage_location',
+          label: 'Usage Location',
+          type: 'select',
+          options: getFromOptions(statusUsageLocation)
         }
       ],
       page: 1,
-      display: 5,
+      display: 10,
       range: {},
       columns: [{ data:"created_at", dir:"desc" }],
       data: null,
@@ -62,14 +80,15 @@ export default function AdminOrderPages() {
           name: 'Delete',
           icon: IconsCollection.trash,
           customCss: 'hover:bg-red-200 text-red-500'
-        },
+        }
+      ],
+      bulkButton: [
         {
           action: async (id, index) => {
             router.push(`/admin/order/update/${id}`)
           },
           name: 'Check',
-          icon: IconsCollection.edit,
-          customCss: 'hover:bg-red-200 text-blue-500'
+          icon: IconsCollection.edit
         }
       ],
       groupBy: "created_at",
@@ -91,7 +110,7 @@ export default function AdminOrderPages() {
         })
         const result: ApiResponse<TableResponse<OrderType[]>> = await fetchClient('GET', route + parameter)
         const responseData: TableResponse<OrderType[]> = result.data
-        const value: OrderModel[] = OrderModel.toDatatableResponse(responseData.data)
+        const value: OrderModel[] = OrderModel.toDatatableResponse(responseData.data.reverse())
         setState((prev: any) => {
           return {
             ...prev,
@@ -146,7 +165,7 @@ export default function AdminOrderPages() {
     <div className="w-full h-full overflow-hidden flex flex-col">
       <div className="pb-5 px-5">
         <h1 className="font-bold text-xl border-l-4 border-primary-500 px-2">Orderan Customer</h1>
-        <p className="text-sm mt-2">Partner adalah orang pihak ketiga yang bersedia menitipkan barangnya untuk kita sewakan kepada renter</p>
+        <p className="text-sm mt-2">Semua orderan dari renter akan masuk kesini, anda bisa cek terlebih dahulu dan mengubah statusnya</p>
 
 
         <div className="flex md:items-center md:justify-between mt-5">

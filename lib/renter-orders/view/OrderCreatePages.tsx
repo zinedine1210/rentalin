@@ -22,21 +22,27 @@ export default function OrderCreatePages({
   const [datalist, setDataList] = useState<OrderForm>(data ? new OrderForm(data): new OrderForm())
   const [loading, setLoading] = useState<boolean>(false)
   const [tab, setTab] = useState<number>(1)
-  const handleSubmit = async (type: boolean) => {
+  const handleAccepted = async (type: boolean) => {
     setLoading(true)
     let result: ApiResponse<OrderType>
-    if(datalist.delivery_method == 'diantar' && datalist.delivery_price == 0) return Notify('Please input delivery price', 'info', 3000)
-    if(datalist.usage_location == 'luar kota' && datalist.usage_price == 0) return Notify('Please input usage price', 'info', 3000)
+    if(type && datalist.delivery_method == 'diantar' && datalist.delivery_price == 0) return Notify('Please input delivery price', 'info', 3000)
+    if(type && datalist.usage_location == 'luar kota' && datalist.usage_price == 0) return Notify('Please input usage price', 'info', 3000)
+    
+    let payloadDataList = JSON.parse(JSON.stringify(datalist))
     if(type){
-      setDataList({ ...datalist, status: 'accepted'})
+      payloadDataList.status = 'accepted'
+    }else{
+      payloadDataList.status = 'rejected'
     }
+
+    console.log(payloadDataList, 'ini payload')
+
     if(action == "update"){
-      result = await fetchClient('PUT', '/data/orders/'+data.id, datalist)
+      result = await fetchClient('PUT', '/data/orders/'+data.id, payloadDataList)
     }
     if(result.success){
       Notify(result.message ?? 'Success', 'success', 3000)
-      handleReset()
-      router.push('/renter/order')
+      router.push('/admin/order')
     }
     setLoading(false)
   }
@@ -50,27 +56,16 @@ export default function OrderCreatePages({
     })
   }
 
-
-  const handleReset = () => {
-    setDataList(new OrderForm())
-  }
-
-  const errorMessage = (target: keyof OrderForm) => {
-    const checkvalidation: string = datalist.requiredInput(target, datalist[target])
-    return checkvalidation
-  }
-
-  const validButton = () => {
-    let data: boolean = true
-    for (const [key, value] of Object.entries(datalist)) {
-      if (errorMessage(key as keyof OrderForm) != "") {
-        data = false
-        break;
-      }
+  const handleUpdateStatus = async (statusUpdate: string) => {
+    const payloadStatus = {
+      status: statusUpdate
     }
-    return data
+    const result = await fetchClient('PUT', '/data/orders/'+data.id, payloadStatus)
+    if(result.success){
+      Notify('Berhasil update', 'success', 3000)
+      router.push('/admin/order')
+    }
   }
-
 
   return (
     <section className="p-5 shadow-md rounded-md bg-white">
@@ -80,8 +75,26 @@ export default function OrderCreatePages({
           <div className="badge-zinc uppercase">{data.status}</div>
         </div>
         <div className="flex items-center gap-5">
-          <button className="btn-primary" type="button" onClick={() => handleSubmit(true)}><Icon icon={IconsCollection.check}/>Accept</button>
-          <button className="btn-secondary" type="button" onClick={() => handleSubmit(false)}><Icon icon={IconsCollection.close}/>Reject</button>
+          {
+            data.status == 'pending' && (
+              <button className="btn-primary" type="button" onClick={() => handleAccepted(true)}><Icon icon={IconsCollection.check}/>Accept</button>
+            )
+          }
+          {
+            data.status == 'payment' && (
+              <button className="btn-primary" type="button" onClick={() => handleUpdateStatus('onrent')}>Transfer Berhasil</button>
+            )
+          }
+          {
+            data.status == 'onrent' && (
+              <button className="btn-primary" type="button" onClick={() => handleUpdateStatus('completed')}>Selesai</button>
+            )
+          }
+          {
+            data.status != 'rejected' && data.status != 'completed' && data.status != 'payment' && data.status != 'onrent' && (
+              <button className="btn-secondary" type="button" onClick={() => handleAccepted(false)}><Icon icon={IconsCollection.close}/>Reject</button>
+            )
+          }
         </div>
       </header>
       <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">

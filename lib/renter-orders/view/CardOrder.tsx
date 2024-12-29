@@ -181,15 +181,16 @@ export default function CardOrder({
                 </div>
             </div>
         </div>
-        {
-            item.status == 'accepted' && (
-                <footer className="border-t py-3 px-5 flex items-center justify-end">
+        <footer className="border-t py-3 px-5 flex items-center justify-between">
+            <h1 className="font-semibold text-sm text-zinc-500">Created At : {item.createdAtFormat}</h1>
+            {
+                item.status == 'accepted' && (
                     <div className="flex items-center gap-5">
                         <button type="button" className="btn-primary" onClick={() => handlePayment()}>Selesaikan Pembayaran</button>
                     </div>
-                </footer>
-            )
-        }
+                )
+            }
+        </footer>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { Options } from "@@/src/types/types";
-import { formatDateData } from "@@/src/utils/script";
+import { formatCurrency, formatDateData } from "@@/src/utils/script";
 
 // Interface untuk tipe Order
 export interface OrderType {
@@ -66,6 +66,7 @@ export class OrderModel {
     public usage_operator_type: string
 
     public armada_location_substring: string
+    public totalPriceFormat: string
 
     public startDateFormat: string
     public endDateFormat: string
@@ -96,6 +97,7 @@ export class OrderModel {
         this.file_uploaded_at = props.file_uploaded_at;
         this.unit_name = props.unit_name;
         this.armada_location = props.armada_location;
+        this.totalPriceFormat = formatCurrency(props.total_price * Number(props.duration), true)
         this.armada_location_substring = props.armada_location.length > 80 ? props.armada_location.substring(0, 80) + "..." : props.armada_location;
         this.armada_embed_link = props.armada_embed_link;
         this.startDateFormat = formatDateData(props.start_date.toString())
