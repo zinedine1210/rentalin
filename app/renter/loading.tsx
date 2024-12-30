@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="flex items-center justify-center h-screen w-screen overflow-hidden">
+    <div className="flex items-center justify-center h-full w-full overflow-hidden">
         <div>
           <div aria-label="Orange and tan hamster running in a metal wheel" role="img" className="wheel-and-hamster">
             <div className="wheel"></div>

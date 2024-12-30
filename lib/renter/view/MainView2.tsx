@@ -4,14 +4,12 @@ import Select from "@@/app/components/Input/Select";
 import { DataOptions } from "@@/app/page";
 import { UnitModel, UnitType } from "@@/lib/units/data/UnitModel";
 import { ApiResponse, fetchClient, TableResponse } from "@@/src/hooks/CollectionAPI";
-import Image from "next/image";
 import { useState } from "react";
 import ButtonSearch from "./ButtonSearch";
 import InputSearch from "./InputSearch";
 import CardUnit from "./CardUnit";
 import ModalForm from "./ModalForm";
 import { useGlobalContext } from "@@/src/providers/GlobalContext";
-import Link from "next/link";
 
 export interface Filter {
     category_id: string
@@ -22,10 +20,17 @@ export interface Filter {
 }
 
 export default function MainView2({
-    data
-}: {data:DataOptions}) {
+    data, 
+    authLogin = ''
+}: {
+    data: DataOptions,
+    authLogin: string
+}) {
     const { state, setState } = useGlobalContext()
     const [list, setList] = useState<UnitModel[]>([])
+    const [display, setDisplay] = useState<number>(10)
+    const [totalPage, setTotalPage] = useState<number>(1)
+    const [current, setCurrent] = useState<number>(1)
     const [filter, setFilter] = useState<Filter>({
         category_id: '',
         armada_id: '',
@@ -55,7 +60,7 @@ export default function MainView2({
             }
             parameter = parameter + `${prefix}${fil[0]}=${fil[1]}`
         })
-        const result: ApiResponse<TableResponse<UnitType[]>> = await fetchClient('GET', '/data/units/rent' + parameter)
+        const result: ApiResponse<TableResponse<UnitType[]>> = await fetchClient('GET', `/data/units/rent${parameter}&page=1&limit=${display}`)
         const responseData = result.data
         if(result.success){
             const toModel = UnitModel.toDatatableResponse(responseData.data)
@@ -63,7 +68,26 @@ export default function MainView2({
         }
     }
 
-    
+    const handleLoadMore = async () => {
+        let parameter = ''
+        Object.entries(filter).filter((res: any) => ( res[1] !== '' )).map((fil, index) => {
+            let prefix = '&'
+            if(index == 0){
+                prefix = '?'
+            }
+            parameter = parameter + `${prefix}${fil[0]}=${fil[1]}`
+        })
+        const addPage = current + 1
+        const result: ApiResponse<TableResponse<UnitType[]>> = await fetchClient('GET', `/data/units/rent${parameter}&page=${addPage}&limit=${display}`)
+        const responseData = result.data
+        if(result.success){
+            const toModel = UnitModel.toDatatableResponse(responseData.data)
+            setList((prev) => ([ ...prev, ...toModel ]))
+            setCurrent(addPage)
+        }
+    }
+
+     
     const handleToggle = (data: UnitModel) => {
         setState(prev => ({
             ...prev,
@@ -75,29 +99,12 @@ export default function MainView2({
         }))   
     }
   return (
-    <section className="bg-white relative min-h-screen overflow-auto h-screen">
-        <div className="py-3 container w-3/4 mx-auto flex items-center justify-between">
-            <div>
-                <Image  
-                    width={150}
-                    height={30}
-                    src={'/images/logo.png'}
-                    alt="Rentalin logo"
-                    objectFit="contain"
-
-                />
-            </div>
-            <div className="flex items-center gap-5">
-                <Link href="/auth">
-                <button className="btn-primary" type="button">Masuk</button>
-                </Link>
-            </div>
-        </div>
+    <>
         <div>
             <div className="h-[450px] overflow-hidden">
                 <img src="/images/banner.jpeg" alt="Banner rentalin" className="bg-cover bg-center w-full"/>
             </div>
-            <div className="sticky overflow-important top-2 container w-3/4 mx-auto bg-[#D2D1D7]/20 backdrop-blur-md rounded-3xl px-5 py-5 shadow-md -mt-14">
+            <div className="sticky overflow-important top-2 container w-fit mx-auto bg-[#D2D1D7]/20 backdrop-blur-md rounded-3xl px-5 py-5 shadow-md -mt-20">
                 <div className="w-full grid grid-cols-12 gap-5">
                     <div className="relative col-span-3">
                         <Select 
@@ -157,14 +164,15 @@ export default function MainView2({
             </div>
             <div className="py-10 container mx-auto w-3/4">
                 <div className="text-center mx-auto">
-                    <h1 className="font-semibold text-3xl mb-3">Unit Listings</h1>
+                    <p className="text-zinc-500 tracking-wider uppercase">Mudah cari</p>
+                    <h1 className="font-semibold text-3xl mb-3">Ketersediaan Unit</h1>
                     <div className="mx=auto text-center justify-center flex items-center gap-1">
                         <div className="h-1 bg-primary-500 rounded-md w-14" />
                         <div className="h-1 bg-primary-500 rounded-md w-6" />
                         <div className="h-1 bg-primary-500 rounded-md w-2" />
                     </div>
                 </div>
-                <div className="w-1/4 py-5 px-5 flex items-center justify-normal">
+                <div className="w-1/4 py-5 flex items-center justify-normal">
                     <InputSearch 
                         onChange={(value) => handleChange(value, 'name_unit')} 
                         value={filter.name_unit}
@@ -172,11 +180,6 @@ export default function MainView2({
                     />
                 </div>
                 <div className="py-2">
-                    <div>
-                        <input type="text"  />
-                        
-                    </div>
-
                     <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-5 md:gap-8">
                     {
                         list.length > 0  ? list.map((item, index) => {
@@ -188,12 +191,16 @@ export default function MainView2({
                             <p className="text-zinc-500 text-sm">Coba dengan filter lain</p>
                         </div>
                     }
+                    {
+                        totalPage > current && (
+                            <button className="text-center" type="button" onClick={() => handleLoadMore()}>Lihat lagi</button>
+                        )
+                    }
                     </div>
                 </div>
             </div>
         </div>
-
-        <ModalForm filter={filter} usagePrice={data.usagePrice[0]}/>
-    </section>
+        <ModalForm authLogin={authLogin} filter={filter} usagePrice={data.usagePrice[0]}/>
+    </>
   )
 }

@@ -1,11 +1,12 @@
+'use server'
 import { ArmadaModel, ArmadaType } from "@@/lib/armada/data/ArmadaModel"
 import { CategoryModel, CategoryType } from "@@/lib/category/data/CategoryModel"
 import MainView2 from "@@/lib/renter/view/MainView2"
 import { UsagePriceType } from "@@/lib/usage-price/data/UsagePriceModel"
+import { verifyToken } from "@@/middleware"
 import { ApiResponse, fetchClient, TableResponse } from "@@/src/hooks/CollectionAPI"
 import { Options } from "@@/src/types/types"
-import Image from "next/image"
-import Link from "next/link"
+import { cookies } from "next/headers"
 
 type Props = {
   params: Promise<{ }>
@@ -61,27 +62,12 @@ const Page = async ({
     armadas: optionsArmadas,
     usagePrice: getUP
   }
+  const token = cookies().get('auth_token');
+  const decodedUserVerify = token ? await verifyToken(token.value) : null;
 
   return (
-    <section className="relative min-h-screen overflow-auto h-screen">
-        <div className="py-3 container w-3/4 mx-auto flex items-center justify-between">
-            <div>
-                <Image
-                    width={150}
-                    height={30}
-                    src={'/images/logo.png'}
-                    alt="Rentalin logo"
-                    objectFit="contain"
-
-                />
-            </div>
-            <div className="flex items-center gap-5">
-                <Link href="/auth">
-                  <button className="btn-primary" type="button">Masuk</button>
-                </Link>
-            </div>
-        </div>
-        <MainView2 data={data}/>
+    <section className="relative">
+        <MainView2 data={data} authLogin={decodedUserVerify.userId as string}/>
     </section>
   )
 }

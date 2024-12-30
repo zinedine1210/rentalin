@@ -38,9 +38,9 @@ export default function UserVerifikasi({
                                 src={data.file_identity_path}
                                 alt={data.file_identity_name}
                                 minHeight={200}
-                                minWidth={200}
+                                minWidth={390}
                                 maxWidth={200}
-                                maxHeight={200}
+                                maxHeight={390}
                             />
                         </div>
                     </div>
@@ -51,9 +51,9 @@ export default function UserVerifikasi({
                                 src={data.file_driver_license_path}
                                 alt={data.file_driver_license_name}
                                 minHeight={200}
-                                minWidth={200}
+                                minWidth={390}
                                 maxWidth={200}
-                                maxHeight={200}
+                                maxHeight={390}
                             />
                         </div>
                     </div>
@@ -64,9 +64,9 @@ export default function UserVerifikasi({
                                 src={data.file_profile_ig_path}
                                 alt={data.file_profile_ig_name}
                                 minHeight={200}
-                                minWidth={200}
+                                minWidth={390}
                                 maxWidth={200}
-                                maxHeight={200}
+                                maxHeight={390}
                             />
                         </div>
                     </div>

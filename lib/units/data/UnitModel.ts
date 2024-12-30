@@ -62,6 +62,7 @@ export class UnitModel {
     public category_title: string
     public category_icon: string
     public descriptionSubstring: string
+    public nameUnitSubstring: string
 
     constructor(props: UnitType) {
         this.id = props.id
@@ -89,6 +90,7 @@ export class UnitModel {
         this.armada_location_summary = props.armada.armada_location_summary
         this.category_title = props.category_title
         this.category_icon = props.category_icon
+        this.nameUnitSubstring = props.name_unit.length > 20 ? props.name_unit.substring(0, 20) + "..." : props.name_unit
         this.descriptionSubstring = props.description.length > 100 ? props.description.substring(0, 100) + "..." : props.description
     }
 

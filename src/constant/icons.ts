@@ -51,5 +51,6 @@ export const IconsCollection: {[key: string]: string} = {
     'onrent': 'mdi:truck-fast-outline',
     'verifikasi': 'bitcoin-icons:verify-outline',
     'reject': 'fluent:text-change-reject-24-filled',
-    'completed': 'octicon:tracked-by-closed-completed-24'
+    'completed': 'octicon:tracked-by-closed-completed-24',
+    'orderRent': 'lsicon:place-order-filled'
 }

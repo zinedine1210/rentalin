@@ -38,7 +38,7 @@ export default function CardUnit({
         <div className="h-56 bg-cover bg-center w-full" style={{ backgroundImage: `url('${data.file_path}')`}}></div>
         <div className="p-3 space-y-2">
             {hargaAccumulation()}
-            <h1 className="font-semibold text-2xl">{data.name_unit}</h1>
+            <h1 className="font-semibold text-2xl">{data.nameUnitSubstring}</h1>
             <p className="text-sm">{data.descriptionSubstring}</p>
         </div>
         <div className="pt-3 pb-5 text-center mx-auto border-t">

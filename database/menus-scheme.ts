@@ -121,5 +121,23 @@ export const menuItemsData: MenusPayload[] = [
     pages_id: 11,
     icon: IconsCollection.order,
     flag: 'Order'
+  },
+  {
+    title: 'Sewa simpel',
+    url: '/renter/rent',
+    parent_id: null,
+    order_position: 10,
+    pages_id: 12,
+    icon: IconsCollection.orderRent,
+    flag: 'Menus'
+  },
+  {
+    title: 'Profile Renter',
+    url:  '/renter/profile',
+    parent_id: null,
+    order_position: 11,
+    pages_id: 13,
+    icon: IconsCollection.profile,
+    flag: 'Menus'
   }
 ];

@@ -87,10 +87,10 @@ export default function OrderPages() {
   return (
     <section className="p-5 w-full flex flex-col h-full overflow-hidden">
       <header >
-        <h1 className="font-semibold text-2xl">Your Orders</h1>
-        <p className="font-light">Your order transaction in here</p>
+        <h1 className="font-semibold text-xl">Your Orders</h1>
+        <p className="font-light text-sm">Your order transaction in here</p>
       </header>
-      <div className="flex-1 overflow-y-auto py-5 flex gap-10">
+      <div className="flex-1 overflow-y-auto py-5 flex gap-10 text-sm">
         <ul className="w-auto space-y-3">
             <li>
                 <button type="button" onClick={() => handleTab('pending')} className={`${tab == 'pending' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">

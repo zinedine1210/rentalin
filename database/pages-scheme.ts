@@ -175,5 +175,33 @@ export const pagesData: any[] = [
     is_published: 1,
     page_order: 11,
     created_by: 1
+  },
+  {
+    title: 'Sewa lagi',
+    slug: 'rent again',
+    content: 'rent again',
+    featured_image: 'http://localhost:3000/apatuh.com',
+    meta_title: 'Sewa Renter',
+    meta_description: 'askjaksjaksajks',
+    meta_keywords: 'order, red',
+    seo_heading: 'Customner',
+    canonical_url: 'http://rentalin-rho.vercel.app/renter/rent',
+    is_published: 1,
+    page_order: 11,
+    created_by: 1
+  },
+  {
+    title: 'Profile Renter',
+    slug: 'rent again',
+    content: 'rent again',
+    featured_image: 'http://localhost:3000/apatuh.com',
+    meta_title: 'Sewa Renter',
+    meta_description: 'askjaksjaksajks',
+    meta_keywords: 'order, red',
+    seo_heading: 'Customner',
+    canonical_url: 'http://rentalin-rho.vercel.app/renter/rent',
+    is_published: 1,
+    page_order: 12,
+    created_by: 1
   }
 ];

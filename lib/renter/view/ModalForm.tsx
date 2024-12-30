@@ -20,10 +20,12 @@ import { useRouter } from 'next/navigation';
 
 export default function ModalForm({
   filter,
-  usagePrice
+  usagePrice,
+  authLogin
 }: {
   filter: Filter,
-  usagePrice: null | UsagePriceModel
+  usagePrice: null | UsagePriceModel,
+  authLogin: string | null
 }){
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(true)
@@ -206,14 +208,14 @@ export default function ModalForm({
   const checkDisabled = () => {
     if(
       agree &&
-      fileList.file_identity.public_id && 
-      fileList.file_profile_ig.public_id && 
-      fileList.file_driver_license.public_id &&
-      userData.full_name &&
-      userData.email &&
-      userData.phone &&
-      userData.danger_phone &&
-      userData.address &&
+      (authLogin || fileList.file_identity.public_id) && 
+      (authLogin || fileList.file_profile_ig.public_id) && 
+      (authLogin || fileList.file_driver_license.public_id) &&
+      (authLogin || userData.full_name) &&
+      (authLogin || userData.email) &&
+      (authLogin || userData.phone) &&
+      (authLogin || userData.danger_phone) &&
+      (authLogin || userData.address) &&
       formData.unit_id &&
       formData.armada_id &&
       formData.start_date &&
@@ -241,41 +243,45 @@ export default function ModalForm({
   const handleSubmit = async () => {
     // Upload dulu foto2 usernya
     setLoading(true)
-    let payloadUser = JSON.parse(JSON.stringify(userData))
+    let renterId: string
+    let responseCreateUser: UserType 
+    if(!authLogin){
+      let payloadUser = JSON.parse(JSON.stringify(userData))
+  
+      // upload identity
+      const uploadfileidentity: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList.file_identity)
+      const resUploadfileidentity = uploadfileidentity.data
+      payloadUser.file_identity = resUploadfileidentity.id
+  
+      // upload profile ig
+      const uploadProfileIG: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList.file_profile_ig)
+      const resUploadFileProfileIG = uploadProfileIG.data
+      payloadUser.file_profile_ig = resUploadFileProfileIG.id
+  
+      // upload driver license
+      const uploadDriverLicense: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList.file_driver_license)
+      const resUploadDriverLicense = uploadDriverLicense.data
+      payloadUser.file_driver_license = resUploadDriverLicense.id
+  
+      // setting value yang dibutuhkan
+      payloadUser.username = userData.email
+      payloadUser.password = '$2b$10$AqWluutcAOhyDuADHoMkhuRTVLPAN8LgLJFJ332jbNwC4V9v1b1LC'
+      
+      const createUser: ApiResponse<UserType> = await fetchClient('POST', `/auth/users`, payloadUser)
+      responseCreateUser = createUser.data
+      if(!createUser.success || !responseCreateUser){
+        setLoading(false)
+        return Notify('error', 'Gagal membuat user baru')
+      }
 
-    // upload identity
-    const uploadfileidentity: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList.file_identity)
-    const resUploadfileidentity = uploadfileidentity.data
-    payloadUser.file_identity = resUploadfileidentity.id
-
-    // upload profile ig
-    const uploadProfileIG: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList.file_profile_ig)
-    const resUploadFileProfileIG = uploadProfileIG.data
-    payloadUser.file_profile_ig = resUploadFileProfileIG.id
-
-    // upload driver license
-    const uploadDriverLicense: ApiResponse<UploadType> = await fetchClient('POST', '/data/upload-cloudinary', fileList.file_driver_license)
-    const resUploadDriverLicense = uploadDriverLicense.data
-    payloadUser.file_driver_license = resUploadDriverLicense.id
-
-    // setting value yang dibutuhkan
-    payloadUser.username = userData.email
-    payloadUser.password = '$2b$10$AqWluutcAOhyDuADHoMkhuRTVLPAN8LgLJFJ332jbNwC4V9v1b1LC'
-    
-    const createUser: ApiResponse<UserType> = await fetchClient('POST', `/auth/users`, payloadUser)
-    const responseCreateUser: UserType = createUser.data
-    if(!createUser.success || !responseCreateUser){
-      setLoading(false)
-      return Notify('error', 'Gagal membuat user baru')
+      renterId = responseCreateUser.id.toString()
+    }else{
+      renterId = authLogin
     }
 
     const payloadOrder = JSON.parse(JSON.stringify(formData))
     // setting value yang dibutuhkan
-    payloadOrder.renter_id = responseCreateUser.id
-    // setFormData({
-    //   ...formData,
-    //   renter_id: responseCreateUser.id
-    // })
+    payloadOrder.renter_id = renterId
     const createOrder: ApiResponse<OrderPayload> = await fetchClient('POST', '/data/orders', payloadOrder)
     const responseCreateOrder = createOrder.data
     if(!createOrder.success || !responseCreateOrder){
@@ -284,24 +290,27 @@ export default function ModalForm({
     }
 
     Notify('Berhasil membuat orderan', 'success', 5000)
-    Notify('Kamu akan diarahkan ke halaman pesanan', 'info', 8000)
     setState({ ...state, modal: null })
 
-    // auto login
-    const payload = {
-      username: responseCreateUser.username,
-      password: '12345'
-    }
-    const result: ApiResponse<any> = await tryLogin(payload)
-    if(result.success){
-      Notify(result.message, 'info', 5000)
-      setLoading(false)
-      setTimeout(() => {
-        router.push('/renter')
-      }, 2000);
-    }else{
-      setLoading(false)
-      Notify(result.message, 'error')
+
+    if(!authLogin){
+      Notify('Kamu akan diarahkan ke halaman pesanan', 'info', 8000)
+      // auto login
+      const payload = {
+        username: responseCreateUser.username,
+        password: '12345'
+      }
+      const result: ApiResponse<any> = await tryLogin(payload)
+      if(result.success){
+        Notify(result.message, 'info', 5000)
+        setLoading(false)
+        setTimeout(() => {
+          router.push('/renter')
+        }, 2000);
+      }else{
+        setLoading(false)
+        Notify(result.message, 'error')
+      }
     }
   }
   
@@ -423,89 +432,93 @@ export default function ModalForm({
                     <textarea value={formData.request} name="request" id="request" placeholder='Ketikan permintaan khususmu...' className='input-style w-full' onChange={handleInput}></textarea>
                   </div>
                 </div>
-                <div className='border p-5 rounded-md'>
-                  <div className='flex items-center gap-5 justify-between'>
-                    <div>
-                      <h1 className='font-semibold text-lg'>Register sekaligus pesan</h1>
-                      <p className='font-light text-sm mb-2'>Masuk ke akun mu aja biar pesannya lebih cepet..</p>
-                    </div>
-                    <Link href={'/auth'}>
-                      <button type='button' className='btn-primary'>Masuk</button>
-                    </Link>
-                  </div>
+                {
+                  !authLogin && (
+                    <div className='border p-5 rounded-md'>
+                      <div className='flex items-center gap-5 justify-between'>
+                        <div>
+                          <h1 className='font-semibold text-lg'>Register sekaligus pesan</h1>
+                          <p className='font-light text-sm mb-2'>Masuk ke akun mu aja biar pesannya lebih cepet..</p>
+                        </div>
+                        <Link href={'/auth'}>
+                          <button type='button' className='btn-primary'>Masuk</button>
+                        </Link>
+                      </div>
 
-                  <div className='gap-x-2 gap-y-5 w-full mt-2 grid grid-cols-2'>
-                    <InputText 
-                      type='text' 
-                      id='full_name' 
-                      name='full_name' 
-                      label='Nama Lengkap'
-                      onChange={(value) => handleUserInput(value, 'full_name')}
-                      value={userData.full_name} 
-                    />
-                    <InputText 
-                      type='email' 
-                      id='email' 
-                      name='email' 
-                      label='Email'
-                      onChange={(value) => handleUserInput(value, 'email')}
-                      value={userData.email} 
-                    />
-                    <InputText 
-                      type='text' 
-                      id='phone' 
-                      name='phone' 
-                      label='Nomer HP'
-                      onChange={(value) => handleUserInput(value, 'phone')}
-                      value={userData.phone} 
-                    />
-                    <InputText 
-                      type='text' 
-                      id='danger_phone' 
-                      name='danger_phone' 
-                      label='Nomer HP Darurat'
-                      onChange={(value) => handleUserInput(value, 'danger_phone')}
-                      value={userData.danger_phone} 
-                    />
-                    <div className='col-span-2'>
-                      <InputText 
-                        type='text' 
-                        id='address' 
-                        name='address' 
-                        label='Alamat lengkap'
-                        onChange={(value) => handleUserInput(value, 'address')}
-                        value={userData.address} 
-                      />
+                      <div className='gap-x-2 gap-y-5 w-full mt-2 grid grid-cols-2'>
+                        <InputText 
+                          type='text' 
+                          id='full_name' 
+                          name='full_name' 
+                          label='Nama Lengkap'
+                          onChange={(value) => handleUserInput(value, 'full_name')}
+                          value={userData.full_name} 
+                        />
+                        <InputText 
+                          type='email' 
+                          id='email' 
+                          name='email' 
+                          label='Email'
+                          onChange={(value) => handleUserInput(value, 'email')}
+                          value={userData.email} 
+                        />
+                        <InputText 
+                          type='text' 
+                          id='phone' 
+                          name='phone' 
+                          label='Nomer HP'
+                          onChange={(value) => handleUserInput(value, 'phone')}
+                          value={userData.phone} 
+                        />
+                        <InputText 
+                          type='text' 
+                          id='danger_phone' 
+                          name='danger_phone' 
+                          label='Nomer HP Darurat'
+                          onChange={(value) => handleUserInput(value, 'danger_phone')}
+                          value={userData.danger_phone} 
+                        />
+                        <div className='col-span-2'>
+                          <InputText 
+                            type='text' 
+                            id='address' 
+                            name='address' 
+                            label='Alamat lengkap'
+                            onChange={(value) => handleUserInput(value, 'address')}
+                            value={userData.address} 
+                          />
+                        </div>
+                        <div className='col-span-2'>
+                          <h1 className='font-semibold text-sm mb-2'>Upload file</h1>
+                          <UploadCloudinary
+                            id="file-identity"
+                            label="Identitas (KTP/ID Kerja/NPWP/KK)"
+                            onChange={(value) => handleFilesChange(value, 'file_identity')}
+                            publicId={fileList.file_identity.public_id}
+                          />
+                        </div>
+                        <div className='col-span-2'>
+                          <h1 className='font-semibold text-sm mb-2'>Upload file</h1>
+                          <UploadCloudinary
+                            id="driver-license"
+                            label="Driver License (SIM)"
+                            onChange={(value) => handleFilesChange(value, 'file_driver_license')}
+                            publicId={fileList.file_driver_license.public_id}
+                          />
+                        </div>
+                        <div className='col-span-2'>
+                          <h1 className='font-semibold text-sm mb-2'>Upload file</h1>
+                          <UploadCloudinary
+                            id="file-ss-ig"
+                            label="Foto Anda sendiri"
+                            onChange={(value) => handleFilesChange(value, 'file_profile_ig')}
+                            publicId={fileList.file_profile_ig.public_id}
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div className='col-span-2'>
-                      <h1 className='font-semibold text-sm mb-2'>Upload file</h1>
-                      <UploadCloudinary
-                        id="file-identity"
-                        label="Identitas (KTP/ID Kerja/NPWP/KK)"
-                        onChange={(value) => handleFilesChange(value, 'file_identity')}
-                        publicId={fileList.file_identity.public_id}
-                      />
-                    </div>
-                    <div className='col-span-2'>
-                      <h1 className='font-semibold text-sm mb-2'>Upload file</h1>
-                      <UploadCloudinary
-                        id="driver-license"
-                        label="Driver License (SIM)"
-                        onChange={(value) => handleFilesChange(value, 'file_driver_license')}
-                        publicId={fileList.file_driver_license.public_id}
-                      />
-                    </div>
-                    <div className='col-span-2'>
-                      <h1 className='font-semibold text-sm mb-2'>Upload file</h1>
-                      <UploadCloudinary
-                        id="file-ss-ig"
-                        label="Foto Anda sendiri"
-                        onChange={(value) => handleFilesChange(value, 'file_profile_ig')}
-                        publicId={fileList.file_profile_ig.public_id}
-                      />
-                    </div>
-                  </div>
-                </div>
+                  )
+                }
               </div>
 
               {/* Rincian Biaya */}
