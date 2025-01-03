@@ -1,4 +1,4 @@
-import { formatCurrency } from "@@/src/utils/script"
+import { formatCurrency, Notify } from "@@/src/utils/script"
 import { OrderModel, OrderType } from "../data/OrderModel"
 import { ApiResponse, fetchClient } from "@@/src/hooks/CollectionAPI"
 
@@ -32,12 +32,12 @@ export default function CardOrder({
         const result: ApiResponse<OrderType> = await fetchClient('PUT', '/data/orders/'+item.id, payload)
         const responseData = result.data
         if(result.success){
-            console.log(responseData)
-            
+            Notify('success', 'Request diterima, mohon tunggu beberapa saat', 5000)
+            window.location.reload()
         }
     }
   return (
-    <div className='bg-white rounded-md shadow-md'>
+    <div className='bg-white dark:bg-darkPrimary rounded-md shadow-md'>
         <header className="py-3 px-5 border-b flex items-center justify-between">
             <h1 className="font-bold">{item.unit_name}</h1>
             <div className="flex items-center gap-2">

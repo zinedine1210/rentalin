@@ -111,7 +111,7 @@ export default function MainCreatePage({
       <Link href={'/admin/menus'}>
         <button className="text-blue-500 flex items-center gap-2 text-sm"><Icon icon={IconsCollection['chevron-left']} className="text-xl"/> Back to Datatable</button>
       </Link>
-      <form className="w-full md:w-1/2 mx-auto  bg-white p-10 rounded-3xl shadow-md" onSubmit={(e) => handleSubmit(e)}>
+      <form className="w-full md:w-1/2 mx-auto dark:bg-darkPrimary bg-white p-10 rounded-3xl shadow-md" onSubmit={(e) => handleSubmit(e)}>
         <h1 className="text-primary-500 first-letter:uppercase text-xl pb-5 border-b border-primary-500 border-dashed font-bold">{action} Menu Items</h1>
         {
           !loading && (

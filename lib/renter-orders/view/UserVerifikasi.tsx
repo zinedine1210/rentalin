@@ -33,7 +33,7 @@ export default function UserVerifikasi({
                 <div className='p-5 grid grid-cols-3 gap-10'>
                     <div>
                         <h1 className='mb-2 font-semibold '>Dokumen Identitas (KTP atau Kartu Kerja)</h1>
-                        <div className='border border-zinc-500 border-dashed rounded-md p-2 text-center mx-auto'>
+                        <div className='border border-zinc-500 border-dashed rounded-md p-2 flex items-center justify-center text-center mx-auto'>
                             <ResponsiveImage 
                                 src={data.file_identity_path}
                                 alt={data.file_identity_name}
@@ -46,7 +46,7 @@ export default function UserVerifikasi({
                     </div>
                     <div>
                         <h1 className='mb-2 font-semibold '>Dokumen Driver License (SIM)</h1>
-                        <div className='border border-zinc-500 border-dashed rounded-md p-2 text-center mx-auto'>
+                        <div className='border border-zinc-500 border-dashed rounded-md p-2 flex items-center justify-center text-center mx-auto'>
                             <ResponsiveImage 
                                 src={data.file_driver_license_path}
                                 alt={data.file_driver_license_name}
@@ -59,7 +59,7 @@ export default function UserVerifikasi({
                     </div>
                     <div>
                         <h1 className='mb-2 font-semibold '>Dokumen Profile</h1>
-                        <div className='border border-zinc-500 border-dashed rounded-md p-2 text-center mx-auto'>
+                        <div className='border border-zinc-500 border-dashed rounded-md p-2 flex items-center justify-center text-center mx-auto'>
                             <ResponsiveImage 
                                 src={data.file_profile_ig_path}
                                 alt={data.file_profile_ig_name}

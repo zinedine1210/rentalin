@@ -197,8 +197,8 @@ export default function Datatable({
             </div>
         </div>
         <div className={`${isLoading && !data && 'pointer-events-none'} relative overflow-x-auto`}>
-            <table className="w-full text-sm xl:text-xs 2xl:text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl">
-                <thead className="bg-white dark:bg-dark text-sm xl:text-xs 2xl:text-sm text-gray-700 uppercase dark:text-gray-400 rounded-xl">
+            <table className="w-full text-sm xl:text-xs 2xl:text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200 rounded-xl">
+                <thead className="bg-white dark:bg-dark text-sm xl:text-xs 2xl:text-sm text-gray-700 uppercase dark:text-gray-200 rounded-xl">
 
                     {/* HEADERS LOOPING */}
                     <tr className="bg-white dark:bg-dark border-b-2 border-black">
@@ -279,7 +279,7 @@ export default function Datatable({
                                                 return (
                                                     <td key={headIndex} onClick={() => handleCopy(item[head.copy], head.label, head.copy)} className={` px-3 xl:px-3 2xl:px-5 py-2.5 xl:py-3 2xl:py-4 text-sm xl:text-xs 2xl:text-sm ${head.cssRow} ${head.copy && "select-all"}`}>
                                                         {head.images ? (
-                                                            <button onClick={() => handleModalImage(item?.[head.property])} type="button" className="max-h-[100px] overflow-hidden">
+                                                            <div className="max-h-[100px] overflow-hidden">
                                                                 <ResponsiveImage
                                                                     src={item?.[head.property]}
                                                                     alt={`Image-${headIndex}`}
@@ -288,7 +288,7 @@ export default function Datatable({
                                                                     maxWidth={300}  // Ukuran maksimum
                                                                     maxHeight={300} // Ukuran maksimum
                                                                 />
-                                                            </button>
+                                                            </div>
                                                         ) : head.status ? (
                                                             // Jika `head.status` ada, tampilkan status dengan styling
                                                             <div 
@@ -299,7 +299,7 @@ export default function Datatable({
                                                             </div>
                                                         ) : (
                                                             // Default: tampilkan properti biasa
-                                                            <span className="text-sm text-gray-700">
+                                                            <span className="text-sm text-gray-700 dark:text-gray-300">
                                                             {item?.[head.property] || '-'}
                                                             </span>
                                                         )}

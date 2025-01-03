@@ -1,3 +1,4 @@
+import ResponsiveImage from "@@/app/components/Partials/ResponsiveImage"
 import { UnitModel } from "@@/lib/units/data/UnitModel"
 import { UsagePriceModel } from "@@/lib/usage-price/data/UsagePriceModel"
 import { accumulationPrice, formatCurrency } from "@@/src/utils/script"
@@ -34,8 +35,18 @@ export default function CardUnit({
         }
     }
   return (
-    <div className="w-full rounded-xl bg-white shadow-xl overflow-hidden">
-        <div className="h-56 bg-cover bg-center w-full" style={{ backgroundImage: `url('${data.file_path}')`}}></div>
+    <div className="w-full rounded-xl bg-white dark:bg-darkPrimary shadow-xl overflow-hidden">
+        <div className="h-56 bg-cover overflow-hidden bg-center w-full">
+            <ResponsiveImage
+                src={data.file_path}
+                alt={data.file_name}
+                minHeight={200}
+                minWidth={350}
+                maxWidth={200}
+                maxHeight={350}
+            />
+
+        </div>
         <div className="p-3 space-y-2">
             {hargaAccumulation()}
             <h1 className="font-semibold text-2xl">{data.nameUnitSubstring}</h1>

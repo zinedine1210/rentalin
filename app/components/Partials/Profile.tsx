@@ -67,7 +67,7 @@ export default function Profile() {
         )
     }
   return (
-    <div className="w-full">
+    <div className="w-full p-2">
         <Dropdown
             options={actionoptions}
             button={<ButtonProfile />}

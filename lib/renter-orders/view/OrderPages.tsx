@@ -93,37 +93,37 @@ export default function OrderPages() {
       <div className="flex-1 overflow-y-auto py-5 flex gap-10 text-sm">
         <ul className="w-auto space-y-3">
             <li>
-                <button type="button" onClick={() => handleTab('pending')} className={`${tab == 'pending' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
+                <button type="button" onClick={() => handleTab('pending')} className={`${tab == 'pending' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300 dark:bg-primary-500 dark:hover:bg-primary-600`} aria-current="page">
                     <Icon className="text-2xl" icon={IconsCollection.admincheck}/>
                     Lagi dicek Admin
                 </button>
             </li>
             <li>
-                <button type="button" onClick={() => handleTab('accepted')} className={`${tab == 'accepted' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
+                <button type="button" onClick={() => handleTab('accepted')} className={`${tab == 'accepted' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300 dark:bg-primary-500 dark:hover:bg-primary-600`} aria-current="page">
                     <Icon className="text-2xl" icon={IconsCollection.payment}/>
                     Menunggu Pembayaran
                 </button>
             </li>
             <li>
-                <button type="button" onClick={() => handleTab('payment')} className={`${tab == 'payment' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
+                <button type="button" onClick={() => handleTab('payment')} className={`${tab == 'payment' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300 dark:bg-primary-500 dark:hover:bg-primary-600`} aria-current="page">
                     <Icon className="text-2xl" icon={IconsCollection.verifikasi}/>
                     Verifikasi Pembayaran
                 </button>
             </li>
             <li>
-                <button type="button" onClick={() => handleTab('onrent')} className={`${tab == 'onrent' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
+                <button type="button" onClick={() => handleTab('onrent')} className={`${tab == 'onrent' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300 dark:bg-primary-500 dark:hover:bg-primary-600`} aria-current="page">
                     <Icon className="text-2xl" icon={IconsCollection.onrent}/>
                     Lagi dirental
                 </button>
             </li>
             <li>
-                <button type="button" onClick={() => handleTab('rejected')} className={`${tab == 'rejected' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
+                <button type="button" onClick={() => handleTab('rejected')} className={`${tab == 'rejected' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300 dark:bg-primary-500 dark:hover:bg-primary-600`} aria-current="page">
                     <Icon className="text-2xl" icon={IconsCollection.reject}/>
                     Ditolak
                 </button>
             </li>
             <li>
-                <button type="button" onClick={() => handleTab('completed')} className={`${tab == 'completed' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300`} aria-current="page">
+                <button type="button" onClick={() => handleTab('completed')} className={`${tab == 'completed' && 'border-l-4 border-primary-500'} w-full text-start flex items-center gap-2 py-3 px-5 whitespace-nowrap bg-zinc-200 hover:bg-zinc-300 dark:bg-primary-500 dark:hover:bg-primary-600`} aria-current="page">
                     <Icon className="text-2xl" icon={IconsCollection.completed}/>
                     Selesai
                 </button>

@@ -24,7 +24,7 @@ export default function MainView2({
     authLogin = ''
 }: {
     data: DataOptions,
-    authLogin: string
+    authLogin?: string
 }) {
     const { state, setState } = useGlobalContext()
     const [list, setList] = useState<UnitModel[]>([])

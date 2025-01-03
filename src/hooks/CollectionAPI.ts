@@ -68,7 +68,6 @@ export const tryLogin = async (payload: any): Promise<ApiResponse<any>> => {
                 setCookies('auth_token', responseData.data.auth_token, formattedDate);
                 localStorage.setItem('auth_info', payload.username)
             }
-
             const clientMenus: ApiResponse<TableResponse<MenusList[]>> = await fetchClient('GET', `/data/menus`);
             const responseClientData = clientMenus.data as TableResponse<MenusList[]>
             localStorage.setItem('client_menus', JSON.stringify(responseClientData.data));

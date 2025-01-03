@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { useState } from 'react';
+import Lightbox from 'react-image-lightbox';
 
 interface ResponsiveImageProps {
   src: string;
@@ -17,8 +19,10 @@ const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
   maxWidth = 800,
   maxHeight = 800,
 }) => {
+  const [isOpen, setOpen] = useState(false)
   return (
     <div
+      onClick={() => setOpen(true)}
       className="flex justify-center items-center overflow-hidden"
       style={{
         minWidth: `${minWidth}px`,
@@ -35,6 +39,12 @@ const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
         height={maxHeight} // Atur tinggi maksimum
         className="object-contain w-full h-full mx-auto text-center" // Gambar akan menyesuaikan ukuran dengan proporsi
       />
+      {isOpen && (
+          <Lightbox
+            mainSrc={src}
+            onCloseRequest={() => setOpen(false)}
+          />
+        )}
     </div>
   );
 };
