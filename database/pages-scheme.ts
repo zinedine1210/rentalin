@@ -192,10 +192,10 @@ export const pagesData: any[] = [
   },
   {
     title: 'Profile Renter',
-    slug: 'rent again',
-    content: 'rent again',
+    slug: 'profile-renter',
+    content: 'profile renter',
     featured_image: 'http://localhost:3000/apatuh.com',
-    meta_title: 'Sewa Renter',
+    meta_title: 'Profile Renter',
     meta_description: 'askjaksjaksajks',
     meta_keywords: 'order, red',
     seo_heading: 'Customner',
