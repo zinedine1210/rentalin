@@ -105,7 +105,7 @@ export default async function RootLayout({
         <Head>
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          
+          <meta name="google-site-verification" content="eNKjqpjVe5_T9jNUrtAwXzBT-TpenvP1WVB2_i7i9S4" />
         </Head>
         <body>
           {/* <WebVitals /> */}
