@@ -82,7 +82,7 @@ export default function UnitPages() {
       bulk: [
         {
           action: (id, index) => {
-            router.push(`/admin/units/view/${id}`)
+            router.push(`/admin/unit/view/${id}`)
           },
           name: 'View',
           icon: IconsCollection.eye

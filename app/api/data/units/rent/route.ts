@@ -26,7 +26,7 @@ export async function GET(request: Request) {
     if (startDateObj <= now) {
         return NextResponse.json({
             success: false,
-            message: "Tanggal sewa gaboleh kemarin brooo",
+            message: "Tanggal sewa tidak boleh sebelum hari ini",
             data: null
         }, { status: 400 });
     }

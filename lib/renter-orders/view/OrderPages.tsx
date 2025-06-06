@@ -48,10 +48,10 @@ export default function OrderPages() {
   }
 
   const subtitle = {
-    'pending': 'Sebentar ya admin lagi cek dokumen yang anda kirim nih',
-    'accepted': 'Lakukan pembayaran duls ges',
-    'payment': 'Pembayaranmu akan dicek dulu ya ama Admin',
-    'onrent': 'Selamat menikmati enjoy our unitt',
+    'pending': 'Sebentar ya admin lagi cek dokumen yang kamu kirim',
+    'accepted': 'Lakukan pembayaran kepada CS atau Admin kita',
+    'payment': 'Pembayaranmu akan dicek dulu sama Admin, mohon ditunggu!',
+    'onrent': 'Selamat menikmati, enjoy our unitt',
     'rejected': 'Periksa kembali dokumen dan data yang kamu kirim ya, kami belum bisa menerima request kamu',
     'completed': 'Terima kasih sudah mempercayai rentalin sebagai jasa kamu'
   }
@@ -59,7 +59,7 @@ export default function OrderPages() {
   const nothingSubtitle = {
     'pending': {
       title: 'Tidak ada order yang kamu lakukan',
-      subtitle: 'Ayo sewa lagi dongs kk'
+      subtitle: 'Ayo segera sewa lagii'
     },
     'accepted': {
       title: 'Belum ada orderanmu yang diterima',
@@ -71,11 +71,11 @@ export default function OrderPages() {
     },
     'onrent': {
       title: 'Belum ada yang kamu rental',
-      subtitle: 'Ayo gaskeun langsung checkout'
+      subtitle: 'Ayo selesaikan pesananmu!!'
     },
     'rejected': {
       title: 'Request mu tidak diterima oleh Admin',
-      subtitle: 'Mohon periksa kembali data lengkap kamu yang valid yaa'
+      subtitle: 'Mohon periksa kembali data lengkap kamu yang valid'
     },
     'completed': {
       title: '',

@@ -140,7 +140,7 @@ export default function CategoryPages() {
     <div className="w-full h-full overflow-hidden flex flex-col">
       <div className="pb-5 px-5">
         <h1 className="font-bold text-xl border-l-4 border-primary-500 px-2">Category</h1>
-        <p className="text-sm mt-2">Disini buat nambahin kategori rentnya</p>
+        <p className="text-sm mt-2">Untuk menambahkan jika Anda mempunyai kategori baru untuk di sewakan</p>
 
 
         <div className="flex md:items-center md:justify-between mt-5">
