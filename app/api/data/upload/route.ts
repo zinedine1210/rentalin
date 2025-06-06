@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    await writeFile(uploadPath, buffer);
+    await writeFile(uploadPath, new Uint8Array(buffer));
     
     // Save metadata to the database
     const stmt = db.prepare(`

@@ -17,6 +17,7 @@
     "axios": "^1.7.4",
     "bcrypt": "^5.1.1",
     "better-sqlite3": "^11.5.0",
+    "caniuse-lite": "^1.0.30001721",
     "formidable": "^3.5.2",
     "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2",
