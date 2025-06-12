@@ -72,9 +72,6 @@ export default function UsagePriceCreatePages({
   }
 
   const optionsOperator: Options[] = [
-    { label: 'Bagi (/)', value: '/' },
-    { label: 'Kali (*)', value: '*' },
-    { label: 'Tambah (+)', value: '+' },
     { label: 'Kurang (-)', value: '-' },
     { label: 'Persen (%)', value: '%' }
   ]

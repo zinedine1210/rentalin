@@ -6,7 +6,6 @@ import { Metadata, Viewport } from 'next';
 import "@@/src/utils/script"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-image-lightbox/style.css'
 import { NextThemes } from '@@/src/providers/NextThemes';
 import Head from 'next/head';
 
